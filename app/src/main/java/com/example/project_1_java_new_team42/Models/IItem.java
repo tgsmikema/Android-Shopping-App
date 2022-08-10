@@ -6,7 +6,7 @@ public interface IItem {
 
     String getName();
 
-    String getImage();
+    String getImagePath();
 
     String getCategory();
 
@@ -14,5 +14,4 @@ public interface IItem {
 
     String getDescription();
 
-    
 }
