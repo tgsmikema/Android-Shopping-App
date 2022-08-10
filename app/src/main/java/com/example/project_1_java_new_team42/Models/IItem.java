@@ -14,6 +14,8 @@ public interface IItem {
 
     int getPrice();
 
+    int getTotalSold();
+
     String getDescription();
 
 }

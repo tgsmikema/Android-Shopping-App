@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Desktop extends Item{
 
-    public Desktop(String id, String name, List<String> imagePaths, String category, int price, String description) {
-        super(id, name, imagePaths, category, price, description);
-    }
 
+    public Desktop(String id, String name, List<String> imagePaths, String category, int price, int totalSold, String description) {
+        super(id, name, imagePaths, category, price, totalSold, description);
+    }
 }

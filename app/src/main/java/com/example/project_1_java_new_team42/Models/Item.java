@@ -9,15 +9,17 @@ public abstract class Item implements IItem{
     protected List<String> imagePaths;
     protected String category;
     protected int price;
+    protected int totalSold;
     protected String description;
 
     public Item(String id, String name, List<String> imagePaths,
-                String category, int price, String description){
+                String category, int price, int totalSold, String description){
         this.id = id;
         this.name = name;
         this.imagePaths = imagePaths;
         this.category = category;
         this.price = price;
+        this.totalSold = totalSold;
         this.description = description;
 
     }
@@ -40,6 +42,10 @@ public abstract class Item implements IItem{
 
     public int getPrice(){
         return price;
+    }
+
+    public int getTotalSold() {
+        return totalSold;
     }
 
     public String getDescription(){
