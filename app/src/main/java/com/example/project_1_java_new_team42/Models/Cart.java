@@ -5,8 +5,8 @@ import java.util.List;
 public class Cart {
     private List<ItemWithQuantity> items;
 
-    public Cart(List<ItemWithQuantity> items){
-        this.items = items;
+    public Cart(){
+
     }
 
     public List<ItemWithQuantity> getCartItems(){
