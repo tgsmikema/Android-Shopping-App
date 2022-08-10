@@ -5,6 +5,11 @@ public class ItemWithQuantity {
     private IItem item;
     private int quantity;
 
+    public ItemWithQuantity(IItem item, int quantity){
+        this.item = item;
+        this.quantity = quantity;
+    }
+
     public int getQuantity() {
         return quantity;
     }
