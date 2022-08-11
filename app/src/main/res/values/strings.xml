@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MAD Computers</string>
-    <string name="click_me">Click Me!</string>
+    <string name="search_hint">Search for a product</string>
+    <string name="search_icon_description">Search For Product</string>
 </resources>
