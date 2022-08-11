@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  Applying Theme Styles  -->
+    <style name="Theme.Team42" parent="Theme.MaterialComponents.Light">
+        <item name="colorPrimary">@color/brand_black</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/brand_gray</item>
+        <item name="buttonStyle">@style/Team42.Button</item>
+
+        <item name="textAppearanceHeadline1">@style/Team42.Headline1</item>
+        <item name="textAppearanceHeadline2">@style/Team42.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/Team42.Headline3</item>
+        <item name="textAppearanceBody1">@style/Team42.Body1</item>
+    </style>
+
+    <!--  Widget Theming  -->
+    <style name="Team42.Button" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/brand_black</item>
+    </style>
+
+    <!--  Typography Theming  -->
+    <style name="Team42.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/inter</item>
+    </style>
+    <style name="Team42.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:lineSpacingMultiplier">1.25</item>
+    </style>
+    <style name="Team42.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+    </style>
+    <style name="Team42.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/brand_black</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+    </style>
+</resources>
