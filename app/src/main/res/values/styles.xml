@@ -14,6 +14,13 @@
         <item name="textAppearanceBody1">@style/Team42.Body1</item>
     </style>
 
+    <!--  Layout Styles  -->
+    <style name="Team42ActivityLayout">
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">20dp</item>
+    </style>
+
     <!--  Widget Theming  -->
     <style name="Team42.Button" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/brand_black</item>
@@ -28,18 +35,21 @@
     <style name="Team42.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/inter</item>
         <item name="android:lineSpacingMultiplier">1.25</item>
     </style>
     <style name="Team42.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/inter</item>
         <item name="android:lineSpacingMultiplier">1.5</item>
     </style>
     <style name="Team42.Body1" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textColor">@color/brand_black</item>
         <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">@font/inter</item>
         <item name="android:lineSpacingMultiplier">1.5</item>
     </style>

@@ -2,4 +2,6 @@
     <string name="app_name">MAD Computers</string>
     <string name="search_hint">Search for a product</string>
     <string name="search_icon_description">Search For Product</string>
+    <string name="heading_home_best_selling">Best Selling</string>
+    <string name="heading_home_categories">Categories</string>
 </resources>
