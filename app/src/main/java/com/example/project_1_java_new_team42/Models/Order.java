@@ -9,7 +9,7 @@ public class Order {
     private String orderId;
     private String placedDateAndTime;
     private int totalCost;
-    private List<ItemWithQuantity> items;
+    private List<ItemWithQuantity> itemsWithQuantity;
 
     //empty constructor
     public Order(){
@@ -25,7 +25,7 @@ public class Order {
             price += (item.getQuantity()) * (item.getItem().getPrice());
         }
         this.totalCost = price;
-        this.items = items;
+        this.itemsWithQuantity = items;
     }
 
     public String getOrderId() {
@@ -41,7 +41,7 @@ public class Order {
     }
 
     public List<ItemWithQuantity> getOrderItems(){
-        return items;
+        return itemsWithQuantity;
     }
 
     public void placeOrder(){
