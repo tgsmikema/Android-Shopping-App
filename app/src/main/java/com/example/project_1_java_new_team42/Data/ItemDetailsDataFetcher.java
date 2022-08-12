@@ -18,10 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemDetailsDataFetcher extends AssignCategory {
-    public void readData(IItemDetailsDataFetchHandler dataFetchHandler) {
+    public void readData(IItemDetailsDataFetchHandler dataFetchHandler, String id) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("items").whereEqualTo("id",id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
