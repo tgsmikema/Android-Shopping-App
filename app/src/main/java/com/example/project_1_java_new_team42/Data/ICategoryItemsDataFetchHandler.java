@@ -4,7 +4,7 @@ import com.example.project_1_java_new_team42.Models.IItem;
 
 import java.util.List;
 
-public interface ICategoryItemsDataFetchHandler {
+public interface ICategoryItemsDataFetchHandler{
 
     void onFetchComplete(List<IItem> itemsList);
 
