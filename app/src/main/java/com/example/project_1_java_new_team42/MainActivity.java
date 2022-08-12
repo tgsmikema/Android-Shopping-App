@@ -1,16 +1,11 @@
 package com.example.project_1_java_new_team42;
 
 import android.os.Bundle;
-import android.widget.TextView;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.project_1_java_new_team42.Data.CategoryItemsDataFetcher;
-import com.example.project_1_java_new_team42.Data.ICategoryItemsDataFetchHandler;
 import com.example.project_1_java_new_team42.Data.IItemDetailsDataFetchHandler;
 import com.example.project_1_java_new_team42.Data.ItemDetailsDataFetcher;
-import com.example.project_1_java_new_team42.Data.ItemsDataProvider;
 import com.example.project_1_java_new_team42.Models.IItem;
 
 import java.util.List;
