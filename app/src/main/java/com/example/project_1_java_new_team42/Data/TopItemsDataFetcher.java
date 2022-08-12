@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TopItemsDataFetcher extends AssignCategory {
-    public void readItems(IFetchHandler iFetchHandler) {
+    public void readData(ITopItemsDataFetchHandler dataFetchHandler) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -26,10 +26,10 @@ public class TopItemsDataFetcher extends AssignCategory {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     final List<IItem> itemsList = assignCategory(task);
-                    iFetchHandler.onFetchComplete(itemsList);
+                    dataFetchHandler.onFetchComplete(itemsList);
 
                 } else {
-                    iFetchHandler.onFetchFail();
+                    dataFetchHandler.onFetchFail();
                 }
             }
         });

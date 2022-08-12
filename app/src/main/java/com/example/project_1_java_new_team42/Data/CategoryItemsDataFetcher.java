@@ -18,10 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryItemsDataFetcher extends AssignCategory {
-    public void readItems(ICategoryItemsDataFetchHandler dataFetchHandler) {
+
+    public void readData(ICategoryItemsDataFetchHandler dataFetchHandler, String category) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        //convert input category string to camelCase
+        String camelCaseCategory = category.substring(0, 1).toUpperCase() + category.substring(1);
+
+        db.collection("items").whereEqualTo("category",camelCaseCategory).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -34,4 +38,6 @@ public class CategoryItemsDataFetcher extends AssignCategory {
             }
         });
     }
+
+
 }
