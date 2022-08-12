@@ -17,17 +17,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemsDataFetcher extends AssignCategory{
+public class ItemsDataFetcher extends AssignCategory {
     public void readItems(IFetchHandler iFetchHandler) {
-        //List<IItem> itemsList; // Use any list implementation as long consistent
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-
                     final List<IItem> itemsList = assignCategory(task);
                     iFetchHandler.onFetchComplete(itemsList);
 
