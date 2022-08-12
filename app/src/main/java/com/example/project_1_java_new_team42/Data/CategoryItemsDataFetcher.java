@@ -19,7 +19,7 @@ import java.util.List;
 
 public class CategoryItemsDataFetcher extends AssignCategory {
 
-    public void readData(ICategoryItemsDataFetchHandler dataFetchHandler, String category) {
+    public void readData(String category, ICategoryItemsDataFetchHandler dataFetchHandler) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         //convert input category string to capital letter for the first letter

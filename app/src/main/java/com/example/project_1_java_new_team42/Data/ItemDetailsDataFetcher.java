@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemDetailsDataFetcher extends AssignCategory {
-    public void readData(IItemDetailsDataFetchHandler dataFetchHandler, String id) {
+    public void readData(String id , IItemDetailsDataFetchHandler dataFetchHandler) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("items").whereEqualTo("id",id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
