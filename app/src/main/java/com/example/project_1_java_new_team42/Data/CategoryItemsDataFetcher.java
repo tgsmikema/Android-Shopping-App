@@ -22,7 +22,7 @@ public class CategoryItemsDataFetcher extends AssignCategory {
     public void readData(ICategoryItemsDataFetchHandler dataFetchHandler, String category) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        //convert input category string to camelCase
+        //convert input category string to capital letter for the first letter
         String camelCaseCategory = category.substring(0, 1).toUpperCase() + category.substring(1);
 
         db.collection("items").whereEqualTo("category",camelCaseCategory).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
