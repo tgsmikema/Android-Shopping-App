@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemsDataFetcher {
-    void fetchItems(IFetchHandler fetchHandler) {
+    List<IItem> fetchItems(IFetchHandler fetchHandler) {
         List<IItem> itemsList = new ArrayList<IItem>(); // Use any list implementation as long consistent
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -51,6 +51,8 @@ public class ItemsDataFetcher {
                 }
             }
         });
+
+        return itemsList;
     }
 }
 
