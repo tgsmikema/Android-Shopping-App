@@ -5,6 +5,9 @@ import java.util.List;
 public class Laptop extends Item{
 
 
+    public Laptop(){
+
+    }
     public Laptop(String id, String name, List<String> imagePaths, String category, int price, int totalSold, String description) {
         super(id, name, imagePaths, category, price, totalSold, description);
     }

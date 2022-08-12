@@ -1,40 +1,37 @@
 package com.example.project_1_java_new_team42;
 
 import android.os.Bundle;
+import android.widget.TextView;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_1_java_new_team42.Data.IFetchHandler;
+import com.example.project_1_java_new_team42.Data.ItemsDataFetcher;
+import com.example.project_1_java_new_team42.Data.ItemsDataProvider;
 import com.example.project_1_java_new_team42.Models.IItem;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-//    IFetchHandler myFetchHandler = new FetchHandler<IItem>() {
-//        void onFetchComplete(IItem items) {
-//
-//        }
-//    };
-
+    ItemsDataFetcher fetcher = new ItemsDataFetcher();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        myFetchHandler.onFetchComplete(itemsList);
-    }
 
-//    class FetchHandler implements IFetchHandler{
-//
-//        @Override
-//        public List<IItem> onFetchComplete() {
-//            return null;
-//        }
-//
-//        @Override
-//        public void onFetchFail() {
-//
-//        }
-//    }
+        fetcher.readItems(new IFetchHandler() {
+            @Override
+            public void onFetchComplete(List<IItem> itemsList) {
+                //do stuff with itemsList
+            }
+
+            @Override
+            public void onFetchFail() {
+
+            }
+        });
+    }
 }

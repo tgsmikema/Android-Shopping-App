@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemsDataFetcher {
-    void fetchItems(IFetchHandler fetchHandler) {
+    public void readItems(IFetchHandler iFetchHandler) {
         List<IItem> itemsList = new ArrayList<IItem>(); // Use any list implementation as long consistent
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -41,12 +41,14 @@ public class ItemsDataFetcher {
                         } else {
                             throw new UnsupportedOperationException("Class Unimplemented ERROR!");
                         }
-                        fetchHandler.onFetchComplete(itemsList);
+
                         Log.i("Parsing Items", anItem.getId() + " loaded.");
                     }
 
+                    iFetchHandler.onFetchComplete(itemsList);
+
                 } else {
-                    fetchHandler.onFetchFail();
+                    iFetchHandler.onFetchFail();
                 }
             }
         });

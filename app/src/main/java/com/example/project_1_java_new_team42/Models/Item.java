@@ -12,6 +12,10 @@ public abstract class Item implements IItem{
     protected int totalSold;
     protected String description;
 
+    public Item(){
+
+    }
+
     public Item(String id, String name, List<String> imagePaths,
                 String category, int price, int totalSold, String description){
         this.id = id;

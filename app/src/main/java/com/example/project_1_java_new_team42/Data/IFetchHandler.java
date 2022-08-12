@@ -4,9 +4,9 @@ import com.example.project_1_java_new_team42.Models.IItem;
 
 import java.util.List;
 
-public interface IFetchHandler<T> {
+public interface IFetchHandler {
 
-    void onFetchComplete(T items);
+    void onFetchComplete(List<IItem> itemsList);
 
     void onFetchFail(); // Still not decided what to pass in can leave blank if want.
 }
