@@ -1,46 +1,35 @@
 package com.example.project_1_java_new_team42.Data;
 
-import android.util.Log;
-
-
-import com.example.project_1_java_new_team42.Models.Desktop;
-import com.example.project_1_java_new_team42.Models.IItem;
-import com.example.project_1_java_new_team42.Models.Laptop;
-import com.example.project_1_java_new_team42.Models.Tablet;
+import com.example.project_1_java_new_team42.Data.IFetchHandler;
+import com.example.project_1_java_new_team42.Models.Category;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CategoriesDataFetcher {
-    public void readItems(IFetchHandler iFetchHandler) {
-        List<IItem> itemsList = new ArrayList<IItem>();
 
+
+    private List<Category> convertSnapshotsToCategories(QuerySnapshot snapshot) {
+        // TODO Create views for these categories (fetch is successful)
+        List<Category> categories = new ArrayList<>();
+        for (QueryDocumentSnapshot doc : Objects.requireNonNull(snapshot)) {
+            Category category = new Category(doc.getId(), doc.getString("imageURI"));
+            categories.add(category);
+        }
+        return categories;
+    }
+
+    public void fetchItems(IFetchHandler<List<Category>> iFetchHandler) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("items").get().addOnCompleteListener(task -> {
+        db.collection("categories").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot queryItem : task.getResult()) {
-                    IItem anItem;
-                    if (queryItem.get("category").toString().equalsIgnoreCase("laptop")) {
-                        anItem = queryItem.toObject(Laptop.class);
-                        itemsList.add(anItem);
-                    } else if (queryItem.get("category").toString().equalsIgnoreCase("tablet")) {
-                        anItem = queryItem.toObject(Tablet.class);
-                        itemsList.add(anItem);
-                    } else if (queryItem.get("category").toString().equalsIgnoreCase("desktop")) {
-                        anItem = queryItem.toObject(Desktop.class);
-                        itemsList.add(anItem);
-                    } else {
-                        throw new UnsupportedOperationException("Class Unimplemented ERROR!");
-                    }
-
-                    Log.i("Parsing Items", anItem.getId() + " loaded.");
-                }
-
-                iFetchHandler.onFetchComplete(itemsList);
-
+                List<Category> categories = convertSnapshotsToCategories(task.getResult());
+                iFetchHandler.onFetchComplete(categories);
             } else {
                 iFetchHandler.onFetchFail();
             }
