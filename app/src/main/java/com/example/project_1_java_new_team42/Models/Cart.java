@@ -23,7 +23,7 @@ public class Cart {
             // the current object from the cart.
 
             // maybe update cart view after deletion??
-            if (id.equals(itemWithQuantity.getItem().getId())){
+            if (id.equals(itemWithQuantity.getId())){
                 items.remove(itemWithQuantity);
             }
             //else print not found error

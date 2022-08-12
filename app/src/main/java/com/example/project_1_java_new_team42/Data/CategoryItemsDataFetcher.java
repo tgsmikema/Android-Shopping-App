@@ -17,40 +17,27 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryItemsDataFetcher {
-    public void readItems(IFetchHandler iFetchHandler) {
-        List<IItem> itemsList = new ArrayList<IItem>(); // Use any list implementation as long consistent
+public class CategoryItemsDataFetcher extends AssignCategory {
 
+    public void readData(String category, ICategoryItemsDataFetchHandler dataFetchHandler) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        //convert input category string to capital letter for the first letter
+        String camelCaseCategory = category.substring(0, 1).toUpperCase() + category.substring(1);
+
+        db.collection("items").whereEqualTo("category",camelCaseCategory).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot queryItem : task.getResult()) {
-                        IItem anItem;
-                        if (queryItem.get("category").toString().equalsIgnoreCase("laptop")) {
-                            anItem = queryItem.toObject(Laptop.class);
-                            itemsList.add(anItem);
-                        } else if (queryItem.get("category").toString().equalsIgnoreCase("tablet")) {
-                            anItem = queryItem.toObject(Tablet.class);
-                            itemsList.add(anItem);
-                        } else if (queryItem.get("category").toString().equalsIgnoreCase("desktop")) {
-                            anItem = queryItem.toObject(Desktop.class);
-                            itemsList.add(anItem);
-                        } else {
-                            throw new UnsupportedOperationException("Class Unimplemented ERROR!");
-                        }
-
-                        Log.i("Parsing Items", anItem.getId() + " loaded.");
-                    }
-
-                    iFetchHandler.onFetchComplete(itemsList);
+                    final List<IItem> itemsList = assignCategory(task);
+                    dataFetchHandler.onFetchComplete(itemsList);
 
                 } else {
-                    iFetchHandler.onFetchFail();
+                    dataFetchHandler.onFetchFail();
                 }
             }
         });
     }
+
+
 }

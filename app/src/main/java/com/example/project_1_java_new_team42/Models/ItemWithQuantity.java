@@ -1,12 +1,24 @@
 package com.example.project_1_java_new_team42.Models;
 
-public class ItemWithQuantity {
+import java.util.List;
 
-    private IItem item;
+public class ItemWithQuantity extends Item{
+
     private int quantity;
 
-    public ItemWithQuantity(IItem item, int quantity){
-        this.item = item;
+    public ItemWithQuantity(){
+
+    }
+
+    public ItemWithQuantity(String id, String name, List<String> imagePaths,
+                            String category, int price, int totalSold, String description, int quantity){
+        this.id = id;
+        this.name = name;
+        this.imagePaths = imagePaths;
+        this.category = category;
+        this.price = price;
+        this.totalSold = totalSold;
+        this.description = description;
         this.quantity = quantity;
     }
 
@@ -14,7 +26,4 @@ public class ItemWithQuantity {
         return quantity;
     }
 
-    public IItem getItem(){
-        return item;
-    }
 }
