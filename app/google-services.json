@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "880380126318",
+    "project_id": "se306-mad-computers-app",
+    "storage_bucket": "se306-mad-computers-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880380126318:android:6eecc308c6f129060a727f",
+        "android_client_info": {
+          "package_name": "com.example.project_1_java_new_team42"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "880380126318-13c30fv30l8sc1i6mr5snktaq8qim24h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.project_1_java_new_team42",
+            "certificate_hash": "29f3f504b07d572853dc47eaad3cfe782dc704be"
+          }
+        },
+        {
+          "client_id": "880380126318-s48dasr3t9li0la2iavr77e1gsir7js6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3swfjZBeY5Iat9mi1qR4ZTM5XVjZqQsI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "880380126318-s48dasr3t9li0la2iavr77e1gsir7js6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
