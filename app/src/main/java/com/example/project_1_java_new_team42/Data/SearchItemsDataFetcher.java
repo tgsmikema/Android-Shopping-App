@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchItemsDataFetcher extends AssignCategory {
-    public void readData(ISearchItemsDataFetchHandler dataFetchHandler) {
+    public void readData(ISearchItemsDataFetchHandler dataFetchHandler, String name) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -26,7 +26,15 @@ public class SearchItemsDataFetcher extends AssignCategory {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     final List<IItem> itemsList = assignCategory(task);
-                    dataFetchHandler.onFetchComplete(itemsList);
+                    List<IItem> searchList = new ArrayList<>();
+                    // check for substrings
+                    for (IItem anItem : itemsList){
+                        if (anItem.getName().toLowerCase().contains(name.toLowerCase())){
+                            searchList.add(anItem);
+                        }
+                    }
+
+                    dataFetchHandler.onFetchComplete(searchList);
 
                 } else {
                     dataFetchHandler.onFetchFail();
