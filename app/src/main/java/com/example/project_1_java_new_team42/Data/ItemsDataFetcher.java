@@ -1,6 +1,5 @@
 package com.example.project_1_java_new_team42.Data;
 
-
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemsDataFetcher {
-    List<IItem> fetchItems(IFetchHandler fetchHandler) {
+    void fetchItems(IFetchHandler fetchHandler) {
         List<IItem> itemsList = new ArrayList<IItem>(); // Use any list implementation as long consistent
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -51,8 +50,6 @@ public class ItemsDataFetcher {
                 }
             }
         });
-
-        return itemsList;
     }
 }
 

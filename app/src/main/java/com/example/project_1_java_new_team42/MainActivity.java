@@ -11,26 +11,30 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    IFetchHandler myFetchHandler = new FetchHandler();
+//    IFetchHandler myFetchHandler = new FetchHandler<IItem>() {
+//        void onFetchComplete(IItem items) {
+//
+//        }
+//    };
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        myFetchHandler.onFetchComplete(itemsList);
+//        myFetchHandler.onFetchComplete(itemsList);
     }
 
-    class FetchHandler implements IFetchHandler{
-
-        @Override
-        public List<IItem> onFetchComplete() {
-            return null;
-        }
-
-        @Override
-        public void onFetchFail() {
-
-        }
-    }
+//    class FetchHandler implements IFetchHandler{
+//
+//        @Override
+//        public List<IItem> onFetchComplete() {
+//            return null;
+//        }
+//
+//        @Override
+//        public void onFetchFail() {
+//
+//        }
+//    }
 }
