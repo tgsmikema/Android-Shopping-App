@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onFetchComplete(List<Category> data) {
             for (Category category : data) {
-                Log.d("INFO", category.getCategoryName() + ": " + category.getImageUri());
+                Log.d("INFO", category.getCategoryName() + ": " + category.getImageURI());
             }
         }
 
