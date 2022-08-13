@@ -5,9 +5,13 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class CartDataSender {
 
@@ -51,5 +55,41 @@ public class CartDataSender {
                 });
 
     }
+
+    public void deleteAllCartItems(ISendHandler dataSendHandler){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("cart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                        if (queryDocumentSnapshot.exists()){
+                            //delete all documents
+                            queryDocumentSnapshot.getReference().delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Log.d("Delete All from Cart","All cart items DELETED." );
+                                    dataSendHandler.onSendSuccess(true);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("Delete All from Cart","All cart items NOT DELETED!!!" );
+                                    dataSendHandler.onSendSuccess(false);
+                                }
+                            });
+                        }
+                    }
+                } else {
+                    dataSendHandler.onSendSuccess(false);
+                }
+            }
+        });
+
+    }
+
+
+
 
 }

@@ -20,11 +20,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        cartSender.deleteSingleCartItem("laptop_555", new ISendHandler() {
+        cartSender.deleteAllCartItems(new ISendHandler() {
             @Override
             public void onSendSuccess(boolean isSuccess) {
-                System.out.println("----------------------------");
-                System.out.println("DELETED!");
+                System.out.println("-------------------------------------------------");
+                System.out.println(isSuccess);
             }
         });
 
