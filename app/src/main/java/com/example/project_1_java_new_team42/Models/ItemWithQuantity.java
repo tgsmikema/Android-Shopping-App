@@ -22,6 +22,17 @@ public class ItemWithQuantity extends Item{
         this.quantity = quantity;
     }
 
+    public ItemWithQuantity(IItem item, int quantity){
+        this.id = item.getId();
+        this.name = item.getName();
+        this.imagePaths = item.getImagePaths();
+        this.category = item.getCategory();
+        this.price = item.getPrice();
+        this.totalSold = item.getTotalSold();
+        this.description = item.getDescription();
+        this.quantity = quantity;
+    }
+
     public int getQuantity() {
         return quantity;
     }
