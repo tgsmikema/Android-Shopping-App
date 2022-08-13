@@ -8,5 +8,5 @@
     <string name="bottom_navigation_cart">Cart</string>
     <string name="bottom_navigation_orders">Orders</string>
     <string name="category_card_content_description">Category card</string>
-    <string name="category_desktop">Desktop</string>
+    <string name="category_desktop">Desktops</string>
 </resources>

@@ -2,16 +2,17 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="10dp">
+    >
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/category_card"
+        android:id="@+id/card_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
+        android:layout_marginBottom="20dp"
         app:cardCornerRadius="8dp"
         >
 
@@ -22,6 +23,7 @@
             >
 
             <ImageView
+                android:id="@+id/image_category_card"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/category_card_content_description"
@@ -40,6 +42,7 @@
                 />
 
             <TextView
+                android:id="@+id/text_category_card_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/category_desktop"
@@ -48,7 +51,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="8dp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
