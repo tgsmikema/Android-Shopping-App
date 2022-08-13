@@ -1,4 +1,4 @@
-package com.example.project_1_java_new_team42.Data;
+package com.example.project_1_java_new_team42.Data.Util;
 
 import android.util.Log;
 
@@ -13,6 +13,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is used for determine what concrete class of each item belongs to when retrieving
+ * data from the database, and hence it's a helper class to aid the Java Deserialization process.
+ */
 public abstract class AssignCategory {
 
     protected List<IItem> assignCategory(Task<QuerySnapshot> task) {

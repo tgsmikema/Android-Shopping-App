@@ -1,8 +1,7 @@
-package com.example.project_1_java_new_team42.Data;
+package com.example.project_1_java_new_team42.Data.Fetchers;
 
 import androidx.annotation.NonNull;
 
-import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.Order;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -13,24 +12,27 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryDataFetcher {
+/**
+ * This class is used to retrieve ALL -- PAST ORDERS.
+ */
+public class PastOrdersDataFetcher {
 
-    public void readData(IFetchHandler<List<Category>> iFetchHandler) {
+    public void readData(IFetchHandler<List<Order>> dataFetchHandler) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        List<Category> categoriesList = new ArrayList<>();
+        List<Order> ordersList = new ArrayList<>();
 
-        db.collection("categories").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("orders").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot queryItem : task.getResult()) {
 
-                        Category aCategory = queryItem.toObject(Category.class);
-                        categoriesList.add(aCategory);
+                        Order anOrder = queryItem.toObject(Order.class);
+                        ordersList.add(anOrder);
                     }
-                    iFetchHandler.onFetchComplete(categoriesList);
+                    dataFetchHandler.onFetchComplete(ordersList);
                 } else {
-                    iFetchHandler.onFetchFail();
+                    dataFetchHandler.onFetchFail();
                 }
             }
         });
