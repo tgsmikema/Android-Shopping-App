@@ -22,6 +22,9 @@ public class OrderDataSender {
         anOrder.updateItemsTotalSoldField();
         //update 'items' collection TOTAL SOLD field.
         updateTotalSoldItemsCollection(anOrder);
+        //empty shopping cart.
+        emptyCart();
+
 
         db.collection("orders").document(anOrder.getOrderId()).set(anOrder).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -53,6 +56,17 @@ public class OrderDataSender {
             currentItemInFirestore.update("totalSold", FieldValue.increment(currentItemOrderedQuantity));
         }
 
+    }
+
+    private void emptyCart(){
+        CartDataSender cartDataSender = new CartDataSender();
+
+        cartDataSender.deleteAllCartItems(new ISendHandler() {
+            @Override
+            public void onSendSuccess(boolean isSuccess) {
+                // Do Nothing here.
+            }
+        });
     }
 
 }
