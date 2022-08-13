@@ -10,9 +10,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+/**
+ * This class is used for getting all current items inside the shopping cart.
+ */
 public class CartDataFetcher {
 
     public void readData(IFetchHandler<Cart> dataFetchHandler) {
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Cart cart = new Cart();
 

@@ -12,8 +12,24 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * This class is used for when Submiting an ORDER, and post the order to database.
+ * REFER to methods description for more details.
+ */
 public class OrderDataSender {
 
+    /**
+     * This method is used to write the Submitted ORDER to the database.
+     * This method performs a several operations:
+     *
+     * 1) update 'orders' collection `totalSold` field.
+     * 2) update 'items' collection `totalSold` field.
+     * 3) empty shopping cart.
+     * 4) write the ORDER detail to database.
+     *
+     * @param anOrder
+     * @param dataSendHandler
+     */
     public void writeCartOrderToFirestore(Order anOrder, ISendHandler dataSendHandler){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -42,17 +58,24 @@ public class OrderDataSender {
 
     }
 
-
+    /**
+     * This method updates the database's `items` collection `totalSold` field of each ITEM specified
+     * in the order.
+     * @param anOrder
+     */
     private void updateTotalSoldItemsCollection(Order anOrder){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+        // for each ItemWithQuantity
         for (ItemWithQuantity itemWithQuantity : anOrder.getOrderItems()){
-
+            // get the quantity of the current iterated item that has been sold.
             int currentItemOrderedQuantity = itemWithQuantity.getQuantity();
+            // get the id of the current iterated item that has been sold.
             String currentItemId = itemWithQuantity.getId();
 
+            // get the document reference of the current item sold in the `items` collection from the database
             DocumentReference currentItemInFirestore = db.collection("items").document(currentItemId);
+            // increase the database `totalSold` field of the selected item by QUANTITY specified on the order.
             currentItemInFirestore.update("totalSold", FieldValue.increment(currentItemOrderedQuantity));
         }
 

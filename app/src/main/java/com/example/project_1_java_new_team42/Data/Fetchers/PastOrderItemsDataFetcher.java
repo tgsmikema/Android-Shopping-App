@@ -12,6 +12,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is used for retrieving all ITEMs from a given Past Order ID.
+ */
 public class PastOrderItemsDataFetcher {
 
     public void readData(String orderId, IFetchHandler<List<Order>> dataFetchHandler) {

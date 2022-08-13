@@ -12,6 +12,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * This class is to retrieve a List of ITEMS given a search string is part of the ITEM's name.
+ */
 public class SearchItemsDataFetcher extends AssignCategory {
     public void readData(String name , IFetchHandler<List<IItem>> dataFetchHandler) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();

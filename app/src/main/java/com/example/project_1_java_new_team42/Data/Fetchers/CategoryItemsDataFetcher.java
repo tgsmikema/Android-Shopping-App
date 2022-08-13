@@ -11,6 +11,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
+/**
+ * This class is used for fetching all items within a GIVEN specific category.
+ */
 public class CategoryItemsDataFetcher extends AssignCategory {
 
     public void readData(String category, IFetchHandler<List<IItem>> dataFetchHandler) {

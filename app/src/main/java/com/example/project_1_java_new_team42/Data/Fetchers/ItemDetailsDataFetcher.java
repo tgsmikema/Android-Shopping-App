@@ -11,6 +11,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
+/**
+ * This class is used for retrieving specific single ITEM info GIVEN its ID.
+ */
 public class ItemDetailsDataFetcher extends AssignCategory {
     public void readData(String id , IFetchHandler<List<IItem>> dataFetchHandler) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();

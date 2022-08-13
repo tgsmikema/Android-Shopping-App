@@ -12,6 +12,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is used to retrieve ALL -- PAST ORDERS.
+ */
 public class PastOrdersDataFetcher {
 
     public void readData(IFetchHandler<List<Order>> dataFetchHandler) {

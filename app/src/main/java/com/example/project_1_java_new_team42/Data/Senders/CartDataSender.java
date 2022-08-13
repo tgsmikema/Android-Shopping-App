@@ -13,8 +13,22 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+/**
+ * This class is used for sending Queries regarding shopping CART
+ *
+ * Methods:
+ * 1) addItemWithQuantityToCart
+ * 2) deleteSingleCartItem
+ * 3) deleteAllCartItems
+ *
+ */
 public class CartDataSender {
 
+    /**
+     * this method adds an `ItemWithQuantity` to the CART database.
+     * @param anItemWithQuantity
+     * @param dataSendHandler
+     */
     public void addItemWithQuantityToCart(ItemWithQuantity anItemWithQuantity, ISendHandler dataSendHandler){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -35,6 +49,11 @@ public class CartDataSender {
 
     }
 
+    /**
+     * This methods delete a single Item record from the CART in the database GIVEN a `Id` of an Item.
+     * @param id
+     * @param dataSendHandler
+     */
     public void deleteSingleCartItem(String id, ISendHandler dataSendHandler){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -56,6 +75,11 @@ public class CartDataSender {
 
     }
 
+    /**
+     * This Method DELETES all items in the shopping CART.
+     * EFFECTIVELY empty shopping cart, USE WITH CAUTION!!!!
+     * @param dataSendHandler
+     */
     public void deleteAllCartItems(ISendHandler dataSendHandler){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -65,7 +89,8 @@ public class CartDataSender {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
                         if (queryDocumentSnapshot.exists()){
-                            //delete all documents
+                            //get a reference to each document, then delete the selected document,
+                            //effectively deleting all documents one by one till CART is empty.
                             queryDocumentSnapshot.getReference().delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
