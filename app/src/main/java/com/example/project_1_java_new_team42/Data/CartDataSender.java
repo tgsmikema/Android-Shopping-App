@@ -31,4 +31,25 @@ public class CartDataSender {
 
     }
 
+    public void deleteSingleCartItem(String id, ISendHandler dataSendHandler){
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("cart").document(id).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("Item delete from Cart","Item: " + id + " DELETED." );
+                        dataSendHandler.onSendSuccess(true);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("Item delete from Cart","Item: " + id + "NOT DELETED !!!!" );
+                        dataSendHandler.onSendSuccess(false);
+                    }
+                });
+
+    }
+
 }
