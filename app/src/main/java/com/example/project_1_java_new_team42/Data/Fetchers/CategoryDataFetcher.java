@@ -1,8 +1,8 @@
-package com.example.project_1_java_new_team42.Data;
+package com.example.project_1_java_new_team42.Data.Fetchers;
 
 import androidx.annotation.NonNull;
 
-import com.example.project_1_java_new_team42.Models.Order;
+import com.example.project_1_java_new_team42.Models.Category;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -12,27 +12,26 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PastOrderItemsDataFetcher {
+public class CategoryDataFetcher {
 
-    public void readData(String orderId, IPastOrderItemsDataFetchHandler dataFetchHandler) {
+    public void readData(IFetchHandler<List<Category>> iFetchHandler) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        List<Order> ordersList = new ArrayList<>();
+        List<Category> categoriesList = new ArrayList<>();
 
-        db.collection("orders").whereEqualTo("orderId",orderId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("categories").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot queryItem : task.getResult()) {
 
-                        Order anOrder = queryItem.toObject(Order.class);
-                        ordersList.add(anOrder);
+                        Category aCategory = queryItem.toObject(Category.class);
+                        categoriesList.add(aCategory);
                     }
-                    dataFetchHandler.onFetchComplete(ordersList);
+                    iFetchHandler.onFetchComplete(categoriesList);
                 } else {
-                    dataFetchHandler.onFetchFail();
+                    iFetchHandler.onFetchFail();
                 }
             }
         });
     }
-
 }

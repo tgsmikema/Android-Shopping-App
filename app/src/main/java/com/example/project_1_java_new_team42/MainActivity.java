@@ -4,12 +4,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.project_1_java_new_team42.Data.CartDataFetcher;
-import com.example.project_1_java_new_team42.Data.CartDataSender;
-import com.example.project_1_java_new_team42.Data.IFetchHandler;
-import com.example.project_1_java_new_team42.Data.ISendHandler;
-import com.example.project_1_java_new_team42.Data.OrderDataSender;
-import com.example.project_1_java_new_team42.Models.Cart;
+import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
+import com.example.project_1_java_new_team42.Data.Senders.OrderDataSender;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.Models.Laptop;
