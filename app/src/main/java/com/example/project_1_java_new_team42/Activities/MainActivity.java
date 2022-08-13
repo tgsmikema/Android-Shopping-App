@@ -3,20 +3,17 @@ package com.example.project_1_java_new_team42.Activities;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1_java_new_team42.Adapters.CategoriesRecyclerViewAdapter;
-import com.example.project_1_java_new_team42.Data.CategoryDataFetcher;
-import com.example.project_1_java_new_team42.Data.IFetchHandler;
+import com.example.project_1_java_new_team42.Data.Fetchers.CategoryDataFetcher;
+import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CategoriesRecyclerViewAdapter.CategoryClickListener {
@@ -30,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements CategoriesRecycle
         public void onFetchComplete(List<Category> data) {
             categoriesAdapter.setData(data);
             categoriesAdapter.notifyItemRangeInserted(0, data.size());
+            Log.i("MainActivity", "Fetched categories successfully");
         }
 
         @Override
