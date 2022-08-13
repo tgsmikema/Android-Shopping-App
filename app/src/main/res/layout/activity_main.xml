@@ -7,65 +7,76 @@
     android:layout_height="match_parent"
     tools:context=".Activities.MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        style="@style/Team42LayoutContainer">
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:overScrollMode="never"
+        >
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/search_input_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/Team42LayoutContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/search_hint"
-            app:boxCornerRadiusTopEnd="4dp"
-            app:boxCornerRadiusTopStart="4dp"
-            app:endIconContentDescription="@string/search_icon_description"
-            app:endIconDrawable="@drawable/ic_search"
-            app:endIconMode="custom"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:paddingBottom="60dp"
+            >
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/search_input_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:hint="@string/search_hint"
+                app:boxCornerRadiusTopEnd="4dp"
+                app:boxCornerRadiusTopStart="4dp"
+                app:endIconContentDescription="@string/search_icon_description"
+                app:endIconDrawable="@drawable/ic_search"
+                app:endIconMode="custom"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/heading_home_best_selling"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/heading_home_best_selling"
-            android:textAppearance="@style/Team42.Headline2"
-            app:layout_constraintStart_toStartOf="@+id/search_input_layout"
-            app:layout_constraintTop_toBottomOf="@+id/search_input_layout" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/heading_home_best_selling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/heading_home_best_selling"
+                android:textAppearance="@style/Team42.Headline2"
+                app:layout_constraintStart_toStartOf="@+id/search_input_layout"
+                app:layout_constraintTop_toBottomOf="@+id/search_input_layout" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:text="@string/heading_home_categories"
-            android:textAppearance="@style/Team42.Headline2"
-            app:layout_constraintStart_toStartOf="@+id/heading_home_best_selling"
-            app:layout_constraintTop_toBottomOf="@+id/heading_home_best_selling" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:text="@string/heading_home_categories"
+                android:textAppearance="@style/Team42.Headline2"
+                app:layout_constraintStart_toStartOf="@+id/heading_home_best_selling"
+                app:layout_constraintTop_toBottomOf="@+id/heading_home_best_selling" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_category_cards"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/materialTextView"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView"
-            tools:listitem="@layout/category_card"
-            tools:itemCount="3"
-            />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_category_cards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:overScrollMode="never"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/materialTextView"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView"
+                tools:itemCount="3"
+                tools:listitem="@layout/category_card" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
