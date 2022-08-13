@@ -64,4 +64,10 @@ public class Order {
         return dateStr;
     }
 
+    public void updateItemsTotalSoldField(){
+        for (ItemWithQuantity itemWithQuantity : orderItems){
+            itemWithQuantity.updateTotalSold(itemWithQuantity.getQuantity());
+        }
+    }
+
 }

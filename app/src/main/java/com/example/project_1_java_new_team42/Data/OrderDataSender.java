@@ -4,9 +4,12 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.Models.Order;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class OrderDataSender {
@@ -14,6 +17,11 @@ public class OrderDataSender {
     public void writeCartOrderToFirestore(Order anOrder, ISendHandler dataSendHandler){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        //update 'orders' collection TOTAL SOLD field.
+        anOrder.updateItemsTotalSoldField();
+        //update 'items' collection TOTAL SOLD field.
+        updateTotalSoldItemsCollection(anOrder);
 
         db.collection("orders").document(anOrder.getOrderId()).set(anOrder).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -28,6 +36,22 @@ public class OrderDataSender {
                 dataSendHandler.onSendSuccess(false);
             }
         });
+
+    }
+
+
+    private void updateTotalSoldItemsCollection(Order anOrder){
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        for (ItemWithQuantity itemWithQuantity : anOrder.getOrderItems()){
+
+            int currentItemOrderedQuantity = itemWithQuantity.getQuantity();
+            String currentItemId = itemWithQuantity.getId();
+
+            DocumentReference currentItemInFirestore = db.collection("items").document(currentItemId);
+            currentItemInFirestore.update("totalSold", FieldValue.increment(currentItemOrderedQuantity));
+        }
 
     }
 

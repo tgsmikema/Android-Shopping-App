@@ -37,4 +37,9 @@ public class ItemWithQuantity extends Item{
         return quantity;
     }
 
+    public void updateTotalSold(int quantity){
+        this.totalSold += quantity;
+    }
+
 }
+
