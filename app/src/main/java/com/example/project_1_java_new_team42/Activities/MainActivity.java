@@ -17,7 +17,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements CategoriesRecyclerViewAdapter.CategoryClickListener {
+public class MainActivity extends AppCompatActivity {
 
     protected RecyclerView categoriesRecyclerView;
     protected CategoriesRecyclerViewAdapter categoriesAdapter;
@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements CategoriesRecycle
         categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         categoriesAdapter = new CategoriesRecyclerViewAdapter(this);
-        categoriesAdapter.setClickListener(this);
 
         categoriesRecyclerView.setAdapter(categoriesAdapter);
     }
@@ -67,12 +66,6 @@ public class MainActivity extends AppCompatActivity implements CategoriesRecycle
         initializeCategoriesRecyclerView();
 
         categoriesDataFetcher.readData(new CategoriesFetchHandler());
-    }
-
-    @Override
-    public void onCategoryCardClick(View view, int position) {
-        Category category = categoriesAdapter.getItem(position);
-        Log.i("Category", "Name: " + category.getCategoryName() + " URI: " + category.getImageURI());
     }
 }
 

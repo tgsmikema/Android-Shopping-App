@@ -22,7 +22,6 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
     private List<Category> categoriesData = new ArrayList<>();
     private LayoutInflater layoutInflater;
     private Context context;
-    private CategoryClickListener clickListener;
 
     public CategoriesRecyclerViewAdapter(Context context) {
         this.context = context;
@@ -33,24 +32,26 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
         this.categoriesData = categoriesData;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         MaterialCardView categoryCardView;
         ImageView categoryImageView;
         TextView categoryNameTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
+
             categoryCardView = itemView.findViewById(R.id.card_category);
             categoryImageView = itemView.findViewById(R.id.image_category_card);
             categoryNameTextView = itemView.findViewById(R.id.text_category_card_name);
-            categoryCardView.setOnClickListener(this);
+
+            initClickListener(itemView);
         }
 
-        @Override
-        public void onClick(View view) {
-            if (clickListener != null) {
-                clickListener.onCategoryCardClick(view, getAdapterPosition());
-            }
+        private void initClickListener(View itemView) {
+            itemView.setOnClickListener(view -> {
+                Category category = categoriesData.get(getAdapterPosition());
+                Log.i("Category", "Name: " + category.getCategoryName() + " URI: " + category.getImageURI());
+            });
         }
     }
 
@@ -77,15 +78,5 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
     @Override
     public int getItemCount() {
         return categoriesData.size();
-    }
-
-    // Parent activity implements this to respond to click events
-    public interface CategoryClickListener {
-        void onCategoryCardClick(View view, int position);
-    }
-
-    // Setter to allow us to catch click events
-    public void setClickListener(CategoryClickListener clickListener) {
-        this.clickListener = clickListener;
     }
 }
