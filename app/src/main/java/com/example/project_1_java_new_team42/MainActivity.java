@@ -5,8 +5,10 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_1_java_new_team42.Data.Fetchers.CartDataFetcher;
+import com.example.project_1_java_new_team42.Data.Providers.ItemsDataProvider;
 import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
 import com.example.project_1_java_new_team42.Data.Senders.OrderDataSender;
+import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.Models.Laptop;
@@ -25,10 +27,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         String id = "laptop_1";
         String name = "Apple MacBook Air 2020";
         List<String> imagePaths = new ArrayList<>(Arrays.asList("laptop_1_1","laptop_1_2","laptop_1_3","laptop_1_4"));
-        String category = "Laptop";
+        String category = Category.LAPTOP;
         int price = 1299;
         int totalSold = 0;
         String description = "Screen Size:  13.3 Inches\nColor:  Space Gray\nHard Disk Size:  256 GB\nRam:  8 GB\n\nApple-designed M1 chip for a giant leap in CPU, GPU, and machine learning performance\nCharge less with up to 29 hours of battery life\n13.3-inch Retina display with P3 wide color\n8-core CPU delivers up to 3.5x faster performance to tackle projects faster than ever before\nUp to eight GPU cores with up to 5x faster graphics - FaceTime HD camera for clearer, sharper video calls\n16-core Neural Engine for advanced machine learning - 8GB of unified memory so everything you do is fast and fluid";

@@ -2,6 +2,7 @@ package com.example.project_1_java_new_team42.Data.Util;
 
 import android.util.Log;
 
+import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.Desktop;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.Laptop;
@@ -27,13 +28,13 @@ public abstract class AssignCategory {
 
             IItem anItem;
 
-            if (queryItem.get("category").toString().equalsIgnoreCase("laptop")) {
+            if (queryItem.get("category").toString().equalsIgnoreCase(Category.LAPTOP)) {
                 anItem = queryItem.toObject(Laptop.class);
                 itemsList.add(anItem);
-            } else if (queryItem.get("category").toString().equalsIgnoreCase("tablet")) {
+            } else if (queryItem.get("category").toString().equalsIgnoreCase(Category.TABLET)) {
                 anItem = queryItem.toObject(Tablet.class);
                 itemsList.add(anItem);
-            } else if (queryItem.get("category").toString().equalsIgnoreCase("desktop")) {
+            } else if (queryItem.get("category").toString().equalsIgnoreCase(Category.DESKTOP)) {
                 anItem = queryItem.toObject(Desktop.class);
                 itemsList.add(anItem);
             } else {
