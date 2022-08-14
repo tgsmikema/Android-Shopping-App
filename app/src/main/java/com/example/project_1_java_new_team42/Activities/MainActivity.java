@@ -13,6 +13,7 @@ import com.example.project_1_java_new_team42.Data.Fetchers.CategoryDataFetcher;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.R;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.List;
 
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements CategoriesRecycle
 
     protected RecyclerView categoriesRecyclerView;
     protected CategoriesRecyclerViewAdapter categoriesAdapter;
+    protected CircularProgressIndicator categoriesSpinner;
+
     protected CategoryDataFetcher categoriesDataFetcher = new CategoryDataFetcher();
 
     private class CategoriesFetchHandler implements IFetchHandler<List<Category>> {
@@ -27,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements CategoriesRecycle
         public void onFetchComplete(List<Category> data) {
             categoriesAdapter.setData(data);
             categoriesAdapter.notifyItemRangeInserted(0, data.size());
+
+            categoriesSpinner.setVisibility(View.GONE);
+
             Log.i("MainActivity", "Fetched categories successfully");
         }
 
@@ -36,21 +42,29 @@ public class MainActivity extends AppCompatActivity implements CategoriesRecycle
         }
     }
 
+    /**
+     * Initialize the recycler view which will be called when the activity is created in `onCreate`.
+     * This has to be done in the main UI thread otherwise will get warning that no adapter is
+     * attached to the recycler view.
+     */
+    protected void initializeCategoriesRecyclerView() {
+        categoriesRecyclerView = findViewById(R.id.recycler_view_category_cards);
+        categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        categoriesAdapter = new CategoriesRecyclerViewAdapter(this);
+        categoriesAdapter.setClickListener(this);
+
+        categoriesRecyclerView.setAdapter(categoriesAdapter);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /* We have to initialize the recycler view and its adapter bindings in the main UI thread to
-        *  prevent warnings. The adapter has a setter method to set the data so can do this when fetch success.
-        * */
-        categoriesRecyclerView = findViewById(R.id.recycler_view_category_cards);
-        categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        categoriesSpinner = findViewById(R.id.progress_categories);
 
-        categoriesAdapter = new CategoriesRecyclerViewAdapter(this);
-        categoriesAdapter.setClickListener(MainActivity.this);
-
-        categoriesRecyclerView.setAdapter(categoriesAdapter);
+        initializeCategoriesRecyclerView();
 
         categoriesDataFetcher.readData(new CategoriesFetchHandler());
     }
