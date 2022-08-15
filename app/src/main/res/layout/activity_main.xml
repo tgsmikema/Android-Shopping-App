@@ -48,7 +48,7 @@
                 android:id="@+id/heading_home_best_selling"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="48dp"
                 android:text="@string/heading_home_best_selling"
                 android:textAppearance="@style/Team42.Headline2"
                 app:layout_constraintStart_toStartOf="parent"

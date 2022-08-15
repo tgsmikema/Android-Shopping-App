@@ -3,6 +3,7 @@ package com.example.project_1_java_new_team42.Activities;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
 
     protected RecyclerView categoriesRecyclerView;
     protected CategoriesRecyclerViewAdapter categoriesAdapter;
@@ -40,12 +42,13 @@ public class MainActivity extends AppCompatActivity {
 
             categoriesSpinner.setVisibility(View.GONE);
 
-            Log.i("MainActivity", "Fetched categories successfully");
+            Log.i(TAG, "Fetched categories successfully");
         }
 
         @Override
         public void onFetchFail() {
             System.out.println("Failed to fetch categories");
+            Toast.makeText(getApplicationContext(), "Failed to fetch categories", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -57,12 +60,13 @@ public class MainActivity extends AppCompatActivity {
 
             topItemsSpinner.setVisibility(View.GONE);
 
-            Log.i("MainActivity", "Fetched top items successfully");
+            Log.i(TAG, "Fetched top items successfully");
         }
 
         @Override
         public void onFetchFail() {
             System.out.println("Failed to fetch top items");
+            Toast.makeText(getApplicationContext(), "Failed to fetch top items", Toast.LENGTH_SHORT).show();
         }
     }
 
