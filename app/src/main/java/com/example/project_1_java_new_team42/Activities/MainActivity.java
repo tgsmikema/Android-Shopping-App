@@ -9,9 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1_java_new_team42.Adapters.CategoriesRecyclerViewAdapter;
+import com.example.project_1_java_new_team42.Adapters.ItemsRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.CategoryDataFetcher;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
+import com.example.project_1_java_new_team42.Data.Fetchers.TopItemsDataFetcher;
 import com.example.project_1_java_new_team42.Models.Category;
+import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
@@ -22,8 +25,12 @@ public class MainActivity extends AppCompatActivity {
     protected RecyclerView categoriesRecyclerView;
     protected CategoriesRecyclerViewAdapter categoriesAdapter;
     protected CircularProgressIndicator categoriesSpinner;
-
     protected CategoryDataFetcher categoriesDataFetcher = new CategoryDataFetcher();
+
+    protected RecyclerView topItemsRecyclerView;
+    protected ItemsRecyclerViewAdapter topItemsAdapter;
+    protected CircularProgressIndicator topItemsSpinner;
+    protected TopItemsDataFetcher topItemsDataFetcher = new TopItemsDataFetcher();
 
     private class CategoriesFetchHandler implements IFetchHandler<List<Category>> {
         @Override
@@ -42,6 +49,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private class TopItemsFetchHandler implements IFetchHandler<List<IItem>> {
+        @Override
+        public void onFetchComplete(List<IItem> data) {
+            topItemsAdapter.setData(data);
+            topItemsAdapter.notifyItemRangeInserted(0, data.size());
+
+            topItemsSpinner.setVisibility(View.GONE);
+
+            Log.i("MainActivity", "Fetched top items successfully");
+        }
+
+        @Override
+        public void onFetchFail() {
+            System.out.println("Failed to fetch top items");
+        }
+    }
+
     /**
      * Initialize the recycler view which will be called when the activity is created in `onCreate`.
      * This has to be done in the main UI thread otherwise will get warning that no adapter is
@@ -56,16 +80,28 @@ public class MainActivity extends AppCompatActivity {
         categoriesRecyclerView.setAdapter(categoriesAdapter);
     }
 
+    protected void initializeTopItemsRecyclerView() {
+        topItemsRecyclerView = findViewById(R.id.recycler_view_top_items);
+        topItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        topItemsAdapter = new ItemsRecyclerViewAdapter(this);
+
+        topItemsRecyclerView.setAdapter(topItemsAdapter);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         categoriesSpinner = findViewById(R.id.progress_categories);
+        topItemsSpinner = findViewById(R.id.progress_top_items);
 
         initializeCategoriesRecyclerView();
+        initializeTopItemsRecyclerView();
 
         categoriesDataFetcher.readData(new CategoriesFetchHandler());
+        topItemsDataFetcher.readData(new TopItemsFetchHandler());
     }
 }
 

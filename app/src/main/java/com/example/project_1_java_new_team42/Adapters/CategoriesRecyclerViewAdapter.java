@@ -20,8 +20,8 @@ import java.util.List;
 
 public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<CategoriesRecyclerViewAdapter.ViewHolder> {
     private List<Category> categoriesData = new ArrayList<>();
-    private LayoutInflater layoutInflater;
-    private Context context;
+    private final LayoutInflater layoutInflater;
+    private final Context context;
 
     public CategoriesRecyclerViewAdapter(Context context) {
         this.context = context;
@@ -33,14 +33,12 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        MaterialCardView categoryCardView;
         ImageView categoryImageView;
         TextView categoryNameTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            categoryCardView = itemView.findViewById(R.id.card_category);
             categoryImageView = itemView.findViewById(R.id.image_category_card);
             categoryNameTextView = itemView.findViewById(R.id.text_category_card_name);
 
@@ -48,6 +46,7 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
         }
 
         private void initClickListener(View itemView) {
+            // TODO Navigate to the categories page
             itemView.setOnClickListener(view -> {
                 Category category = categoriesData.get(getAdapterPosition());
                 Log.i("Category", "Name: " + category.getCategoryName() + " URI: " + category.getImageURI());
@@ -55,24 +54,18 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
         }
     }
 
-    // Inflate each category card layout resource from xml when required
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(layoutInflater.inflate(R.layout.category_card, parent, false));
     }
 
-    // Binding the views in the card with the corresponding data
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Category category = categoriesData.get(position);
         int drawableId = context.getResources().getIdentifier(category.getImageURI(), "drawable", context.getPackageName());
         holder.categoryNameTextView.setText(category.getCategoryName());
         holder.categoryImageView.setImageResource(drawableId);
-    }
-
-    public Category getItem(int i) {
-        return categoriesData.get(i);
     }
 
     @Override

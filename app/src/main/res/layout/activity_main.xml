@@ -51,8 +51,31 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/heading_home_best_selling"
                 android:textAppearance="@style/Team42.Headline2"
-                app:layout_constraintStart_toStartOf="@+id/search_input_layout"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/search_input_layout" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progress_top_items"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_marginTop="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/heading_home_best_selling" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_top_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/heading_home_best_selling"
+                tools:itemCount="6"
+                tools:listitem="@layout/item_card" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView"
@@ -61,20 +84,18 @@
                 android:layout_marginTop="48dp"
                 android:text="@string/heading_home_categories"
                 android:textAppearance="@style/Team42.Headline2"
-                app:layout_constraintStart_toStartOf="@+id/heading_home_best_selling"
-                app:layout_constraintTop_toBottomOf="@+id/heading_home_best_selling" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recycler_view_top_items" />
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progress_categories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:indicatorSize="60dp"
                 android:indeterminate="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView"
-                android:layout_marginTop="16dp"
-                />
+                android:layout_marginTop="32dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_category_cards"
@@ -83,10 +104,11 @@
                 android:layout_marginTop="20dp"
                 android:overScrollMode="never"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/materialTextView"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView"
                 tools:itemCount="3"
                 tools:listitem="@layout/category_card" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
