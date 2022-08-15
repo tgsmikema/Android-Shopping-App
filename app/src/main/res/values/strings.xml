@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">project-1-java-new-team42</string>
+    <string name="app_name">MAD Computers</string>
+    <string name="search_hint">Search for a product</string>
+    <string name="search_icon_description">Search For Product</string>
+    <string name="heading_home_best_selling">Best Selling</string>
+    <string name="heading_home_categories">Categories</string>
+    <string name="bottom_navigation_home">Home</string>
+    <string name="bottom_navigation_cart">Cart</string>
+    <string name="bottom_navigation_orders">Orders</string>
+    <string name="category_card_content_description">Category card</string>
+    <string name="category_desktop">Desktops</string>
 </resources>

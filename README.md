@@ -1,1 +1,3 @@
-"# project-1-java-new-team42" 
+# MAD Computers
+
+SE306 Project 1 - Team 42
