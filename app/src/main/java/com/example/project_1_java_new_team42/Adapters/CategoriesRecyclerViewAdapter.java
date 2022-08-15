@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +33,7 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
         this.categoriesData = categoriesData;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView categoryImageView;
         TextView categoryNameTextView;
 
@@ -41,16 +42,14 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
 
             categoryImageView = itemView.findViewById(R.id.image_category_card);
             categoryNameTextView = itemView.findViewById(R.id.text_category_card_name);
-
-            initClickListener(itemView);
+            itemView.setOnClickListener(this);
         }
 
-        private void initClickListener(View itemView) {
-            // TODO Navigate to the categories page
-            itemView.setOnClickListener(view -> {
-                Category category = categoriesData.get(getAdapterPosition());
-                Log.i("Category", "Name: " + category.getCategoryName() + " URI: " + category.getImageURI());
-            });
+        @Override
+        public void onClick(View view) {
+            // TODO Navigate to the category items page
+            Category category = categoriesData.get(getAdapterPosition());
+            Toast.makeText(context, "Name: " + category.getCategoryName(), Toast.LENGTH_SHORT).show();
         }
     }
 

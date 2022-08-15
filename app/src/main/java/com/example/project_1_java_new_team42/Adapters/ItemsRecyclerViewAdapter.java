@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,7 +32,7 @@ public class ItemsRecyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycler
         this.items = categoriesData;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView itemImageView;
         TextView itemNameTextView;
         TextView itemPriceTextView;
@@ -42,16 +43,14 @@ public class ItemsRecyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycler
             itemImageView = itemView.findViewById(R.id.image_itemcard);
             itemNameTextView = itemView.findViewById(R.id.text_itemcard_name);
             itemPriceTextView = itemView.findViewById(R.id.text_itemcard_price);
-
-            initClickListener(itemView);
+            itemView.setOnClickListener(this);
         }
 
-        private void initClickListener(View itemView) {
+        @Override
+        public void onClick(View view) {
             // TODO Navigate to the item details page
-            itemView.setOnClickListener(view -> {
-                IItem item = items.get(getAdapterPosition());
-                Log.i("Item", "Name: " + item.getName() + " Price: " + item.getPrice());
-            });
+            IItem item = items.get(getAdapterPosition());
+            Toast.makeText(context, "Name: " + item.getName() + " Price: " + item.getPrice(), Toast.LENGTH_SHORT).show();
         }
     }
 
