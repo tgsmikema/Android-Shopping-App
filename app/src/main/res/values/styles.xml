@@ -27,6 +27,7 @@
     <!--  Widget Theming  -->
     <style name="Team42.Button" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/brand_black</item>
+        <item name="android:fontFamily">@font/inter</item>
     </style>
     <style name="Team42.BottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
         <item name="colorPrimary">@color/white</item>
