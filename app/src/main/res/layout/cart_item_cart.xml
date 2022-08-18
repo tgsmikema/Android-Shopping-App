@@ -38,10 +38,11 @@
                 android:id="@+id/text_cartitemcard_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="16dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textAppearance="@style/Team42.Headline4"
+                android:textAppearance="@style/Team42.Headline3"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="Apple Macbook Air" />
 
@@ -52,6 +53,13 @@
                 android:layout_marginTop="8dp"
                 android:textSize="12sp"
                 tools:text="$2299" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-" />
 
         </LinearLayout>
 
