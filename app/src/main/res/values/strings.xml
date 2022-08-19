@@ -10,4 +10,6 @@
     <string name="category_card_content_description">Category card</string>
     <string name="category_desktop">Desktops</string>
     <string name="heading_cart">Cart</string>
+    <string name="total_price">Total</string>
+    <string name="place_order">Place Order</string>
 </resources>
