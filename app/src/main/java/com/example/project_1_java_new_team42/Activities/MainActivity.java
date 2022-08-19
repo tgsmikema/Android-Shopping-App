@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -107,12 +108,14 @@ public class MainActivity extends AppCompatActivity {
     protected void initializeSearch() {
         TextInputLayout searchTextInputLayout = findViewById(R.id.text_input_layout_search_results);
         Search search = new Search(searchTextInputLayout.getEditText());
+        search.setDisableSearchIfEmpty(true);
 
         search.setOnSearchActionListener(new Search.OnSearchActionListener() {
             @Override
-            public void onSearch(String searchQuery) {
-                // TODO Validate search query
-                navigateToSearchResults(searchQuery);
+            public void onSearch(EditText view, String searchQuery) {
+                if (!searchQuery.isEmpty()) {
+                    navigateToSearchResults(searchQuery);
+                }
             }
         });
     }

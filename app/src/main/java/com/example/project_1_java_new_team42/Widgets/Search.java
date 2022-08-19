@@ -9,6 +9,18 @@ import android.widget.TextView.OnEditorActionListener;
 public class Search implements ISearch {
     private final EditText searchEditText;
 
+    private boolean disableSearchIfEmpty = false; // Setting
+
+    /**
+     * Setting that allows the user to disable the search
+     * if it is empty. User may want to allow search of empty fields
+     * or handle it themselves.
+     * @param disableSearch setting that will disable the search if it is empty.
+     */
+    public void setDisableSearchIfEmpty(Boolean disableSearch) {
+        this.disableSearchIfEmpty = disableSearch;
+    }
+
     public Search(EditText searchEditText) {
         this.searchEditText = searchEditText;
         setProperties();
@@ -37,11 +49,15 @@ public class Search implements ISearch {
         searchEditText.setOnEditorActionListener(new OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (disableSearchIfEmpty) {
+                    return true;
+                }
+
                 Boolean pressedSearch = actionId == EditorInfo.IME_ACTION_SEARCH;
                 Boolean hardKeyboardEnter = event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER;
 
                 if (pressedSearch || hardKeyboardEnter) {
-                    listener.onSearch(searchEditText.getText().toString());
+                    listener.onSearch(searchEditText, searchEditText.getText().toString());
                     return true;
                 }
 
