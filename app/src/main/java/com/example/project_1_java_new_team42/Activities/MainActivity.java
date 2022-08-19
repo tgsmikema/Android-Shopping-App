@@ -2,10 +2,7 @@ package com.example.project_1_java_new_team42.Activities;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,8 +17,9 @@ import com.example.project_1_java_new_team42.Data.Fetchers.TopItemsDataFetcher;
 import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
+import com.example.project_1_java_new_team42.Widgets.Search;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
 
@@ -98,19 +96,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /* Search functionality */
-    protected void initialSearch() {
-         TextInputEditText searchBar = findViewById(R.id.textfield_search);
-         searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-             @Override
-             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
-                 boolean handled = false;
-                 if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
-                     Log.i(TAG, "Searching for: " + textView.getText().toString());
-                     handled = true;
-                 }
-                 return handled;
-             }
-         });
+    protected void initializeSearch() {
+        TextInputLayout searchTextInputLayout = findViewById(R.id.text_input_layout_search);
+        Search search = new Search(searchTextInputLayout.getEditText());
+        search.setOnSearchActionListener(new Search.OnSearchActionListener() {
+            @Override
+            public void onSearch(String searchQuery) {
+                Toast.makeText(getApplicationContext(), "Searching for: " + searchQuery, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -123,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
         initializeCategoriesRecyclerView();
         initializeTopItemsRecyclerView();
+        initializeSearch();
 
         categoriesDataFetcher.readData(new CategoriesFetchHandler());
         topItemsDataFetcher.readData(new TopItemsFetchHandler());

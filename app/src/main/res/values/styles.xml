@@ -45,9 +45,9 @@
         <item name="android:hint">@string/search_hint</item>
         <item name="boxCornerRadiusTopEnd">4dp</item>
         <item name="boxCornerRadiusTopStart">4dp</item>
-        <item name="endIconContentDescription">@string/search_icon_description</item>
-        <item name="endIconDrawable">@drawable/ic_search</item>
-        <item name="endIconMode">custom</item>
+        <item name="startIconContentDescription">@string/search_icon_description</item>
+        <item name="startIconDrawable">@drawable/ic_search</item>
+        <item name="endIconMode">clear_text</item>
     </style>
     <style name="Team42.BackButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:text">@string/button_back</item>

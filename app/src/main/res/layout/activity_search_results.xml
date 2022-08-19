@@ -47,7 +47,7 @@
                 android:layout_marginTop="24dp" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textfield_search"
+                android:id="@+id/text_input_layout_search"
                 style="@style/Team42.SearchBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                 android:maxLines="1"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textfield_search"
+                app:layout_constraintTop_toBottomOf="@+id/text_input_layout_search"
                 tools:text="Found 6 Results for &quot;Pro and this is really long search oh no&quot;" />
 
             <androidx.recyclerview.widget.RecyclerView
