@@ -2,7 +2,10 @@ package com.example.project_1_java_new_team42.Activities;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +21,7 @@ import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Initialize the recycler view which will be called when the activity is created in `onCreate`.
+     * Initialize the recycler views which will be called when the activity is created in `onCreate`.
      * This has to be done in the main UI thread otherwise will get warning that no adapter is
      * attached to the recycler view.
      */
@@ -91,6 +95,22 @@ public class MainActivity extends AppCompatActivity {
         topItemsAdapter = new ItemsRecyclerViewAdapter(this);
 
         topItemsRecyclerView.setAdapter(topItemsAdapter);
+    }
+
+    /* Search functionality */
+    protected void initialSearch() {
+         TextInputEditText searchBar = findViewById(R.id.textfield_search);
+         searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+             @Override
+             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+                 boolean handled = false;
+                 if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
+                     Log.i(TAG, "Searching for: " + textView.getText().toString());
+                     handled = true;
+                 }
+                 return handled;
+             }
+         });
     }
 
     @Override
