@@ -49,15 +49,16 @@ public class Search implements ISearch {
         searchEditText.setOnEditorActionListener(new OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (disableSearchIfEmpty) {
-                    return true;
-                }
-
+                String searchText = searchEditText.getText().toString();
                 Boolean pressedSearch = actionId == EditorInfo.IME_ACTION_SEARCH;
                 Boolean hardKeyboardEnter = event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER;
 
+                if (disableSearchIfEmpty && searchText.isEmpty()) {
+                    return true;
+                }
+
                 if (pressedSearch || hardKeyboardEnter) {
-                    listener.onSearch(searchEditText, searchEditText.getText().toString());
+                    listener.onSearch(searchEditText, searchText);
                     return true;
                 }
 
