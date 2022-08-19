@@ -1,5 +1,6 @@
 package com.example.project_1_java_new_team42.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -106,6 +107,12 @@ public class MainActivity extends AppCompatActivity {
 
         categoriesDataFetcher.readData(new CategoriesFetchHandler());
         topItemsDataFetcher.readData(new TopItemsFetchHandler());
+
+        Intent i = new Intent(this,DetailsActivity.class);
+        i.putExtra("KEY","hello there");
+        startActivity(i);
+
+
     }
 }
 
