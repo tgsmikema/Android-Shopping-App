@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginEnd="10dp"
-    >
+    android:layout_marginBottom="20dp">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
@@ -29,8 +29,8 @@
             <ImageView
                 android:paddingVertical="6dp"
                 android:id="@+id/image_itemcard"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="155dp"
+                android:layout_height="175dp"
                 android:scaleType="centerInside"
                 app:cornerRadius="8dp"
                 tools:contentDescription="Apple Macbook Air 2020"
