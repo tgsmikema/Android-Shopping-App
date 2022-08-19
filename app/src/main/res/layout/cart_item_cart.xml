@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="20dp"
     android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
@@ -17,12 +17,9 @@
         app:strokeColor="#eee"
         app:strokeWidth="1dp">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="24dp">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/image_cartitemcard"
@@ -31,6 +28,10 @@
                 android:paddingVertical="6dp"
                 android:scaleType="centerInside"
                 app:cornerRadius="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
                 tools:contentDescription="Apple Macbook Air 2020"
                 tools:src="@drawable/laptop_1_1" />
 
@@ -38,30 +39,60 @@
                 android:id="@+id/text_cartitemcard_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="12dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textAppearance="@style/Team42.Headline3"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textAppearance="@style/Team42.Headline2"
+                app:layout_constraintStart_toEndOf="@+id/image_cartitemcard"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="Apple Macbook Air" />
+
+            <Button
+                android:id="@+id/button_minus"
+                style="@style/Team42.Button"
+                android:layout_width="20dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginBottom="8dp"
+                android:paddingLeft="2dp"
+                app:icon="@drawable/ic_minus"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/image_cartitemcard" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginBottom="16dp"
+                android:textAppearance="@style/Team42.Body1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/button_minus"
+                tools:text="2" />
+
+            <Button
+                android:id="@+id/button_plus"
+                android:layout_width="20dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginBottom="8dp"
+                android:paddingLeft="2dp"
+                app:icon="@drawable/ic_plus"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView2" />
 
             <TextView
                 android:id="@+id/text_cartitemcard_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textSize="12sp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:textAppearance="@style/Team42.Body1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:text="$2299" />
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="-" />
-
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
