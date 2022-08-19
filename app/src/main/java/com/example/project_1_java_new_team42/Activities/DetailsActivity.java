@@ -1,11 +1,14 @@
 package com.example.project_1_java_new_team42.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -27,6 +30,10 @@ public class DetailsActivity extends AppCompatActivity {
     protected CircularProgressIndicator imageSpinner;
     protected ItemDetailsDataFetcher itemDetailsDataFetcher = new ItemDetailsDataFetcher();
 
+    LinearLayout sliderDotspanel;
+    private int dotscount;
+    private ImageView[] dots;
+
     private class ItemDetailsFetchHandler implements IFetchHandler<List<IItem>> {
 
             @Override
@@ -36,6 +43,47 @@ public class DetailsActivity extends AppCompatActivity {
                 imageSlider.setAdapter(imageSliderAdapter);
 
                 imageSpinner.setVisibility(View.GONE);
+
+                dotscount = imageSliderAdapter.getCount();
+                dots = new ImageView[dotscount];
+
+                for(int i = 0; i < dotscount; i++){
+
+                    dots[i] = new ImageView(DetailsActivity.this);
+                    dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.non_active_dot));
+
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                    params.setMargins(8, 0, 8, 0);
+
+                    sliderDotspanel.addView(dots[i], params);
+
+                }
+
+                dots[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
+
+                imageSlider.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+
+                        for(int i = 0; i< dotscount; i++){
+                            dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.non_active_dot));
+                        }
+
+                        dots[position].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
+
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+
+                    }
+                });
             }
 
             @Override
@@ -59,6 +107,16 @@ public class DetailsActivity extends AppCompatActivity {
 
         initializeImageSlider();
 
-        itemDetailsDataFetcher.readData("laptop_6", new ItemDetailsFetchHandler());
+        //---------------------------------------
+        sliderDotspanel = (LinearLayout) findViewById(R.id.image_slider_dots);
+
+
+        //------------------------------------------
+
+
+
+
+
+        itemDetailsDataFetcher.readData("tablet_1", new ItemDetailsFetchHandler());
     }
 }

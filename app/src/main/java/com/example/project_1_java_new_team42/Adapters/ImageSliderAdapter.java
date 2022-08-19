@@ -28,10 +28,9 @@ public class ImageSliderAdapter extends PagerAdapter {
         imageResourceList = new ArrayList<>();
         IItem itemDetail = itemDetails.get(0);
 
+        // convert imagePaths from String to Integer, add to imageResourceList for populating purpose.
         List<String> imagePathList = itemDetail.getImagePaths();
-
         for (String imagePath : imagePathList){
-
             int imageResourceId = context.getResources().getIdentifier(imagePath, "drawable", context.getPackageName());
             imageResourceList.add(imageResourceId);
         }
@@ -64,4 +63,5 @@ public class ImageSliderAdapter extends PagerAdapter {
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
     }
+
 }
