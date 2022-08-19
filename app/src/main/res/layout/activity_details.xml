@@ -20,6 +20,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="60dp"
             >
 
             <androidx.viewpager.widget.ViewPager
@@ -29,20 +31,18 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="0dp"
-                android:layout_marginBottom="0dp"
-                >
+                android:layout_marginBottom="0dp">
 
             </androidx.viewpager.widget.ViewPager>
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progress_images"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                android:layout_marginTop="32dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="200dp"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-               />
+                android:indeterminate="true" />
 
             <LinearLayout
                 android:id="@+id/image_slider_dots"
@@ -54,13 +54,120 @@
                 android:layout_height="wrap_content"/>
 
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/image_slider_dots"
+                    android:textAppearance="@style/Team42.Headline1"
+                    android:text="Macbook Pro"
+                    android:gravity="center"
+                    android:id="@+id/item_name_details" />
 
+            <TextView
+                android:id="@+id/item_detail_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_name_details"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="20dp"
+                android:text="Screen Size:  13.3 Inches\nColor:  Space Gray\nHard Disk Size:  256 GB\nRam:  8 GB\n\nApple-designed M1 chip for a giant leap in CPU, GPU, and machine learning performance\nCharge less with up to 29 hours of battery life\n13.3-inch Retina display with P3 wide color\n8-core CPU delivers up to 3.5x faster performance to tackle projects faster than ever before\nUp to eight GPU cores with up to 5x faster graphics - FaceTime HD camera for clearer, sharper video calls\n16-core Neural Engine for advanced machine learning - 8GB of unified memory so everything you do is fast and fluid"
+                android:textAppearance="@style/Team42.Body1" />
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Price $2299"
+                android:layout_below="@+id/item_detail_details"
+                android:textAppearance="@style/Team42.Headline1"
+                android:id="@+id/item_price_details" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@+id/item_price_details"
+                android:id="@+id/quantity_bar_details">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Total: $9999"
+                    android:layout_alignParentStart="true"
+                    android:textAppearance="@style/Team42.Headline1"
+                    android:textStyle="bold"
+                    android:id="@+id/item_total_price_details" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/increase_btn_details"
+                android:background="@drawable/increase_btn"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:textStyle="bold"
+                    android:layout_toStartOf="@+id/increase_btn_details"
+                    android:text="1"
+                    android:textAppearance="@style/Team42.Headline1"
+                    android:id="@+id/quantity_details" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/quantity_details"
+                    android:id="@+id/decrease_btn_details"
+                    android:background="@drawable/decrease_btn_not_available"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_toStartOf="@+id/decrease_btn_details"
+                    android:text="Qty"
+                    android:textAppearance="@style/Team42.Headline1"
+                    android:id="@+id/quantity_text_details" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/quantity_bar_details">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add To Cart"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/Team42.Headline1"
+                    android:id="@+id/add_cart_button_details"/>
+
+
+            </RelativeLayout>
 
         </RelativeLayout>
-
-
-
-
 
 
     </androidx.core.widget.NestedScrollView>
