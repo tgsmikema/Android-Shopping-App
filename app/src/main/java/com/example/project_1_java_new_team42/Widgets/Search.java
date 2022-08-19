@@ -6,12 +6,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-public class Search {
+public class Search implements ISearch {
     private final EditText searchEditText;
-
-    public interface OnSearchActionListener {
-        void onSearch(String searchQuery);
-    }
 
     public Search(EditText searchEditText) {
         this.searchEditText = searchEditText;
@@ -22,7 +18,6 @@ public class Search {
         setImeOptionsToSearch();
         setSearchFieldToSingleLine();
         setInputTypeAsText();
-        searchEditText.setNextFocusForwardId(searchEditText.getId());
     }
 
     private void setInputTypeAsText() {
