@@ -1,5 +1,6 @@
 package com.example.project_1_java_new_team42.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+    public static final String INTENT_KEY_SEARCH = "SEARCH";
 
     protected RecyclerView categoriesRecyclerView;
     protected CategoriesRecyclerViewAdapter categoriesAdapter;
@@ -95,14 +97,22 @@ public class MainActivity extends AppCompatActivity {
         topItemsRecyclerView.setAdapter(topItemsAdapter);
     }
 
+    private void navigateToSearchResults(String searchQuery) {
+        Intent intent = new Intent(this, SearchResultsActivity.class);
+        intent.putExtra(INTENT_KEY_SEARCH, searchQuery);
+        startActivity(intent);
+    }
+
     /* Search functionality */
     protected void initializeSearch() {
-        TextInputLayout searchTextInputLayout = findViewById(R.id.text_input_layout_search);
+        TextInputLayout searchTextInputLayout = findViewById(R.id.text_input_layout_search_results);
         Search search = new Search(searchTextInputLayout.getEditText());
+
         search.setOnSearchActionListener(new Search.OnSearchActionListener() {
             @Override
             public void onSearch(String searchQuery) {
-                Toast.makeText(getApplicationContext(), "Searching for: " + searchQuery, Toast.LENGTH_SHORT).show();
+                // TODO Validate search query
+                navigateToSearchResults(searchQuery);
             }
         });
     }
