@@ -79,7 +79,7 @@
                 android:paddingLeft="2dp"
                 app:icon="@drawable/ic_plus"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView2" />
+                app:layout_constraintStart_toEndOf="@+id/item_quantity" />
 
             <TextView
                 android:id="@+id/text_cartitemcard_price"
