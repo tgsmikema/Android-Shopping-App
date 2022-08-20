@@ -2,6 +2,7 @@ package com.example.project_1_java_new_team42.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -26,7 +27,14 @@ import java.util.List;
 
 public class SearchResultsActivity extends AppCompatActivity {
     private static final String TAG = "SearchResultsActivity";
-    private static final int NUM_COLUMNS = 2;
+    private static final float COLUMN_WIDTH_DP = 200;
+
+    // TODO May need to extract this out as it will most likely be needed in another class
+    public int calculateNoOfColumns(float columnWidthDp) {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
+        return (int) (screenWidthDp / columnWidthDp + 0.5); // +0.5 for correct rounding to int.
+    }
 
     protected SearchItemsDataFetcher itemsDataFetcher = new SearchItemsDataFetcher();
     protected RecyclerView itemsRecyclerView;
@@ -56,10 +64,11 @@ public class SearchResultsActivity extends AppCompatActivity {
     }
 
     protected void initializeItemsRecyclerView() {
+        int numColumns = calculateNoOfColumns(COLUMN_WIDTH_DP);
         itemsRecyclerView = findViewById(R.id.recycler_view_search_items);
-        itemsRecyclerView.setLayoutManager(new GridLayoutManager(this, NUM_COLUMNS));
+        itemsRecyclerView.setLayoutManager(new GridLayoutManager(this, numColumns));
 
-        ItemOffsetDecoration decoration = new ItemOffsetDecoration(this, R.dimen.rv_card_item_hor_offset, R.dimen.rv_card_item_ver_offset, NUM_COLUMNS);
+        ItemOffsetDecoration decoration = new ItemOffsetDecoration(this, R.dimen.rv_card_item_hor_offset, R.dimen.rv_card_item_ver_offset, numColumns);
         itemsRecyclerView.addItemDecoration(decoration);
 
         itemsAdapter = new ItemsRecyclerViewAdapter(this);
