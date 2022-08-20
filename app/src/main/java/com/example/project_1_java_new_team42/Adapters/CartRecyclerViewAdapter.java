@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerViewAdapter.ViewHolder> {
-//    private List<IItem> items = new ArrayList<>();
     private List<ItemWithQuantity> itemsWithQuantity;
     private Cart cartItems = new Cart();
     private LayoutInflater layoutInflater;

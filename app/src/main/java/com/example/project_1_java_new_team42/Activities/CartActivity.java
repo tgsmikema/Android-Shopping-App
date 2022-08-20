@@ -41,23 +41,28 @@ public class CartActivity extends AppCompatActivity {
 
             cartItemsSpinner.setVisibility(View.GONE);
 
-            Log.i(TAG, "Fetched items successfully");
+            Log.i(TAG, "Fetched cart items successfully");
         }
 
         @Override
         public void onFetchFail() {
-            System.out.println("Failed to fetch items");
-            Toast.makeText(getApplicationContext(), "Failed to fetch categories", Toast.LENGTH_SHORT).show();
+            System.out.println("Failed to fetch cart items");
+            Toast.makeText(getApplicationContext(), "Failed to fetch cart items", Toast.LENGTH_SHORT).show();
         }
     }
 
+    /**
+     * Initialize the recycler view which will be called when the activity is created in `onCreate`.
+     * This has to be done in the main UI thread otherwise will get warning that no adapter is
+     * attached to the recycler view.
+     */
     protected void initializeCartRecyclerView() {
         cartRecyclerView = findViewById(R.id.recycler_view_cart);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-//        cartAdapter = new ItemsRecyclerViewAdapter(this);
+        cartItemsAdapter = new CartRecyclerViewAdapter(this);
 
-//        cartRecyclerView.setAdapter(cartAdapter);
+        cartRecyclerView.setAdapter(cartItemsAdapter);
     }
 
     @Override
