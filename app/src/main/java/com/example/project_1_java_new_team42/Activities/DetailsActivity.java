@@ -1,12 +1,15 @@
 package com.example.project_1_java_new_team42.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,6 +26,8 @@ import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.List;
@@ -60,6 +65,9 @@ public class DetailsActivity extends AppCompatActivity {
         TextView itemName, itemDetail, itemPrice, itemTotalPrice, quantityText, quantity;
         Button decreaseBtn, increaseBtn, addCartButton;
 
+        NavigationBarView bottomNavBar;
+
+
         public ViewHolder() {
             imageSlider = findViewById(R.id.image_slide_details);
             imageSpinner = findViewById(R.id.progress_images);
@@ -78,6 +86,8 @@ public class DetailsActivity extends AppCompatActivity {
             decreaseBtn = findViewById(R.id.decrease_btn_details);
             increaseBtn = findViewById(R.id.increase_btn_details);
             addCartButton = findViewById(R.id.add_cart_button_details);
+            // Bottom Nav Bar
+            bottomNavBar = findViewById(R.id.bottom_navigation);
         }
     }
 
@@ -233,6 +243,30 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
+    // Logic of Navigation Bar selection.
+    private NavigationBarView.OnItemSelectedListener navigationListener =
+            new NavigationBarView.OnItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch(item.getItemId())
+            {
+                case R.id.activity_home:
+                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                    overridePendingTransition(0,0);
+                    return true;
+                case R.id.activity_cart:
+                    //startActivity(new Intent(getApplicationContext(),CartActivity.class));
+                    //overridePendingTransition(0,0);
+                    return true;
+                case R.id.activity_orders:
+                    //startActivity(new Intent(getApplicationContext(),PastOrdersActivity.class));
+                    //overridePendingTransition(0,0);
+                    return true;
+            }
+            return false;
+        }
+    };
+
     // ----------------------------------------------------------------------------------------//
     // Details Activity OnCreate Method (Main entry)
     @Override
@@ -247,7 +281,18 @@ public class DetailsActivity extends AppCompatActivity {
         vh.decreaseBtn.setOnClickListener(buttonListener);
         vh.addCartButton.setOnClickListener(buttonListener);
 
-        // ----------TESTING PURPOSE, REPLACE Once Developed Navigation-------(API)--------
+        // Highlight the Selected Navigation ICON
+        vh.bottomNavBar.setSelectedItemId(R.id.activity_home);
+        // Initialise the Bottom Bar Navigation Logic
+        vh.bottomNavBar.setOnItemSelectedListener(navigationListener);
+
+        // -----------------------NEED TO CHANGE NOTE: ---------------------------//
+        // Uncomment Line 258 - 263 after implemented:
+        //                           1) CartActivity
+        //                           2) PastOrderActivity
+        // -----------------------------------------------------------------------//
+
+        // ----------TESTING PURPOSE, REPLACE Once Developed Navigation-------(API)--------//
         // Intent intent = getIntent();
         // String str = intent.getStringExtra("message_key");
         itemDetailsDataFetcher.readData("laptop_8", new ItemDetailsFetchHandler());
@@ -256,6 +301,10 @@ public class DetailsActivity extends AppCompatActivity {
         // Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
         // intent.putExtra("message_key", "string");
         // startActivity(intent);
-        // -----------------------------TESTING ENDS----------------------------------------
+        // -----------------------------TESTING ENDS----------------------------------------//
+
+
+
+
     }
 }
