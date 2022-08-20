@@ -17,6 +17,7 @@ import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.SearchItemsDataFetcher;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
+import com.example.project_1_java_new_team42.Widgets.Search;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -78,6 +79,22 @@ public class SearchResultsActivity extends AppCompatActivity {
         }
     }
 
+    protected void initializeSearch() {
+        TextInputLayout searchTextInputLayout = findViewById(R.id.text_input_layout_search_results);
+        Search search = new Search(searchTextInputLayout.getEditText());
+        search.setDisableSearchIfEmpty(true);
+
+        search.setOnSearchActionListener(new Search.OnSearchActionListener() {
+            @Override
+            public void onSearch(EditText view, String searchQuery) {
+                searchedText = searchQuery;
+                itemsAdapter.clearData();
+                spinner.setVisibility(View.VISIBLE);
+                itemsDataFetcher.readData(searchedText, new SearchItemsFetchHandler());
+            }
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +106,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         setSearchBarText();
         initializeItemsRecyclerView();
+        initializeSearch();
 
         itemsDataFetcher.readData(searchedText, new SearchItemsFetchHandler());
     }
