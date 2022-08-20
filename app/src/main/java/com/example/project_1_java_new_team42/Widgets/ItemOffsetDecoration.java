@@ -10,27 +10,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
 
-    public enum LayoutType {
-        HORIZONTAL,
-        VERTICAL,
-        GRID,
-    }
-
     // Offset is defined to be half of the spacing between items
     private int horOffset;
     private int verOffset;
     private int gridCols;
-    private LayoutType layoutType = LayoutType.VERTICAL;
+    private RecyclerViewLayoutType layoutType = RecyclerViewLayoutType.VERTICAL;
 
     // Linear layouts
-    public ItemOffsetDecoration(int offset, LayoutType layoutType) {
+    private ItemOffsetDecoration(int offset, RecyclerViewLayoutType layoutType) {
         this.horOffset = offset;
         this.verOffset = offset;
         this.layoutType = layoutType;
     }
 
     // Grid layouts
-    public ItemOffsetDecoration(int horOffset, int verOffset) {
+    private ItemOffsetDecoration(int horOffset, int verOffset) {
         this.horOffset = horOffset;
         this.verOffset = verOffset;
     }
@@ -42,9 +36,9 @@ public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
      * @param itemOffsetId
      * @param layoutType
      */
-    public ItemOffsetDecoration(@NonNull Context context, @DimenRes int itemOffsetId, LayoutType layoutType) {
+    public ItemOffsetDecoration(@NonNull Context context, @DimenRes int itemOffsetId, RecyclerViewLayoutType layoutType) {
         this(context.getResources().getDimensionPixelSize(itemOffsetId), layoutType);
-        if (layoutType == LayoutType.GRID) {
+        if (layoutType == RecyclerViewLayoutType.GRID) {
             throw new IllegalArgumentException("You must use the other constructor for grid layouts");
         }
     }
@@ -57,7 +51,7 @@ public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
      */
     public ItemOffsetDecoration(@NonNull Context context, @DimenRes int horOffset, @DimenRes int verOffset, int gridCols) {
         this(context.getResources().getDimensionPixelSize(horOffset), context.getResources().getDimensionPixelSize(verOffset));
-        this.layoutType = LayoutType.GRID;
+        this.layoutType = RecyclerViewLayoutType.GRID;
         this.gridCols = gridCols;
     }
 
@@ -109,7 +103,7 @@ public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
     }
 
     public void setGridCols(int gridCols) {
-        if (layoutType == LayoutType.GRID) {
+        if (layoutType == RecyclerViewLayoutType.GRID) {
             this.gridCols = gridCols;
         }
     }

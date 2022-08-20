@@ -20,6 +20,8 @@ import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
 import com.example.project_1_java_new_team42.Widgets.ItemOffsetDecoration;
+import com.example.project_1_java_new_team42.Widgets.ItemsRecyclerView;
+import com.example.project_1_java_new_team42.Widgets.RecyclerViewLayoutType;
 import com.example.project_1_java_new_team42.Widgets.Search;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputLayout;
@@ -35,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     protected CircularProgressIndicator categoriesSpinner;
     protected CategoryDataFetcher categoriesDataFetcher = new CategoryDataFetcher();
 
-    protected RecyclerView topItemsRecyclerView;
     protected ItemsRecyclerViewAdapter topItemsAdapter;
     protected CircularProgressIndicator topItemsSpinner;
     protected TopItemsDataFetcher topItemsDataFetcher = new TopItemsDataFetcher();
@@ -91,14 +92,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void initializeTopItemsRecyclerView() {
-        topItemsRecyclerView = findViewById(R.id.recycler_view_top_items);
-        topItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-
-        ItemOffsetDecoration decoration = new ItemOffsetDecoration(this, R.dimen.rv_card_item_hor_offset, ItemOffsetDecoration.LayoutType.HORIZONTAL);
-        topItemsRecyclerView.addItemDecoration(decoration);
-
-        topItemsAdapter = new ItemsRecyclerViewAdapter(this);
-        topItemsRecyclerView.setAdapter(topItemsAdapter);
+        ItemsRecyclerView topItemsRecyclerView = new ItemsRecyclerView(this, findViewById(R.id.recycler_view_top_items), RecyclerViewLayoutType.HORIZONTAL);
+        topItemsAdapter = topItemsRecyclerView.getAdapter();
     }
 
     private void navigateToSearchResults(String searchQuery) {
