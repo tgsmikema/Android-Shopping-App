@@ -1,8 +1,10 @@
 package com.example.project_1_java_new_team42.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,19 +19,24 @@ import com.example.project_1_java_new_team42.Data.Fetchers.TopItemsDataFetcher;
 import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
+import com.example.project_1_java_new_team42.Widgets.ItemOffsetDecoration;
+import com.example.project_1_java_new_team42.Widgets.ItemsRecyclerView;
+import com.example.project_1_java_new_team42.Widgets.RecyclerViewLayoutType;
+import com.example.project_1_java_new_team42.Widgets.Search;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+    public static final String INTENT_KEY_SEARCH = "SEARCH";
 
     protected RecyclerView categoriesRecyclerView;
     protected CategoriesRecyclerViewAdapter categoriesAdapter;
     protected CircularProgressIndicator categoriesSpinner;
     protected CategoryDataFetcher categoriesDataFetcher = new CategoryDataFetcher();
 
-    protected RecyclerView topItemsRecyclerView;
     protected ItemsRecyclerViewAdapter topItemsAdapter;
     protected CircularProgressIndicator topItemsSpinner;
     protected TopItemsDataFetcher topItemsDataFetcher = new TopItemsDataFetcher();
@@ -71,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Initialize the recycler view which will be called when the activity is created in `onCreate`.
+     * Initialize the recycler views which will be called when the activity is created in `onCreate`.
      * This has to be done in the main UI thread otherwise will get warning that no adapter is
      * attached to the recycler view.
      */
@@ -85,12 +92,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void initializeTopItemsRecyclerView() {
-        topItemsRecyclerView = findViewById(R.id.recycler_view_top_items);
-        topItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        ItemsRecyclerView topItemsRecyclerView = new ItemsRecyclerView(this, findViewById(R.id.recycler_view_top_items), RecyclerViewLayoutType.HORIZONTAL);
+        topItemsAdapter = topItemsRecyclerView.getAdapter();
+    }
 
-        topItemsAdapter = new ItemsRecyclerViewAdapter(this);
+    private void navigateToSearchResults(String searchQuery) {
+        Intent intent = new Intent(this, SearchResultsActivity.class);
+        intent.putExtra(INTENT_KEY_SEARCH, searchQuery);
+        startActivity(intent);
+    }
 
-        topItemsRecyclerView.setAdapter(topItemsAdapter);
+    /* Search functionality */
+    protected void initializeSearch() {
+        TextInputLayout searchTextInputLayout = findViewById(R.id.text_input_layout_search_results);
+        Search search = new Search(searchTextInputLayout.getEditText());
+        search.setDisableSearchIfEmpty(true);
+
+        search.setOnSearchActionListener(new Search.OnSearchActionListener() {
+            @Override
+            public void onSearch(EditText view, String searchQuery) {
+                if (!searchQuery.isEmpty()) {
+                    navigateToSearchResults(searchQuery);
+                }
+            }
+        });
     }
 
     @Override
@@ -103,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
         initializeCategoriesRecyclerView();
         initializeTopItemsRecyclerView();
+        initializeSearch();
 
         categoriesDataFetcher.readData(new CategoriesFetchHandler());
         topItemsDataFetcher.readData(new TopItemsFetchHandler());

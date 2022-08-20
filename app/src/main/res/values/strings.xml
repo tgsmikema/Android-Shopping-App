@@ -9,4 +9,6 @@
     <string name="bottom_navigation_orders">Orders</string>
     <string name="category_card_content_description">Category card</string>
     <string name="category_desktop">Desktops</string>
+    <string name="heading_search">Search</string>
+    <string name="button_back">Back</string>
 </resources>

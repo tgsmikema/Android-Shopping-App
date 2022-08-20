@@ -32,6 +32,12 @@ public class ItemsRecyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycler
         this.items = categoriesData;
     }
 
+    public void clearData() {
+        int size = items.size();
+        items.clear();
+        notifyItemRangeRemoved(0, size);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView itemImageView;
         TextView itemNameTextView;
