@@ -45,7 +45,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:maxLines="1"
                 android:ellipsize="end"
-                tools:text="Apple Macbook Air"/>
+                tools:text="Apple Macbook Air" />
 
             <TextView
                 android:id="@+id/text_itemcard_price"

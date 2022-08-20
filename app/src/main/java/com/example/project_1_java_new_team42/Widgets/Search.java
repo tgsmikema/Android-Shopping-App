@@ -1,6 +1,8 @@
 package com.example.project_1_java_new_team42.Widgets;
 
+import android.content.Context;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -31,6 +33,7 @@ public class Search implements ISearch {
         setImeOptionsToSearch();
         setSearchFieldToSingleLine();
         setInputTypeAsText();
+        setOnFocusChangeListener();
     }
 
     private void setInputTypeAsText() {
@@ -44,6 +47,22 @@ public class Search implements ISearch {
 
     private void setImeOptionsToSearch() {
         searchEditText.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+    }
+
+    private void hideKeyboard(View v) {
+        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
+
+    private void setOnFocusChangeListener() {
+        searchEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
     }
 
     public void setOnSearchActionListener(OnSearchActionListener listener) {
@@ -60,6 +79,7 @@ public class Search implements ISearch {
 
                 if (pressedSearch || hardKeyboardEnter) {
                     listener.onSearch(searchEditText, searchText);
+                    hideKeyboard(searchEditText);
                     return true;
                 }
 
