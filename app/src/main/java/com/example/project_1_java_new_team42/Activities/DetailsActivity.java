@@ -4,17 +4,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.project_1_java_new_team42.Adapters.ImageSliderAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.ItemDetailsDataFetcher;
+import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
+import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
 import com.example.project_1_java_new_team42.Models.IItem;
+import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
@@ -22,31 +29,98 @@ import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    private class ViewHolder {
-
-        ViewPager imageSlider;
-        CircularProgressIndicator imageSpinner;
-        LinearLayout imageSliderDotPanel;
-
-        public ViewHolder() {
-            imageSlider = findViewById(R.id.image_slide_details);
-            imageSpinner = findViewById(R.id.progress_images);
-            imageSliderDotPanel = findViewById(R.id.image_slider_dots);
-        }
-    }
+    public static int initialQuantity = 1;
+    public static boolean isAddedToCart = false;
+    public static IItem item;
 
     ViewHolder vh;
 
     protected ImageSliderAdapter imageSliderAdapter;
     protected ItemDetailsDataFetcher itemDetailsDataFetcher = new ItemDetailsDataFetcher();
+    protected CartDataSender cartDataSender = new CartDataSender();
+    protected TextWatcherImpl textWatcherImpl = new TextWatcherImpl();
 
     private int dotsCount;
     private ImageView[] dots;
+
+    private class ViewHolder {
+
+        ViewPager imageSlider;
+        CircularProgressIndicator imageSpinner;
+        LinearLayout imageSliderDotPanel;
+        RelativeLayout quantityBar, addToCartSection;
+        View divider;
+
+        TextView itemName, itemDetail, itemPrice, itemTotalPrice, quantityText, quantity;
+        Button decreaseBtn, increaseBtn, addCartButton;
+
+        public ViewHolder() {
+            imageSlider = findViewById(R.id.image_slide_details);
+            imageSpinner = findViewById(R.id.progress_images);
+            imageSliderDotPanel = findViewById(R.id.image_slider_dots);
+            quantityBar = findViewById(R.id.quantity_bar_details);
+            addToCartSection = findViewById(R.id.add_to_cart_section_details);
+            divider = findViewById(R.id.divider_details);
+            // TextView
+            itemName = findViewById(R.id.item_name_details);
+            itemDetail = findViewById(R.id.item_detail_details);
+            itemPrice = findViewById(R.id.item_price_details);
+            itemTotalPrice = findViewById(R.id.item_total_price_details);
+            quantityText = findViewById(R.id.quantity_text_details);
+            quantity = findViewById(R.id.quantity_details);
+            // Button
+            decreaseBtn = findViewById(R.id.decrease_btn_details);
+            increaseBtn = findViewById(R.id.increase_btn_details);
+            addCartButton = findViewById(R.id.add_cart_button_details);
+        }
+    }
+
+    private class CartDataSendHandler implements ISendHandler {
+
+        @Override
+        public void onSendSuccess(boolean isSuccess) {
+            if (!isAddedToCart) {
+                isAddedToCart = true;
+                Toast.makeText(DetailsActivity.this, "Item(s) has been Added to cart!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(DetailsActivity.this, "Item(s) in the Cart has been Updated!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private class TextWatcherImpl implements TextWatcher
+    {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+        @Override
+        public void afterTextChanged(Editable editable) {
+            int currentQuantity = Integer.parseInt(vh.quantity.getText().toString());
+
+            if (currentQuantity == 1){
+                vh.decreaseBtn.setBackgroundResource(R.drawable.decrease_btn_not_available);
+                vh.increaseBtn.setBackgroundResource(R.drawable.increase_btn_available);
+            } else if ((currentQuantity < 9) && (currentQuantity > 1)) {
+                vh.decreaseBtn.setBackgroundResource(R.drawable.decrease_btn_available);
+                vh.increaseBtn.setBackgroundResource(R.drawable.increase_btn_available);
+            } else {
+                vh.decreaseBtn.setBackgroundResource(R.drawable.decrease_btn_available);
+                vh.increaseBtn.setBackgroundResource(R.drawable.increase_btn_not_available);
+            }
+
+            String totalPrice = "Total $ " + item.getPrice() *
+                    Integer.parseInt(vh.quantity.getText().toString());
+            vh.itemTotalPrice.setText(totalPrice);
+        }
+    }
+
 
     private class ItemDetailsFetchHandler implements IFetchHandler<List<IItem>> {
 
             @Override
             public void onFetchComplete(List<IItem> data) {
+                item = data.get(0);
                 // pass data from DB to image slider adapter to populate.
                 imageSliderAdapter.setData(data);
                 vh.imageSlider.setAdapter(imageSliderAdapter);
@@ -54,17 +128,37 @@ public class DetailsActivity extends AppCompatActivity {
                 vh.imageSpinner.setVisibility(View.GONE);
                 // display the image slider dots
                 initializeImageSliderDots();
-            }
 
+                initializeItemDetails();
+
+                vh.quantity.addTextChangedListener(textWatcherImpl);
+
+
+            }
             @Override
             public void onFetchFail() {
                 System.out.println("Failed to fetch top items");
                 Toast.makeText(getApplicationContext(), "Failed to fetch item details", Toast.LENGTH_SHORT).show();
             }
-        }
+    }
 
         protected void initializeImageSlider() {
             imageSliderAdapter = new ImageSliderAdapter(this);
+        }
+
+        protected void initializeItemDetails(){
+            vh.divider.setVisibility(View.VISIBLE);
+            vh.quantityBar.setVisibility(View.VISIBLE);
+            vh.addToCartSection.setVisibility(View.VISIBLE);
+
+
+            vh.itemName.setText(item.getName());
+            vh.itemDetail.setText(item.getDescription());
+            String price = "Price $ " + item.getPrice();
+            vh.itemPrice.setText(price);
+            String totalPrice = "Total $ " + item.getPrice();
+            vh.itemTotalPrice.setText(totalPrice);
+            vh.quantity.setText(String.valueOf(initialQuantity));
         }
 
         protected void initializeImageSliderDots(){
@@ -111,6 +205,42 @@ public class DetailsActivity extends AppCompatActivity {
         // intent.putExtra("message_key", "string");
         // startActivity(intent);
         // -----------------------------TESTING ENDS----------------------------------------
+
+
+        vh.increaseBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                initialQuantity++;
+                if (initialQuantity > 9){
+                    initialQuantity = 9;
+                }
+                vh.quantity.setText(String.valueOf(initialQuantity));
+            }
+        });
+
+        vh.decreaseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initialQuantity--;
+                if (initialQuantity < 1){
+                    initialQuantity = 1;
+                }
+                vh.quantity.setText(String.valueOf(initialQuantity));
+            }
+        });
+
+        vh.addCartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String updateCartText = "Update Cart";
+                vh.addCartButton.setText(updateCartText);
+                ItemWithQuantity itemWithQuantity = new ItemWithQuantity
+                        (item, Integer.parseInt(vh.quantity.getText().toString()));
+
+                // add / update item to DB
+                cartDataSender.addItemWithQuantityToCart(itemWithQuantity, new CartDataSendHandler());
+            }
+        });
 
 
     }

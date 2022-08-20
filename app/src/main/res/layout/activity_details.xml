@@ -63,7 +63,6 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:textSize="32sp"
-                android:text="Macbook Pro"
                 android:textColor="@color/brand_black"
 
                 android:textStyle="bold" />
@@ -76,7 +75,6 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginEnd="20dp"
-                android:text="Screen Size:  13.3 Inches\nColor:  Space Gray\nHard Disk Size:  256 GB\nRam:  8 GB\n\nApple-designed M1 chip for a giant leap in CPU, GPU, and machine learning performance\nCharge less with up to 29 hours of battery life\n13.3-inch Retina display with P3 wide color\n8-core CPU delivers up to 3.5x faster performance to tackle projects faster than ever before\nUp to eight GPU cores with up to 5x faster graphics - FaceTime HD camera for clearer, sharper video calls\n16-core Neural Engine for advanced machine learning - 8GB of unified memory so everything you do is fast and fluid"
                 android:textAppearance="@style/Team42.Body2"
                 android:textStyle="normal"/>
 
@@ -86,7 +84,6 @@
                 android:layout_marginEnd="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Price $2299"
                 android:layout_below="@+id/item_detail_details"
                 android:textAppearance="@style/Team42.Headline1"
                 android:id="@+id/item_price_details" />
@@ -108,6 +105,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
+                android:visibility="invisible"
                 android:layout_below="@+id/divider_details"
                 android:id="@+id/quantity_bar_details">
 
@@ -115,18 +113,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="Total $9999"
                     android:layout_alignParentStart="true"
                     android:textAppearance="@style/Team42.Headline1"
 
                     android:id="@+id/item_total_price_details" />
 
-            <ImageButton
-                android:layout_width="wrap_content"
+            <Button
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:id="@+id/increase_btn_details"
-                android:background="@drawable/increase_btn"/>
+                android:background="@drawable/increase_btn_available"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -140,8 +137,8 @@
                     android:textAppearance="@style/Team42.Headline1"
                     android:id="@+id/quantity_details" />
 
-                <ImageButton
-                    android:layout_width="wrap_content"
+                <Button
+                    android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@id/quantity_details"
                     android:id="@+id/decrease_btn_details"
@@ -166,6 +163,8 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="20dp"
+                android:visibility="invisible"
+                android:id="@+id/add_to_cart_section_details"
                 android:layout_below="@+id/quantity_bar_details">
 
                 <Button
