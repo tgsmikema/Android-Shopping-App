@@ -40,6 +40,7 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progress_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +64,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/text_search_results_found"
                 style="@style/Team42.Headline2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,13 +77,14 @@
                 tools:text="Found 6 Results for &quot;Pro and this is really long search oh no&quot;" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+                android:id="@+id/recycler_view_search_items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
+                android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/text_search_results_found"
                 app:spanCount="2"
                 tools:listitem="@layout/item_card" />
 
