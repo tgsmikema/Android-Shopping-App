@@ -17,6 +17,7 @@ import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.SearchItemsDataFetcher;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
+import com.example.project_1_java_new_team42.Widgets.ItemOffsetDecoration;
 import com.example.project_1_java_new_team42.Widgets.Search;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputLayout;
@@ -58,8 +59,10 @@ public class SearchResultsActivity extends AppCompatActivity {
         itemsRecyclerView = findViewById(R.id.recycler_view_search_items);
         itemsRecyclerView.setLayoutManager(new GridLayoutManager(this, NUM_COLUMNS));
 
-        itemsAdapter = new ItemsRecyclerViewAdapter(this);
+        ItemOffsetDecoration decoration = new ItemOffsetDecoration(this, R.dimen.rv_card_item_hor_offset, R.dimen.rv_card_item_ver_offset, NUM_COLUMNS);
+        itemsRecyclerView.addItemDecoration(decoration);
 
+        itemsAdapter = new ItemsRecyclerViewAdapter(this);
         itemsRecyclerView.setAdapter(itemsAdapter);
     }
 

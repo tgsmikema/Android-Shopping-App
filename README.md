@@ -16,3 +16,4 @@ SE306 Project 1 - Team 42
 - [ ] Item details page
 - [ ] Cart
 - [ ] Orders
+- [ ] Orientation Responsive

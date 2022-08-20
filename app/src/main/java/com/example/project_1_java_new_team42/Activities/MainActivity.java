@@ -19,6 +19,7 @@ import com.example.project_1_java_new_team42.Data.Fetchers.TopItemsDataFetcher;
 import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
+import com.example.project_1_java_new_team42.Widgets.ItemOffsetDecoration;
 import com.example.project_1_java_new_team42.Widgets.Search;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputLayout;
@@ -93,8 +94,10 @@ public class MainActivity extends AppCompatActivity {
         topItemsRecyclerView = findViewById(R.id.recycler_view_top_items);
         topItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        topItemsAdapter = new ItemsRecyclerViewAdapter(this);
+        ItemOffsetDecoration decoration = new ItemOffsetDecoration(this, R.dimen.rv_card_item_hor_offset, ItemOffsetDecoration.LayoutType.HORIZONTAL);
+        topItemsRecyclerView.addItemDecoration(decoration);
 
+        topItemsAdapter = new ItemsRecyclerViewAdapter(this);
         topItemsRecyclerView.setAdapter(topItemsAdapter);
     }
 
