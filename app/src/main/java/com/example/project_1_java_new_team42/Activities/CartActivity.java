@@ -33,11 +33,13 @@ public class CartActivity extends AppCompatActivity {
     Button increment, decrement;
     TextView quantity;
 
+    int count;
+
     private class CartFetchHandler implements IFetchHandler<Cart> {
         @Override
         public void onFetchComplete(Cart data) {
             cartItemsAdapter.setData(data);
-//            cartItemsAdapter.notifyItemRangeInserted(0, data.size());
+            cartItemsAdapter.notifyItemRangeInserted(0, data.getItems().size());
 
             cartItemsSpinner.setVisibility(View.GONE);
 
@@ -78,6 +80,14 @@ public class CartActivity extends AppCompatActivity {
 
         increment = findViewById(R.id.button_plus);
         decrement = findViewById(R.id.button_minus);
-        quantity = findViewById(R.id.item_quantity);
+        quantity = findViewById(R.id.text_item_quantity);
+
+//        increment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                count++;
+//                display.setText
+//            }
+//        });
     }
 }

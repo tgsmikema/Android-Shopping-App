@@ -52,7 +52,7 @@
                 android:contentDescription="decrement"
                 style="@style/Team42.Button"
                 android:layout_width="20dp"
-                android:layout_height="30dp"
+                android:layout_height="31dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginBottom="16dp"
                 android:clickable="true"
@@ -62,7 +62,7 @@
                 app:layout_constraintStart_toEndOf="@+id/image_cart_itemcard" />
 
             <TextView
-                android:id="@+id/item_quantity"
+                android:id="@+id/text_item_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="14dp"
@@ -77,14 +77,14 @@
                 android:contentDescription="increment"
                 style="@style/Team42.Button"
                 android:layout_width="20dp"
-                android:layout_height="30dp"
+                android:layout_height="31dp"
                 android:layout_marginStart="14dp"
                 android:layout_marginBottom="16dp"
                 android:clickable="true"
                 android:paddingLeft="2dp"
                 app:icon="@drawable/ic_plus"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/item_quantity" />
+                app:layout_constraintStart_toEndOf="@+id/text_item_quantity" />
 
             <TextView
                 android:id="@+id/text_cart_itemcard_price"
