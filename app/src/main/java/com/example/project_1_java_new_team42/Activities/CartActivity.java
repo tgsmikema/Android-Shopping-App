@@ -36,7 +36,7 @@ public class CartActivity extends AppCompatActivity {
     private class CartFetchHandler implements IFetchHandler<Cart> {
         @Override
         public void onFetchComplete(Cart data) {
-//            cartItemsAdapter.setData(data);
+            cartItemsAdapter.setData(data);
 //            cartItemsAdapter.notifyItemRangeInserted(0, data.size());
 
             cartItemsSpinner.setVisibility(View.GONE);
