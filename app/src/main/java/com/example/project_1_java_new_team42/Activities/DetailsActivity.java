@@ -104,7 +104,7 @@ public class DetailsActivity extends AppCompatActivity {
         // ----------TESTING PURPOSE, REPLACE Once Developed Navigation-------(API)--------
         // Intent intent = getIntent();
         // String str = intent.getStringExtra("message_key");
-        itemDetailsDataFetcher.readData("laptop_1", new ItemDetailsFetchHandler());
+        itemDetailsDataFetcher.readData("laptop_4", new ItemDetailsFetchHandler());
         // pass in id(string) of the selected Item.
         // SENDER SIDE (API) CODE
         // Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
