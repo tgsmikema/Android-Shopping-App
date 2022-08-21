@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="card_corner_radius">16dp</dimen>
+    <dimen name="rv_card_item_hor_offset">10dp</dimen>
+    <dimen name="rv_card_item_ver_offset">20dp</dimen>
+    <dimen name="image_category_header_height">220dp</dimen>
 </resources>

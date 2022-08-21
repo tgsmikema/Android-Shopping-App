@@ -17,6 +17,10 @@ import java.util.List;
  * This class is to retrieve a List of ITEMS given a search string is part of the ITEM's name.
  */
 public class SearchItemsDataFetcher extends AssignCategory {
+    private boolean itemNameContainsSubstring(IItem item, String searchString) {
+        return item.getName().toLowerCase().contains(searchString.toLowerCase());
+    }
+
     public void readData(String name , IFetchHandler<List<IItem>> dataFetchHandler) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -26,9 +30,11 @@ public class SearchItemsDataFetcher extends AssignCategory {
                 if (task.isSuccessful()) {
                     final List<IItem> itemsList = assignCategory(task);
                     List<IItem> searchList = new ArrayList<>();
-                    // check for substrings
+
+                    // Firestore does not contain any methods of querying for substrings
+                    // Recommended for small datasets to process on client side (for our case OK)
                     for (IItem anItem : itemsList){
-                        if (anItem.getName().toLowerCase().contains(name.toLowerCase())){
+                        if (itemNameContainsSubstring(anItem, name)){
                             searchList.add(anItem);
                         }
                     }

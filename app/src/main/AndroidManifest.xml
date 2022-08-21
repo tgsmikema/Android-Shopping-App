@@ -14,7 +14,11 @@
         android:theme="@style/Theme.Team42"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.DetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.MainActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +26,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activities.SearchResultsActivity"
+            android:parentActivityName=".Activities.MainActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Activities.CategoryItemsActivity"
+            android:parentActivityName=".Activities.MainActivity" />
     </application>
 
 </manifest>

@@ -5,4 +5,5 @@
     <color name="background_color">#F5F5F7</color>
     <color name="brand_black">#212121</color>
     <color name="brand_gray">#484848</color>
+    <color name="brand_light_gray">#555</color>
 </resources>
