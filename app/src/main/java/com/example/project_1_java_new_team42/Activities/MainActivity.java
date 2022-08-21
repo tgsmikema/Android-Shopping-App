@@ -31,7 +31,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     public static final String INTENT_KEY_SEARCH = "SEARCH";
-    public static final String INTENT_KEY_CATEGORY = "CATEGORY";
+    public static final String INTENT_KEY_CATEGORY_NAME = "CATEGORY_NAME";
+    public static final String INTENT_KEY_CATEGORY_IMAGE_URI = "CATEGORY_IMAGE_URI";
 
     protected RecyclerView categoriesRecyclerView;
     protected CategoriesRecyclerViewAdapter categoriesAdapter;

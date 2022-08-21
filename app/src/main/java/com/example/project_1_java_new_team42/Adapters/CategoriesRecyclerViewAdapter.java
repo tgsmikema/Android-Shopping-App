@@ -1,18 +1,18 @@
 package com.example.project_1_java_new_team42.Adapters;
 
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project_1_java_new_team42.Activities.CategoryItemsActivity;
+import com.example.project_1_java_new_team42.Activities.MainActivity;
 import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.R;
 import com.google.android.material.card.MaterialCardView;
@@ -34,7 +34,7 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
         this.categoriesData = categoriesData;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         MaterialCardView categoryCardView;
         ImageView categoryImageView;
         TextView categoryNameTextView;
@@ -48,14 +48,19 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
 
             categoryCardView.setClickable(true);
             categoryCardView.setFocusable(true);
-            categoryCardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // TODO Navigate to the category items page
-                    Category category = categoriesData.get(getAdapterPosition());
-                    Toast.makeText(context, "Name: " + category.getCategoryName(), Toast.LENGTH_SHORT).show();
-                }
-            });
+            categoryCardView.setOnClickListener(this);
+        }
+
+        private void navigateToCategoryItemsActivity(Category category) {
+            Intent intent = new Intent(context, CategoryItemsActivity.class);
+            intent.putExtra(MainActivity.INTENT_KEY_CATEGORY_NAME, category.getCategoryName());
+            intent.putExtra(MainActivity.INTENT_KEY_CATEGORY_IMAGE_URI, category.getImageURI());
+            context.startActivity(intent);
+        }
+
+        @Override
+        public void onClick(View view) {
+            navigateToCategoryItemsActivity(categoriesData.get(getAdapterPosition()));
         }
     }
 
@@ -68,8 +73,10 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Category category = categoriesData.get(position);
-        int drawableId = context.getResources().getIdentifier(category.getImageURI(), "drawable", context.getPackageName());
+
         holder.categoryNameTextView.setText(category.getCategoryName());
+
+        int drawableId = context.getResources().getIdentifier(category.getImageURI(), "drawable", context.getPackageName());
         holder.categoryImageView.setImageResource(drawableId);
     }
 

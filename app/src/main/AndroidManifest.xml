@@ -26,8 +26,10 @@
         <activity
             android:name=".Activities.SearchResultsActivity"
             android:parentActivityName=".Activities.MainActivity"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Activities.CategoryItemsActivity"
+            android:parentActivityName=".Activities.MainActivity" />
     </application>
 
 </manifest>
