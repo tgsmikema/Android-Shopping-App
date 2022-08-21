@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<CategoriesRecyclerViewAdapter.ViewHolder> {
-    private List<Category> categoriesData = new ArrayList<>();
+    private final List<Category> categoriesData = new ArrayList<>();
     private final LayoutInflater layoutInflater;
     private final Context context;
 
@@ -30,8 +30,10 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
         this.layoutInflater = LayoutInflater.from(context);
     }
 
-    public void setData(List<Category> categoriesData) {
-        this.categoriesData = categoriesData;
+    public void addData(List<Category> data) {
+        int posStart = data.isEmpty() ? 0 : data.size() - 1;
+        categoriesData.addAll(data);
+        notifyItemRangeInserted(posStart, categoriesData.size());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

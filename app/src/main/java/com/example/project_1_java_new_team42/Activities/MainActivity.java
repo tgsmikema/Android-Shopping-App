@@ -19,7 +19,6 @@ import com.example.project_1_java_new_team42.Data.Fetchers.TopItemsDataFetcher;
 import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
-import com.example.project_1_java_new_team42.Widgets.ItemOffsetDecoration;
 import com.example.project_1_java_new_team42.Widgets.ItemsRecyclerView;
 import com.example.project_1_java_new_team42.Widgets.RecyclerViewLayoutType;
 import com.example.project_1_java_new_team42.Widgets.Search;
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private class CategoriesFetchHandler implements IFetchHandler<List<Category>> {
         @Override
         public void onFetchComplete(List<Category> data) {
-            categoriesAdapter.setData(data);
+            categoriesAdapter.addData(data);
             categoriesAdapter.notifyItemRangeInserted(0, data.size());
 
             categoriesSpinner.setVisibility(View.GONE);
@@ -64,11 +63,8 @@ public class MainActivity extends AppCompatActivity {
     private class TopItemsFetchHandler implements IFetchHandler<List<IItem>> {
         @Override
         public void onFetchComplete(List<IItem> data) {
-            topItemsAdapter.setData(data);
-            topItemsAdapter.notifyItemRangeInserted(0, data.size());
-
+            topItemsAdapter.addData(data);
             topItemsSpinner.setVisibility(View.GONE);
-
             Log.i(TAG, "Fetched top items successfully");
         }
 

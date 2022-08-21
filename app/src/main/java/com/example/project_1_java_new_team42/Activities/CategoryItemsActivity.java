@@ -32,8 +32,7 @@ public class CategoryItemsActivity extends AppCompatActivity {
     private class CategoryItemsFetchHandler implements IFetchHandler<List<IItem>> {
         @Override
         public void onFetchComplete(List<IItem> data) {
-           itemsAdapter.setData(data);
-           itemsAdapter.notifyItemRangeInserted(0, data.size());
+           itemsAdapter.addData(data);
            spinner.setVisibility(View.GONE);
            Log.i(TAG, "Fetched category  successfully");
         }

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemsRecyclerViewAdapter extends RecyclerView.Adapter<ItemsRecyclerViewAdapter.ViewHolder> {
-    private List<IItem> items = new ArrayList<>();
+    private final List<IItem> items = new ArrayList<>();
     private final LayoutInflater layoutInflater;
     private final Context context;
 
@@ -28,8 +28,10 @@ public class ItemsRecyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycler
         this.layoutInflater = LayoutInflater.from(context);
     }
 
-    public void setData(List<IItem> categoriesData) {
-        this.items = categoriesData;
+    public void addData(List<IItem> itemsData) {
+        int posStart = items.isEmpty() ? 0 : items.size() - 1;
+        items.addAll(itemsData);
+        notifyItemRangeInserted(posStart, itemsData.size());
     }
 
     public void clearData() {
