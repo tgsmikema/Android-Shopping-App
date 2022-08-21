@@ -16,4 +16,4 @@ SE306 Project 1 - Team 42
 - [ ] Item details page
 - [ ] Cart
 - [ ] Orders
-- [ ] Update the README with a roadmap (similar to this) so we don't have to do the 'next steps' for every PR into main
+- [ ] Orientation Responsive
