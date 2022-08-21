@@ -20,20 +20,10 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<CategoriesRecyclerViewAdapter.ViewHolder> {
-    private final List<Category> categoriesData = new ArrayList<>();
-    private final LayoutInflater layoutInflater;
-    private final Context context;
+public class CategoriesRecyclerViewAdapter extends GenericRecyclerViewAdapter<Category, CategoriesRecyclerViewAdapter.ViewHolder> {
 
     public CategoriesRecyclerViewAdapter(Context context) {
-        this.context = context;
-        this.layoutInflater = LayoutInflater.from(context);
-    }
-
-    public void addData(List<Category> data) {
-        int posStart = data.isEmpty() ? 0 : data.size() - 1;
-        categoriesData.addAll(data);
-        notifyItemRangeInserted(posStart, categoriesData.size());
+        super(context);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -62,7 +52,7 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
 
         @Override
         public void onClick(View view) {
-            navigateToCategoryItemsActivity(categoriesData.get(getAdapterPosition()));
+            navigateToCategoryItemsActivity(items.get(getAdapterPosition()));
         }
     }
 
@@ -74,7 +64,7 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Category category = categoriesData.get(position);
+        Category category = items.get(position);
 
         holder.categoryNameTextView.setText(category.getCategoryName());
 
@@ -84,6 +74,6 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
 
     @Override
     public int getItemCount() {
-        return categoriesData.size();
+        return items.size();
     }
 }

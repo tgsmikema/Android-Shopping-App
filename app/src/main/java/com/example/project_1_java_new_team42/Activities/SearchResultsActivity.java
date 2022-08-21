@@ -34,10 +34,9 @@ public class SearchResultsActivity extends AppCompatActivity {
     private class SearchItemsFetchHandler implements IFetchHandler<List<IItem>> {
         @Override
         public void onFetchComplete(List<IItem> data) {
-            itemsAdapter.addData(data);
+            itemsAdapter.addItems(data);
             spinner.setVisibility(View.GONE);
             setNumberResultsFoundText(data.size());
-
             Log.i(TAG, "Fetched items successfully");
         }
 
@@ -78,7 +77,7 @@ public class SearchResultsActivity extends AppCompatActivity {
             @Override
             public void onSearch(EditText view, String searchQuery) {
                 searchedText = searchQuery;
-                itemsAdapter.clearData();
+                itemsAdapter.clearItems();
                 spinner.setVisibility(View.VISIBLE);
                 itemsDataFetcher.readData(searchedText, new SearchItemsFetchHandler());
             }

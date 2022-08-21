@@ -45,11 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private class CategoriesFetchHandler implements IFetchHandler<List<Category>> {
         @Override
         public void onFetchComplete(List<Category> data) {
-            categoriesAdapter.addData(data);
-            categoriesAdapter.notifyItemRangeInserted(0, data.size());
-
+            categoriesAdapter.addItems(data);
             categoriesSpinner.setVisibility(View.GONE);
-
             Log.i(TAG, "Fetched categories successfully");
         }
 
@@ -63,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private class TopItemsFetchHandler implements IFetchHandler<List<IItem>> {
         @Override
         public void onFetchComplete(List<IItem> data) {
-            topItemsAdapter.addData(data);
+            topItemsAdapter.addItems(data);
             topItemsSpinner.setVisibility(View.GONE);
             Log.i(TAG, "Fetched top items successfully");
         }
@@ -75,17 +72,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Initialize the recycler views which will be called when the activity is created in `onCreate`.
-     * This has to be done in the main UI thread otherwise will get warning that no adapter is
-     * attached to the recycler view.
-     */
     protected void initializeCategoriesRecyclerView() {
         categoriesRecyclerView = findViewById(R.id.recycler_view_category_cards);
         categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         categoriesAdapter = new CategoriesRecyclerViewAdapter(this);
-
         categoriesRecyclerView.setAdapter(categoriesAdapter);
     }
 
@@ -109,9 +99,7 @@ public class MainActivity extends AppCompatActivity {
         search.setOnSearchActionListener(new Search.OnSearchActionListener() {
             @Override
             public void onSearch(EditText view, String searchQuery) {
-                if (!searchQuery.isEmpty()) {
-                    navigateToSearchResults(searchQuery);
-                }
+                navigateToSearchResults(searchQuery);
             }
         });
     }

@@ -32,7 +32,7 @@ public class CategoryItemsActivity extends AppCompatActivity {
     private class CategoryItemsFetchHandler implements IFetchHandler<List<IItem>> {
         @Override
         public void onFetchComplete(List<IItem> data) {
-           itemsAdapter.addData(data);
+           itemsAdapter.addItems(data);
            spinner.setVisibility(View.GONE);
            Log.i(TAG, "Fetched category  successfully");
         }
@@ -46,10 +46,8 @@ public class CategoryItemsActivity extends AppCompatActivity {
 
     private Category constructCategoryFromIntent() {
         Intent intent = getIntent();
-
         String categoryName = intent.getStringExtra(MainActivity.INTENT_KEY_CATEGORY_NAME);
         String categoryImageUri = intent.getStringExtra(MainActivity.INTENT_KEY_CATEGORY_IMAGE_URI);
-
         return new Category(categoryName, categoryImageUri);
     }
 
