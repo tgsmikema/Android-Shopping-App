@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
 import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
 import com.example.project_1_java_new_team42.Models.Cart;
-import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
 
@@ -31,25 +29,14 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     private Context context;
 
     private int itemQuantity;
+    private int itemPrice;
 
     protected CartDataSender cartDataSender = new CartDataSender();
     public static boolean isAddedToCart = false;
 
-    ViewHolder vh;
-    protected OnTextChangeWatcher textChangeListener = new OnTextChangeWatcher();
-
-//    Button increment;
-//    Button decrement;
-//    TextView quantity;
-
-//    private MyClickListener mClickListener;
-//    private OnDataChangeListener mOnDataChangeListener;
-//    private OnQuantityChangeListener mQuantityChangeListener;
-
     public CartRecyclerViewAdapter(Context context) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
-//        this.vh = new ViewHolder();
     }
 
     public void setData(Cart cartData) {
@@ -62,9 +49,9 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
         TextView cartItemNameTextView;
         TextView cartItemPriceTextView;
         TextView cartItemQuantityTextView;
-        Button increment;
-        Button decrement;
-        TextView quantity;
+        Button incrementButton;
+        Button decrementButton;
+        TextView quantityTextView;
         MyClickListener listener;
 
         public ViewHolder(View itemView, MyClickListener listener) {
@@ -74,14 +61,16 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
             cartItemNameTextView = itemView.findViewById(R.id.text_cart_itemcard_name);
             cartItemPriceTextView = itemView.findViewById(R.id.text_cart_itemcard_price);
             cartItemQuantityTextView = itemView.findViewById(R.id.text_item_quantity);
-            increment = itemView.findViewById(R.id.button_plus);
-            decrement = itemView.findViewById(R.id.button_minus);
-            quantity = itemView.findViewById(R.id.text_item_quantity);
+            incrementButton = itemView.findViewById(R.id.button_plus);
+            decrementButton = itemView.findViewById(R.id.button_minus);
+            quantityTextView = itemView.findViewById(R.id.text_item_quantity);
 
             this.listener = listener;
 
-            increment.setOnClickListener(this);
-            decrement.setOnClickListener(this);
+            incrementButton.setOnClickListener(this);
+            decrementButton.setOnClickListener(this);
+
+            quantityTextView.addTextChangedListener(quantityTextWatcher);
         }
 
         @Override
@@ -93,7 +82,8 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                     listener.onIncrement(this.getLayoutPosition());
 
                     // Set text views in RecyclerView
-                    quantity.setText(String.valueOf(itemQuantity));
+                    quantityTextView.setText(String.valueOf(itemQuantity));
+                    cartItemPriceTextView.setText("$" + String.valueOf(itemQuantity * itemPrice));
                     break;
                 case R.id.button_minus:
 
@@ -101,18 +91,41 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                     listener.onDecrement(this.getLayoutPosition());
 
                     // Set text views in RecyclerView
-                    quantity.setText(String.valueOf(itemQuantity));
+                    quantityTextView.setText(String.valueOf(itemQuantity));
+                    cartItemPriceTextView.setText("$" + String.valueOf(itemQuantity * itemPrice));
                     break;
                 default:
                     break;
             }
         }
+
+        private TextWatcher quantityTextWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String quantityNumber = quantityTextView.getText().toString().trim();
+
+                if (quantityNumber.equals("1")) {
+                    decrementButton.setEnabled(false);
+                } else if (quantityNumber.equals("9")) {
+                    incrementButton.setEnabled(false);
+                } else {
+                    incrementButton.setEnabled(true);
+                    decrementButton.setEnabled(true);
+                }
+            }
+        };
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        return new ViewHolder(layoutInflater.inflate(R.layout.cart_item_card, parent, false));
         View view = layoutInflater.inflate(R.layout.cart_item_card, parent, false);
         ViewHolder holder = new ViewHolder(view, new MyClickListener() {
             @Override
@@ -120,6 +133,8 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                 // Implement functionality for decrement button
                 itemQuantity = itemsWithQuantity.get(p).getQuantity();
                 itemQuantity++;
+
+                itemPrice = itemsWithQuantity.get(p).getPrice();
 
                 ItemWithQuantity item = new ItemWithQuantity(itemsWithQuantity.get(p), itemQuantity);
 
@@ -132,6 +147,8 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                 // Implement functionality for decrement button
                 itemQuantity = itemsWithQuantity.get(p).getQuantity();
                 itemQuantity--;
+
+                itemPrice = itemsWithQuantity.get(p).getPrice();
 
                 ItemWithQuantity item = new ItemWithQuantity(itemsWithQuantity.get(p), itemQuantity);
 
@@ -163,7 +180,6 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     public interface MyClickListener {
         void onIncrement(int p);
         void onDecrement(int p);
-//        void onQuantityChange(int p);
     }
 
     // Implementation of CartDataSendHandler
@@ -176,54 +192,4 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
             }
         }
     }
-
-    private class OnTextChangeWatcher implements TextWatcher {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-        @Override
-        public void afterTextChanged (Editable editable) {
-            int currentQuantity = Integer.parseInt(vh.quantity.getText().toString());
-
-            if (currentQuantity == 1) {
-                vh.decrement.setEnabled(false);
-            } else if (currentQuantity == 9) {
-                vh.increment.setEnabled(false);
-                System.out.println("hello it is working");
-            } else {
-                vh.increment.setEnabled(true);
-                vh.decrement.setEnabled(true);
-            }
-
-            // Update total price
-//            String totalPrice = "$" +
-        }
-    }
-
-
-
-//    public String getItem(int id) {
-//        return itemsWithQuantity.get(id).getName();
-//    }
-//
-//    public void setClickListener(ButtonClickListener buttonClickListener) {
-//        this.mClickListener = buttonClickListener;
-//    }
-//
-//    public interface onQuantityChangeListener {
-//        void onQuantityChange(View view, int position);
-//    }
-
-//    private void doButton
-//
-//    public void setOnDataChangeListener(OnDataChangeListener onDataChangeListener) {
-//        mOnDataChangeListener = onDataChangeListener;
-//    }
-//
-//    public interface OnDataChangeListener {
-//        public void OnDataChanged(int size);
-//    }
-
-
 }

@@ -2,6 +2,8 @@ package com.example.project_1_java_new_team42.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +35,7 @@ public class CartActivity extends AppCompatActivity {
     protected CircularProgressIndicator cartItemsSpinner;
     protected CartDataFetcher cartDataFetcher = new CartDataFetcher();
 
-//    protected OnChangeListener
+//    protected OnTextChangeWatcher textChangeListener = new OnTextChangeWatcher();
 
     TextView totalPriceTextView;
 
@@ -70,8 +72,6 @@ public class CartActivity extends AppCompatActivity {
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         cartItemsAdapter = new CartRecyclerViewAdapter(this);
-//        cartItemsAdapter.setClickListener(this);
-
         cartRecyclerView.setAdapter(cartItemsAdapter);
     }
 
@@ -84,29 +84,19 @@ public class CartActivity extends AppCompatActivity {
 
         initializeCartRecyclerView();
         cartDataFetcher.readData(new CartFetchHandler());
-
-//        increment = findViewById(R.id.button_plus);
-//        decrement = findViewById(R.id.button_minus);
-//        quantity = findViewById(R.id.text_item_quantity);
-
-//        increment.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                System.out.println("Increment working");
-//                System.out.println(itemsWithQuantity.get(0).getQuantity());
-//            }
-//        });
-//
-//        decrement.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                System.out.println("Decrement working");
-//
-//            }
-//        });
     }
 
-//    public void onButtonClick(View view, int position) {
-//        Toast.makeText(this, "You clicked " + cartItemsAdapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
+//    private class OnTextChangeWatcher implements TextWatcher {
+//        @Override
+//        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+//        @Override
+//        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+//        @Override
+//        public void afterTextChanged (Editable editable) {
+////            int currentQuantity = Integer.parseInt(quantity.getText().toString());
+//
+//            // Update total price
+////            String totalPrice = "$" +
+//        }
 //    }
 }
