@@ -13,7 +13,8 @@ SE306 Project 1 - Team 42
 - [ ] Search bar functionality
 - [ ] Searched items page
 - [ ] Category items page
-- [ ] Item details page
+- [x] Item details page
 - [ ] Cart
 - [ ] Orders
+- [ ] Order Details Page
 - [ ] Orientation Responsive

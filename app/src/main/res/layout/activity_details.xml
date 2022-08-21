@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.DetailsActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:overScrollMode="never"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="60dp"
+            >
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/image_slide_details"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp">
+
+            </androidx.viewpager.widget.ViewPager>
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progress_images"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="200dp"
+                android:layout_centerHorizontal="true"
+                android:indeterminate="true" />
+
+            <LinearLayout
+                android:id="@+id/image_slider_dots"
+                android:layout_below="@+id/image_slide_details"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:id="@+id/item_name_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/image_slider_dots"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="32sp"
+                android:textColor="@color/brand_black"
+
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/item_detail_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_name_details"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="20dp"
+                android:textAppearance="@style/Team42.Body2"
+                android:textStyle="normal"/>
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_detail_details"
+                android:textAppearance="@style/Team42.Headline1"
+                android:id="@+id/item_price_details" />
+
+            <View
+                android:id="@+id/divider_details"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignBottom="@id/item_price_details"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="-11dp"
+                android:layout_marginEnd="20dp"
+                android:background="?android:attr/listDivider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:visibility="invisible"
+                android:layout_below="@+id/divider_details"
+                android:id="@+id/quantity_bar_details">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentStart="true"
+                    android:textAppearance="@style/Team42.Headline1"
+
+                    android:id="@+id/item_total_price_details" />
+
+            <Button
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/increase_btn_details"
+                android:background="@drawable/ic_increase_btn_available"
+                android:foreground="?attr/selectableItemBackground"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:textStyle="bold"
+                    android:layout_toStartOf="@+id/increase_btn_details"
+                    android:text="1"
+                    android:textAppearance="@style/Team42.Headline1"
+                    android:id="@+id/quantity_details" />
+
+                <Button
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/quantity_details"
+                    android:id="@+id/decrease_btn_details"
+                    android:background="@drawable/ic_decrease_btn_not_available"
+                    android:foreground="?attr/selectableItemBackground"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_toStartOf="@+id/decrease_btn_details"
+                    android:text="Qty"
+                    android:textAppearance="@style/Team42.Headline1"
+                    android:id="@+id/quantity_text_details" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="20dp"
+                android:visibility="invisible"
+                android:id="@+id/add_to_cart_section_details"
+                android:layout_below="@+id/quantity_bar_details">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add To Cart"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/Team42.Headline1"
+                    android:id="@+id/add_cart_button_details"/>
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_navigation_menu" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

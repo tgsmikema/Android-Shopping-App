@@ -3,6 +3,11 @@ package com.example.project_1_java_new_team42.Models;
 import com.google.firebase.firestore.Exclude;
 
 public class Category {
+
+    public static final String LAPTOP = "laptop";
+    public static final String DESKTOP = "desktop";
+    public static final String TABLET = "tablet";
+
     private String categoryName;
     private String imageURI;
 
