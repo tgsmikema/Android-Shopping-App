@@ -25,13 +25,15 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartActivity extends AppCompatActivity implements CartRecyclerViewAdapter.ButtonClickListener {
+public class CartActivity extends AppCompatActivity {
     private static final String TAG = "CartActivity";
 
     protected RecyclerView cartRecyclerView;
     protected CartRecyclerViewAdapter cartItemsAdapter;
     protected CircularProgressIndicator cartItemsSpinner;
     protected CartDataFetcher cartDataFetcher = new CartDataFetcher();
+
+//    protected OnChangeListener
 
     TextView totalPriceTextView;
 
@@ -68,7 +70,7 @@ public class CartActivity extends AppCompatActivity implements CartRecyclerViewA
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         cartItemsAdapter = new CartRecyclerViewAdapter(this);
-        cartItemsAdapter.setClickListener(this);
+//        cartItemsAdapter.setClickListener(this);
 
         cartRecyclerView.setAdapter(cartItemsAdapter);
     }
@@ -104,7 +106,7 @@ public class CartActivity extends AppCompatActivity implements CartRecyclerViewA
 //        });
     }
 
-    public void onButtonClick(View view, int position) {
-        Toast.makeText(this, "You clicked " + cartItemsAdapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
-    }
+//    public void onButtonClick(View view, int position) {
+//        Toast.makeText(this, "You clicked " + cartItemsAdapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
+//    }
 }

@@ -1,6 +1,8 @@
 package com.example.project_1_java_new_team42.Adapters;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
+import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
 import com.example.project_1_java_new_team42.Models.Cart;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
@@ -26,7 +30,12 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     private LayoutInflater layoutInflater;
     private Context context;
 
-    private ButtonClickListener mClickListener;
+    private int currentQuantity;
+
+    protected CartDataSender cartDataSender = new CartDataSender();
+    public static boolean isAddedToCart = false;
+
+//    private ButtonClickListener mClickListener;
 //    private OnDataChangeListener mOnDataChangeListener;
 
     public CartRecyclerViewAdapter(Context context) {
@@ -48,7 +57,9 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
         Button decrement;
         TextView quantity;
 
-        public ViewHolder(View itemView) {
+        MyClickListener listener;
+
+        public ViewHolder(View itemView, MyClickListener listener) {
             super(itemView);
 
             cartItemImageView = itemView.findViewById(R.id.image_cart_itemcard);
@@ -58,22 +69,63 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
             increment = itemView.findViewById(R.id.button_plus);
             decrement = itemView.findViewById(R.id.button_minus);
             quantity = itemView.findViewById(R.id.text_item_quantity);
-            itemView.setOnClickListener(this);
+
+            this.listener = listener;
+
+            increment.setOnClickListener(this);
+            decrement.setOnClickListener(this);
+//            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            // TODO Navigate to the item details page
 //            ItemWithQuantity item = itemsWithQuantity.get(getAdapterPosition());
 //            Toast.makeText(context, "Name: " + item.getName() + " Price: " + item.getPrice(), Toast.LENGTH_SHORT).show();
-            if (mClickListener != null) mClickListener.onButtonClick(view, getAdapterPosition());
+//            if (mClickListener != null) mClickListener.onButtonClick(view, getAdapterPosition());
+            switch (view.getId()) {
+                case R.id.button_plus:
+                    listener.onIncrement(this.getLayoutPosition());
+                    break;
+                case R.id.button_minus:
+                    listener.onDecrement(this.getLayoutPosition());
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(layoutInflater.inflate(R.layout.cart_item_card, parent, false));
+//        return new ViewHolder(layoutInflater.inflate(R.layout.cart_item_card, parent, false));
+        View view = layoutInflater.inflate(R.layout.cart_item_card, parent, false);
+        ViewHolder holder = new ViewHolder(view, new MyClickListener() {
+            @Override
+            public void onIncrement(int p) {
+                // Implement functionality for decrement button
+                currentQuantity = itemsWithQuantity.get(p).getQuantity();
+                currentQuantity++;
+
+                ItemWithQuantity item = new ItemWithQuantity(itemsWithQuantity.get(p), currentQuantity);
+
+                cartDataSender.addItemWithQuantityToCart(item, new CartDataSendHandler());
+                itemsWithQuantity.set(p, item);
+            }
+
+            @Override
+            public void onDecrement(int p) {
+                // Implement functionality for decrement button
+                currentQuantity = itemsWithQuantity.get(p).getQuantity();
+                currentQuantity--;
+
+                ItemWithQuantity item = new ItemWithQuantity(itemsWithQuantity.get(p), currentQuantity);
+
+                cartDataSender.addItemWithQuantityToCart(item, new CartDataSendHandler());
+                itemsWithQuantity.set(p, item);
+            }
+        });
+        return holder;
     }
 
     @Override
@@ -87,23 +139,53 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
         holder.cartItemPriceTextView.setText(price);
         String quantity = "" + item.getQuantity();
         holder.cartItemQuantityTextView.setText(quantity);
-        System.out.println("total price1 = " + cartData.getTotalPrice());
     }
 
     @Override
-    public int getItemCount() { return itemsWithQuantity.size(); }
-
-    public String getItem(int id) {
-        return itemsWithQuantity.get(id).getName();
+    public int getItemCount() {
+        return itemsWithQuantity.size();
     }
 
-    public void setClickListener(ButtonClickListener buttonClickListener) {
-        this.mClickListener = buttonClickListener;
+    public interface MyClickListener {
+        void onIncrement(int p);
+        void onDecrement(int p);
     }
 
-    public interface ButtonClickListener {
-        void onButtonClick(View view, int position);
+    // Implementation of CartDataSendHandler.
+    private class CartDataSendHandler implements ISendHandler {
+
+        @Override
+        public void onSendSuccess(boolean isSuccess) {
+            if (!isAddedToCart) {
+                isAddedToCart = true;
+            }
+        }
     }
+
+//    private class OnTextChangeListener implements TextWatcher {
+//        @Override
+//        public void afterTextChanged (Editable editable) {
+//            if (currentQuantity == 1) {
+//
+//            } else if ((currentQuantity > 1) && (currentQuantity < 9)) {
+//
+//            } else {
+//
+//            }
+//        }
+//    }
+
+//    public String getItem(int id) {
+//        return itemsWithQuantity.get(id).getName();
+//    }
+//
+//    public void setClickListener(ButtonClickListener buttonClickListener) {
+//        this.mClickListener = buttonClickListener;
+//    }
+//
+//    public interface ButtonClickListener {
+//        void onButtonClick(View view, int position);
+//    }
 
 //    private void doButton
 //
