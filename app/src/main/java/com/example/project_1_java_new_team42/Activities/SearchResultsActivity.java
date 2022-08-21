@@ -2,7 +2,6 @@ package com.example.project_1_java_new_team42.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -35,14 +34,9 @@ public class SearchResultsActivity extends AppCompatActivity {
     private class SearchItemsFetchHandler implements IFetchHandler<List<IItem>> {
         @Override
         public void onFetchComplete(List<IItem> data) {
-            itemsAdapter.setData(data);
-            itemsAdapter.notifyItemRangeInserted(0, data.size());
-
+            itemsAdapter.addItems(data);
             spinner.setVisibility(View.GONE);
-
-            // Set text of number results found
-            setSearchResultsFoundText(data.size());
-
+            setNumberResultsFoundText(data.size());
             Log.i(TAG, "Fetched items successfully");
         }
 
@@ -66,7 +60,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         }
     }
 
-    private void setSearchResultsFoundText(int numResults) {
+    private void setNumberResultsFoundText(int numResults) {
         TextView textView = findViewById(R.id.text_search_results_found);
         if (textView != null) {
             String formatted = "Found " + numResults + " results for " + "\"" + searchedText + "\"";
@@ -83,7 +77,7 @@ public class SearchResultsActivity extends AppCompatActivity {
             @Override
             public void onSearch(EditText view, String searchQuery) {
                 searchedText = searchQuery;
-                itemsAdapter.clearData();
+                itemsAdapter.clearItems();
                 spinner.setVisibility(View.VISIBLE);
                 itemsDataFetcher.readData(searchedText, new SearchItemsFetchHandler());
             }

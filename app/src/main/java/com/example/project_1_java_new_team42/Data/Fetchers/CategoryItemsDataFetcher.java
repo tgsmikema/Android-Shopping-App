@@ -19,17 +19,19 @@ public class CategoryItemsDataFetcher extends AssignCategory {
     public void readData(String category, IFetchHandler<List<IItem>> dataFetchHandler) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("items").whereEqualTo("category",category).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    final List<IItem> itemsList = assignCategory(task);
-                    dataFetchHandler.onFetchComplete(itemsList);
-
-                } else {
-                    dataFetchHandler.onFetchFail();
-                }
-            }
+        db.collection("items")
+                .whereEqualTo("category", category)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            final List<IItem> itemsList = assignCategory(task);
+                            dataFetchHandler.onFetchComplete(itemsList);
+                        } else {
+                            dataFetchHandler.onFetchFail();
+                        }
+                    }
         });
     }
 

@@ -11,4 +11,5 @@
     <string name="category_desktop">Desktops</string>
     <string name="heading_search">Search</string>
     <string name="button_back">Back</string>
+    <string name="category_header_image">Category header image</string>
 </resources>

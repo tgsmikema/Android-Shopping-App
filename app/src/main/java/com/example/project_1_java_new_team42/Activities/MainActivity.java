@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,14 +21,11 @@ import com.example.project_1_java_new_team42.Data.Fetchers.TopItemsDataFetcher;
 import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
-
-import com.google.android.material.navigation.NavigationBarView;
-
-import com.example.project_1_java_new_team42.Widgets.ItemOffsetDecoration;
 import com.example.project_1_java_new_team42.Widgets.ItemsRecyclerView;
 import com.example.project_1_java_new_team42.Widgets.RecyclerViewLayoutType;
 import com.example.project_1_java_new_team42.Widgets.Search;
 
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -38,6 +34,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     public static final String INTENT_KEY_SEARCH = "SEARCH";
+    public static final String INTENT_KEY_CATEGORY_NAME = "CATEGORY_NAME";
+    public static final String INTENT_KEY_CATEGORY_IMAGE_URI = "CATEGORY_IMAGE_URI";
 
     protected RecyclerView categoriesRecyclerView;
     protected CategoriesRecyclerViewAdapter categoriesAdapter;
@@ -51,11 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private class CategoriesFetchHandler implements IFetchHandler<List<Category>> {
         @Override
         public void onFetchComplete(List<Category> data) {
-            categoriesAdapter.setData(data);
-            categoriesAdapter.notifyItemRangeInserted(0, data.size());
-
+            categoriesAdapter.addItems(data);
             categoriesSpinner.setVisibility(View.GONE);
-
             Log.i(TAG, "Fetched categories successfully");
         }
 
@@ -69,11 +64,8 @@ public class MainActivity extends AppCompatActivity {
     private class TopItemsFetchHandler implements IFetchHandler<List<IItem>> {
         @Override
         public void onFetchComplete(List<IItem> data) {
-            topItemsAdapter.setData(data);
-            topItemsAdapter.notifyItemRangeInserted(0, data.size());
-
+            topItemsAdapter.addItems(data);
             topItemsSpinner.setVisibility(View.GONE);
-
             Log.i(TAG, "Fetched top items successfully");
         }
 
@@ -92,9 +84,7 @@ public class MainActivity extends AppCompatActivity {
     protected void initializeCategoriesRecyclerView() {
         categoriesRecyclerView = findViewById(R.id.recycler_view_category_cards);
         categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         categoriesAdapter = new CategoriesRecyclerViewAdapter(this);
-
         categoriesRecyclerView.setAdapter(categoriesAdapter);
     }
 
@@ -118,9 +108,7 @@ public class MainActivity extends AppCompatActivity {
         search.setOnSearchActionListener(new Search.OnSearchActionListener() {
             @Override
             public void onSearch(EditText view, String searchQuery) {
-                if (!searchQuery.isEmpty()) {
-                    navigateToSearchResults(searchQuery);
-                }
+                navigateToSearchResults(searchQuery);
             }
         });
     }
