@@ -17,6 +17,7 @@ import com.example.project_1_java_new_team42.Activities.DetailsActivity;
 import com.example.project_1_java_new_team42.Activities.MainActivity;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        MaterialCardView itemCardView;
         ImageView itemImageView;
         TextView itemNameTextView;
         TextView itemPriceTextView;
@@ -38,7 +40,11 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
             itemImageView = itemView.findViewById(R.id.image_itemcard);
             itemNameTextView = itemView.findViewById(R.id.text_itemcard_name);
             itemPriceTextView = itemView.findViewById(R.id.text_itemcard_price);
-            itemView.setOnClickListener(this);
+            itemCardView = itemView.findViewById(R.id.card_item);
+
+            itemCardView.setClickable(true);
+            itemCardView.setFocusable(true);
+            itemCardView.setOnClickListener(this);
         }
 
         @Override
