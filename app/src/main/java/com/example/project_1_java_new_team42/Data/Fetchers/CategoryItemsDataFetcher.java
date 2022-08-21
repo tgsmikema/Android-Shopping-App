@@ -22,17 +22,19 @@ public class CategoryItemsDataFetcher extends AssignCategory {
         //convert input category string to capital letter for the first letter
         String camelCaseCategory = category.substring(0, 1).toUpperCase() + category.substring(1);
 
-        db.collection("items").whereEqualTo("category",camelCaseCategory).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    final List<IItem> itemsList = assignCategory(task);
-                    dataFetchHandler.onFetchComplete(itemsList);
-
-                } else {
-                    dataFetchHandler.onFetchFail();
-                }
-            }
+        db.collection("items")
+                .whereEqualTo("category", camelCaseCategory)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            final List<IItem> itemsList = assignCategory(task);
+                            dataFetchHandler.onFetchComplete(itemsList);
+                        } else {
+                            dataFetchHandler.onFetchFail();
+                        }
+                    }
         });
     }
 

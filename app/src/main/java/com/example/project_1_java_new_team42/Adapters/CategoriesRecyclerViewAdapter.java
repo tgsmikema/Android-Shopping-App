@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1_java_new_team42.Models.Category;
@@ -33,7 +34,8 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
         this.categoriesData = categoriesData;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        MaterialCardView categoryCardView;
         ImageView categoryImageView;
         TextView categoryNameTextView;
 
@@ -42,14 +44,18 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
 
             categoryImageView = itemView.findViewById(R.id.image_category_card);
             categoryNameTextView = itemView.findViewById(R.id.text_category_card_name);
-            itemView.setOnClickListener(this);
-        }
+            categoryCardView = itemView.findViewById(R.id.card_category);
 
-        @Override
-        public void onClick(View view) {
-            // TODO Navigate to the category items page
-            Category category = categoriesData.get(getAdapterPosition());
-            Toast.makeText(context, "Name: " + category.getCategoryName(), Toast.LENGTH_SHORT).show();
+            categoryCardView.setClickable(true);
+            categoryCardView.setFocusable(true);
+            categoryCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // TODO Navigate to the category items page
+                    Category category = categoriesData.get(getAdapterPosition());
+                    Toast.makeText(context, "Name: " + category.getCategoryName(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
