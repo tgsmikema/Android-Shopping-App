@@ -30,17 +30,26 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     private LayoutInflater layoutInflater;
     private Context context;
 
-    private int currentQuantity;
+    private int itemQuantity;
 
     protected CartDataSender cartDataSender = new CartDataSender();
     public static boolean isAddedToCart = false;
 
-//    private ButtonClickListener mClickListener;
+    ViewHolder vh;
+    protected OnTextChangeWatcher textChangeListener = new OnTextChangeWatcher();
+
+//    Button increment;
+//    Button decrement;
+//    TextView quantity;
+
+//    private MyClickListener mClickListener;
 //    private OnDataChangeListener mOnDataChangeListener;
+//    private OnQuantityChangeListener mQuantityChangeListener;
 
     public CartRecyclerViewAdapter(Context context) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
+//        this.vh = new ViewHolder();
     }
 
     public void setData(Cart cartData) {
@@ -56,7 +65,6 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
         Button increment;
         Button decrement;
         TextView quantity;
-
         MyClickListener listener;
 
         public ViewHolder(View itemView, MyClickListener listener) {
@@ -74,20 +82,26 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
 
             increment.setOnClickListener(this);
             decrement.setOnClickListener(this);
-//            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-//            ItemWithQuantity item = itemsWithQuantity.get(getAdapterPosition());
-//            Toast.makeText(context, "Name: " + item.getName() + " Price: " + item.getPrice(), Toast.LENGTH_SHORT).show();
-//            if (mClickListener != null) mClickListener.onButtonClick(view, getAdapterPosition());
             switch (view.getId()) {
                 case R.id.button_plus:
+
+                    // Call onIncrement to update quantity field in Firebase
                     listener.onIncrement(this.getLayoutPosition());
+
+                    // Set text views in RecyclerView
+                    quantity.setText(String.valueOf(itemQuantity));
                     break;
                 case R.id.button_minus:
+
+                    // Call onIncrement to update quantity field in Firebase
                     listener.onDecrement(this.getLayoutPosition());
+
+                    // Set text views in RecyclerView
+                    quantity.setText(String.valueOf(itemQuantity));
                     break;
                 default:
                     break;
@@ -104,10 +118,10 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
             @Override
             public void onIncrement(int p) {
                 // Implement functionality for decrement button
-                currentQuantity = itemsWithQuantity.get(p).getQuantity();
-                currentQuantity++;
+                itemQuantity = itemsWithQuantity.get(p).getQuantity();
+                itemQuantity++;
 
-                ItemWithQuantity item = new ItemWithQuantity(itemsWithQuantity.get(p), currentQuantity);
+                ItemWithQuantity item = new ItemWithQuantity(itemsWithQuantity.get(p), itemQuantity);
 
                 cartDataSender.addItemWithQuantityToCart(item, new CartDataSendHandler());
                 itemsWithQuantity.set(p, item);
@@ -116,10 +130,10 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
             @Override
             public void onDecrement(int p) {
                 // Implement functionality for decrement button
-                currentQuantity = itemsWithQuantity.get(p).getQuantity();
-                currentQuantity--;
+                itemQuantity = itemsWithQuantity.get(p).getQuantity();
+                itemQuantity--;
 
-                ItemWithQuantity item = new ItemWithQuantity(itemsWithQuantity.get(p), currentQuantity);
+                ItemWithQuantity item = new ItemWithQuantity(itemsWithQuantity.get(p), itemQuantity);
 
                 cartDataSender.addItemWithQuantityToCart(item, new CartDataSendHandler());
                 itemsWithQuantity.set(p, item);
@@ -149,9 +163,10 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     public interface MyClickListener {
         void onIncrement(int p);
         void onDecrement(int p);
+//        void onQuantityChange(int p);
     }
 
-    // Implementation of CartDataSendHandler.
+    // Implementation of CartDataSendHandler
     private class CartDataSendHandler implements ISendHandler {
 
         @Override
@@ -162,18 +177,31 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
         }
     }
 
-//    private class OnTextChangeListener implements TextWatcher {
-//        @Override
-//        public void afterTextChanged (Editable editable) {
-//            if (currentQuantity == 1) {
-//
-//            } else if ((currentQuantity > 1) && (currentQuantity < 9)) {
-//
-//            } else {
-//
-//            }
-//        }
-//    }
+    private class OnTextChangeWatcher implements TextWatcher {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+        @Override
+        public void afterTextChanged (Editable editable) {
+            int currentQuantity = Integer.parseInt(vh.quantity.getText().toString());
+
+            if (currentQuantity == 1) {
+                vh.decrement.setEnabled(false);
+            } else if (currentQuantity == 9) {
+                vh.increment.setEnabled(false);
+                System.out.println("hello it is working");
+            } else {
+                vh.increment.setEnabled(true);
+                vh.decrement.setEnabled(true);
+            }
+
+            // Update total price
+//            String totalPrice = "$" +
+        }
+    }
+
+
 
 //    public String getItem(int id) {
 //        return itemsWithQuantity.get(id).getName();
@@ -183,8 +211,8 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
 //        this.mClickListener = buttonClickListener;
 //    }
 //
-//    public interface ButtonClickListener {
-//        void onButtonClick(View view, int position);
+//    public interface onQuantityChangeListener {
+//        void onQuantityChange(View view, int position);
 //    }
 
 //    private void doButton
