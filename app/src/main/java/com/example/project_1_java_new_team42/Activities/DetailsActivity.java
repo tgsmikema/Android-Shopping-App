@@ -26,7 +26,6 @@ import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
@@ -144,14 +143,14 @@ public class DetailsActivity extends AppCompatActivity {
 
             // Logic for Gray out button when limit of quantity REACHED.
             if (currentQuantity == 1) {
-                vh.decreaseBtn.setBackgroundResource(R.drawable.decrease_btn_not_available);
-                vh.increaseBtn.setBackgroundResource(R.drawable.increase_btn_available);
+                vh.decreaseBtn.setBackgroundResource(R.drawable.ic_decrease_btn_not_available);
+                vh.increaseBtn.setBackgroundResource(R.drawable.ic_increase_btn_available);
             } else if ((currentQuantity < 9) && (currentQuantity > 1)) {
-                vh.decreaseBtn.setBackgroundResource(R.drawable.decrease_btn_available);
-                vh.increaseBtn.setBackgroundResource(R.drawable.increase_btn_available);
+                vh.decreaseBtn.setBackgroundResource(R.drawable.ic_decrease_btn_available);
+                vh.increaseBtn.setBackgroundResource(R.drawable.ic_increase_btn_available);
             } else {
-                vh.decreaseBtn.setBackgroundResource(R.drawable.decrease_btn_available);
-                vh.increaseBtn.setBackgroundResource(R.drawable.increase_btn_not_available);
+                vh.decreaseBtn.setBackgroundResource(R.drawable.ic_decrease_btn_available);
+                vh.increaseBtn.setBackgroundResource(R.drawable.ic_increase_btn_not_available);
             }
             // Update Total Price
             String totalPrice = "Total $ " + item.getPrice() *
