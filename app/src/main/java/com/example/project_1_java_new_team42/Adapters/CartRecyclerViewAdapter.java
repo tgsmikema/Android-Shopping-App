@@ -13,9 +13,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project_1_java_new_team42.Activities.CartActivity;
 import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
 import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
 import com.example.project_1_java_new_team42.Models.Cart;
+import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
 
@@ -30,6 +32,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
 
     private int itemQuantity;
     private int itemPrice;
+    private int itemsTotalPrice;
 
     protected CartDataSender cartDataSender = new CartDataSender();
     public static boolean isAddedToCart = false;
@@ -42,6 +45,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     public void setData(Cart cartData) {
         this.cartData = cartData;
         this.itemsWithQuantity = cartData.getItems();
+        this.itemsTotalPrice = cartData.getTotalPrice();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -75,6 +79,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
 
         @Override
         public void onClick(View view) {
+            String price;
             switch (view.getId()) {
                 case R.id.button_plus:
 
@@ -83,7 +88,8 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
 
                     // Set text views in RecyclerView
                     quantityTextView.setText(String.valueOf(itemQuantity));
-                    cartItemPriceTextView.setText("$" + String.valueOf(itemQuantity * itemPrice));
+                    price = "$" + (itemQuantity * itemPrice);
+                    cartItemPriceTextView.setText(price);
                     break;
                 case R.id.button_minus:
 
@@ -92,11 +98,15 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
 
                     // Set text views in RecyclerView
                     quantityTextView.setText(String.valueOf(itemQuantity));
-                    cartItemPriceTextView.setText("$" + String.valueOf(itemQuantity * itemPrice));
+                    price = "$" + (itemQuantity * itemPrice);
+                    cartItemPriceTextView.setText(price);
                     break;
                 default:
                     break;
             }
+
+            // Update total price in CartActivity
+            ((CartActivity) context).updateTotalPrice(itemsTotalPrice);
         }
 
         private TextWatcher quantityTextWatcher = new TextWatcher() {
@@ -104,8 +114,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -135,6 +144,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                 itemQuantity++;
 
                 itemPrice = itemsWithQuantity.get(p).getPrice();
+                itemsTotalPrice += itemPrice;
 
                 ItemWithQuantity item = new ItemWithQuantity(itemsWithQuantity.get(p), itemQuantity);
 
@@ -149,6 +159,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                 itemQuantity--;
 
                 itemPrice = itemsWithQuantity.get(p).getPrice();
+                itemsTotalPrice -= itemPrice;
 
                 ItemWithQuantity item = new ItemWithQuantity(itemsWithQuantity.get(p), itemQuantity);
 

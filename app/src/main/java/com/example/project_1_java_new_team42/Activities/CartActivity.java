@@ -35,8 +35,6 @@ public class CartActivity extends AppCompatActivity {
     protected CircularProgressIndicator cartItemsSpinner;
     protected CartDataFetcher cartDataFetcher = new CartDataFetcher();
 
-//    protected OnTextChangeWatcher textChangeListener = new OnTextChangeWatcher();
-
     TextView totalPriceTextView;
 
     private class CartFetchHandler implements IFetchHandler<Cart> {
@@ -86,17 +84,10 @@ public class CartActivity extends AppCompatActivity {
         cartDataFetcher.readData(new CartFetchHandler());
     }
 
-//    private class OnTextChangeWatcher implements TextWatcher {
-//        @Override
-//        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-//        @Override
-//        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-//        @Override
-//        public void afterTextChanged (Editable editable) {
-////            int currentQuantity = Integer.parseInt(quantity.getText().toString());
-//
-//            // Update total price
-////            String totalPrice = "$" +
-//        }
-//    }
+    public void updateTotalPrice(int totalPrice) {
+        String price = "$" + totalPrice;
+        totalPriceTextView.setText(price);
+        System.out.println("this the teh total === " + totalPrice);
+    }
+
 }
