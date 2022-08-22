@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.project_1_java_new_team42.Adapters.ImageSliderAdapter;
+import com.example.project_1_java_new_team42.Adapters.ItemsRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.ItemDetailsDataFetcher;
 import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
@@ -294,7 +295,7 @@ public class DetailsActivity extends AppCompatActivity {
         // ----------TESTING PURPOSE, REPLACE Once Developed Navigation-------(API)--------//
         // Intent intent = getIntent();
         // String str = intent.getStringExtra("message_key");
-        itemDetailsDataFetcher.readData("laptop_8", new ItemDetailsFetchHandler());
+//        itemDetailsDataFetcher.readData("laptop_8", new ItemDetailsFetchHandler());
         // pass in id(string) of the selected Item.
         // SENDER SIDE (API) CODE
         // Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
@@ -302,8 +303,8 @@ public class DetailsActivity extends AppCompatActivity {
         // startActivity(intent);
         // -----------------------------TESTING ENDS----------------------------------------//
 
-
-
-
+        Intent intent = getIntent();
+        String itemId = intent.getStringExtra(ItemsRecyclerViewAdapter.INTENT_KEY_ITEM_ID_TO_FETCH);
+        itemDetailsDataFetcher.readData(itemId, new ItemDetailsFetchHandler());
     }
 }

@@ -1,6 +1,7 @@
 package com.example.project_1_java_new_team42.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.view.View;
@@ -15,6 +16,8 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project_1_java_new_team42.Activities.DetailsActivity;
+import com.example.project_1_java_new_team42.Activities.SearchResultsActivity;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
 import com.example.project_1_java_new_team42.util.CategoryChipUtil;
@@ -23,6 +26,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 
 public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, ItemsRecyclerViewAdapter.ViewHolder> {
+    public static final String INTENT_KEY_ITEM_ID_TO_FETCH = "ITEM_ID_TO_FETCH";
 
     public ItemsRecyclerViewAdapter(Context context) {
         super(context);
@@ -68,10 +72,10 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
 
         @Override
         public void onClick(View view) {
-            // TODO Navigate to the item details page
-
+            Intent intent = new Intent(context, DetailsActivity.class);
             IItem item = items.get(getAdapterPosition());
-            Toast.makeText(context, "Name: " + item.getName() + " Price: " + item.getPrice(), Toast.LENGTH_SHORT).show();
+            intent.putExtra(INTENT_KEY_ITEM_ID_TO_FETCH, item.getId());
+            context.startActivity(intent);
         }
     }
 
