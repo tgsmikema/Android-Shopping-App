@@ -105,12 +105,8 @@ public class CartActivity extends AppCompatActivity {
                 case R.id.place_order_button:
                     Order newOrder = new Order(cartData.getItems());
                     orderDataSender.writeCartOrderToFirestore(newOrder, new OrderDataSendHandler());
-//                    Intent intent = new Intent(CartActivity.this, CartActivity.class);
-//                    startActivity(intent);
-//                    finish();
-//                    overridePendingTransition(0, 0);
-//                    startActivity(getIntent());
-//                    overridePendingTransition(0, 0);
+                    Intent intent = new Intent(CartActivity.this, MainActivity.class);
+                    startActivity(intent);
                     break;
             }
         }
