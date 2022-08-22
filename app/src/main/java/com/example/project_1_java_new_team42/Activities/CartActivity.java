@@ -1,18 +1,16 @@
 package com.example.project_1_java_new_team42.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,14 +21,9 @@ import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
 import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
 import com.example.project_1_java_new_team42.Data.Senders.OrderDataSender;
 import com.example.project_1_java_new_team42.Models.Cart;
-import com.example.project_1_java_new_team42.Models.IItem;
-import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.Models.Order;
 import com.example.project_1_java_new_team42.R;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
     private static final String TAG = "CartActivity";
@@ -53,6 +46,9 @@ public class CartActivity extends AppCompatActivity {
         @Override
         public void onFetchComplete(Cart data) {
             cartData = data;
+
+
+
             cartItemsAdapter.setData(data);
             cartItemsAdapter.notifyItemRangeInserted(0, data.getItems().size());
 
@@ -66,6 +62,25 @@ public class CartActivity extends AppCompatActivity {
 
             placeOrderButton = findViewById(R.id.place_order_button);
             placeOrderButton.setOnClickListener(buttonListener);
+
+            //initially, check if cart is empty
+            if (data.getItems().size() == 0){
+                disableSubmitButton();
+            }
+
+            cartRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+                @Override
+                public void onChildViewAttachedToWindow(@NonNull View view) {
+                    enableSubmitButton();
+                }
+
+                @Override
+                public void onChildViewDetachedFromWindow(@NonNull View view) {
+                    if (cartItemsAdapter.getItemCount() <= 0){
+                        disableSubmitButton();
+                    }
+                }
+            });
         }
 
         @Override
@@ -73,6 +88,22 @@ public class CartActivity extends AppCompatActivity {
             System.out.println("Failed to fetch cart items");
             Toast.makeText(getApplicationContext(), "Failed to fetch cart items", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    private void disableSubmitButton() {
+        placeOrderButton.setText("Cart is Empty!");
+        placeOrderButton.setBackgroundColor(Color.parseColor("#C0C0C0"));
+        placeOrderButton.setTextColor(Color.BLACK);
+        placeOrderButton.setEnabled(false);
+    }
+
+    private void enableSubmitButton(){
+        placeOrderButton.setText("Place Order");
+        //color-brand-black
+        placeOrderButton.setBackgroundColor(Color.parseColor("#212121"));
+        placeOrderButton.setTextColor(Color.WHITE);
+        placeOrderButton.setEnabled(true);
     }
 
     /**
