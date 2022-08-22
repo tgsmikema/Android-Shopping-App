@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="0dp"
+        app:strokeColor="#eee"
+        app:strokeWidth="1dp"
+        android:id="@+id/material_past_order_item_card">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_past_order_item_card"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:paddingVertical="6dp"
+                android:scaleType="centerInside"
+                app:cornerRadius="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:contentDescription="Apple Macbook Air 2020"
+                tools:src="@drawable/laptop_1_1" />
+
+            <TextView
+                android:id="@+id/name_past_order_item_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/Team42.Headline2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/image_past_order_item_card"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Apple Macbook Air" />
+
+            <TextView
+                android:id="@+id/quantity_past_order_item_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginBottom="24dp"
+                android:textAppearance="@style/Team42.Headline2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/image_past_order_item_card"
+                tools:text="Qty: 2" />
+
+            <TextView
+                android:id="@+id/price_past_order_item_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="24dp"
+                android:textAppearance="@style/Team42.Headline2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="$2299" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.PastOrderItemsActivity">
+
+    <Button
+        android:id="@+id/button_back_past_order_items"
+        style="@style/Team42.BackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title_past_order_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Order Details"
+        android:textAppearance="@style/Team42.Headline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/order_number_past_order_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="20220822191211943"
+        android:textAppearance="@style/Team42.Headline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_past_order_items" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_past_order_items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:indeterminate="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_past_order_items"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/divider_past_order_items"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/order_number_past_order_items"
+        tools:listitem="@layout/past_order_item_card" />
+
+    <View
+        android:id="@+id/divider_past_order_items"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="176dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/order_date_heading_past_order_items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Order Date"
+        android:textAppearance="@style/Team42.Headline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider_past_order_items" />
+
+    <TextView
+        android:id="@+id/order_date_past_order_items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:textAppearance="@style/Team42.Headline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider_past_order_items"
+        tools:text="2021-12-03 12:24:33" />
+
+    <TextView
+        android:id="@+id/order_total_heading_past_order_items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Total"
+        android:textAppearance="@style/Team42.Headline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/order_date_past_order_items" />
+
+    <TextView
+        android:id="@+id/order_total_price_past_order_items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:textAppearance="@style/Team42.Headline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/order_date_past_order_items"
+        tools:text="$7147" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_past_order_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_navigation_menu" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
