@@ -314,6 +314,8 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        initialQuantity = 1;
+
         vh = new ViewHolder();
         initializeImageSlider();
 
