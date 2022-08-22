@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.project_1_java_new_team42.Adapters.ImageSliderAdapter;
+import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.ItemDetailsDataFetcher;
 import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
@@ -43,7 +44,9 @@ public class DetailsActivity extends AppCompatActivity {
     private ImageView[] dots;
 
     ViewHolder vh;
+    // Adapters
     protected ImageSliderAdapter imageSliderAdapter;
+    protected NavigationAdapter navigationAdapter;
 
     // Database Interaction Classes
     protected ItemDetailsDataFetcher itemDetailsDataFetcher = new ItemDetailsDataFetcher();
@@ -86,7 +89,7 @@ public class DetailsActivity extends AppCompatActivity {
             increaseBtn = findViewById(R.id.increase_btn_details);
             addCartButton = findViewById(R.id.add_cart_button_details);
             // Bottom Nav Bar
-            bottomNavBar = findViewById(R.id.bottom_navigation);
+            bottomNavBar = findViewById(R.id.bottom_navigation_details);
         }
     }
 
@@ -242,30 +245,6 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-    // Logic of Navigation Bar selection.
-    private NavigationBarView.OnItemSelectedListener navigationListener =
-            new NavigationBarView.OnItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch(item.getItemId())
-            {
-                case R.id.activity_home:
-                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                    overridePendingTransition(0,0);
-                    return true;
-                case R.id.activity_cart:
-                    //startActivity(new Intent(getApplicationContext(),CartActivity.class));
-                    //overridePendingTransition(0,0);
-                    return true;
-                case R.id.activity_orders:
-                    //startActivity(new Intent(getApplicationContext(),PastOrdersActivity.class));
-                    //overridePendingTransition(0,0);
-                    return true;
-            }
-            return false;
-        }
-    };
-
     // ----------------------------------------------------------------------------------------//
     // Details Activity OnCreate Method (Main entry)
     @Override
@@ -283,13 +262,8 @@ public class DetailsActivity extends AppCompatActivity {
         // Highlight the Selected Navigation ICON
         vh.bottomNavBar.setSelectedItemId(R.id.activity_home);
         // Initialise the Bottom Bar Navigation Logic
-        vh.bottomNavBar.setOnItemSelectedListener(navigationListener);
-
-        // -----------------------NEED TO CHANGE NOTE: ---------------------------//
-        // Uncomment Line 258 - 263 after implemented:
-        //                           1) CartActivity
-        //                           2) PastOrderActivity
-        // -----------------------------------------------------------------------//
+        navigationAdapter = new NavigationAdapter(this);
+        vh.bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
 
         // ----------TESTING PURPOSE, REPLACE Once Developed Navigation-------(API)--------//
         // Intent intent = getIntent();

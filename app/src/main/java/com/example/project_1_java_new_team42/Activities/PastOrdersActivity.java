@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Adapters.PastOrdersRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.PastOrdersDataFetcher;
@@ -24,6 +25,8 @@ import java.util.List;
 
 public class PastOrdersActivity extends AppCompatActivity {
 
+    protected NavigationAdapter navigationAdapter;
+
     private class ViewHolder {
         RecyclerView pastOrdersRecyclerView;
         CircularProgressIndicator pastOrdersSpinner;
@@ -34,7 +37,7 @@ public class PastOrdersActivity extends AppCompatActivity {
             pastOrdersRecyclerView = findViewById(R.id.recycler_view_past_orders);
             pastOrdersSpinner = findViewById(R.id.progress_past_orders);
             // Bottom Nav Bar
-            bottomNavBar = findViewById(R.id.bottom_navigation);
+            bottomNavBar = findViewById(R.id.bottom_navigation_past_orders);
         }
     }
 
@@ -65,28 +68,6 @@ public class PastOrdersActivity extends AppCompatActivity {
         vh.pastOrdersRecyclerView.setAdapter(pastOrdersRecyclerViewAdapter);
     }
 
-    // Logic of Navigation Bar selection.
-    private NavigationBarView.OnItemSelectedListener navigationListener =
-            new NavigationBarView.OnItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch(item.getItemId())
-                    {
-                        case R.id.activity_home:
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                            overridePendingTransition(0,0);
-                            return true;
-                        case R.id.activity_cart:
-                            //startActivity(new Intent(getApplicationContext(),CartActivity.class));
-                            //overridePendingTransition(0,0);
-                            return true;
-                        case R.id.activity_orders:
-                            return true;
-                    }
-                    return false;
-                }
-            };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +81,7 @@ public class PastOrdersActivity extends AppCompatActivity {
         // Highlight the Selected Navigation ICON
         vh.bottomNavBar.setSelectedItemId(R.id.activity_orders);
         // Initialise the Bottom Bar Navigation Logic
-        vh.bottomNavBar.setOnItemSelectedListener(navigationListener);
+        navigationAdapter = new NavigationAdapter(this);
+        vh.bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
     }
 }

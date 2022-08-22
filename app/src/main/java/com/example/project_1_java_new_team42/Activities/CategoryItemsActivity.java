@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_1_java_new_team42.Adapters.ItemsRecyclerViewAdapter;
+import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.CategoryItemsDataFetcher;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Models.Category;
@@ -18,6 +19,7 @@ import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
 import com.example.project_1_java_new_team42.Widgets.ItemsRecyclerView;
 import com.example.project_1_java_new_team42.Widgets.RecyclerViewLayoutType;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.List;
@@ -28,6 +30,8 @@ public class CategoryItemsActivity extends AppCompatActivity {
     private final CategoryItemsDataFetcher itemsFetcher = new CategoryItemsDataFetcher();
     private ItemsRecyclerViewAdapter itemsAdapter;
     private CircularProgressIndicator spinner;
+
+    private NavigationAdapter navigationAdapter;
 
     private class CategoryItemsFetchHandler implements IFetchHandler<List<IItem>> {
         @Override
@@ -78,5 +82,14 @@ public class CategoryItemsActivity extends AppCompatActivity {
 
         String docId = category.getDocId();
         itemsFetcher.readData(docId, new CategoryItemsFetchHandler());
+
+        //TODO(Refactor) put this inside ViewHolder
+        NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation_category_items);
+
+        // Highlight the Selected Navigation ICON
+        bottomNavBar.setSelectedItemId(R.id.activity_home);
+        // Add the Bottom Bar Navigation Logic
+        navigationAdapter = new NavigationAdapter(this);
+        bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
     }
 }
