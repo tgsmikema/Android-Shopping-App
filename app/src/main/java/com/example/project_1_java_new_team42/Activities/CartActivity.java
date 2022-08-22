@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,9 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.project_1_java_new_team42.Adapters.CartRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.CartDataFetcher;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
+import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
+import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
+import com.example.project_1_java_new_team42.Data.Senders.OrderDataSender;
 import com.example.project_1_java_new_team42.Models.Cart;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
+import com.example.project_1_java_new_team42.Models.Order;
 import com.example.project_1_java_new_team42.R;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
@@ -33,13 +38,21 @@ public class CartActivity extends AppCompatActivity {
     protected RecyclerView cartRecyclerView;
     protected CartRecyclerViewAdapter cartItemsAdapter;
     protected CircularProgressIndicator cartItemsSpinner;
+
     protected CartDataFetcher cartDataFetcher = new CartDataFetcher();
+    protected CartDataSender cartDataSender = new CartDataSender();
+    protected OrderDataSender orderDataSender = new OrderDataSender();
+    public static boolean isAddedToCart = false;
+
+    private Cart cartData;
 
     TextView totalPriceTextView;
+    Button placeOrderButton;
 
     private class CartFetchHandler implements IFetchHandler<Cart> {
         @Override
         public void onFetchComplete(Cart data) {
+            cartData = data;
             cartItemsAdapter.setData(data);
             cartItemsAdapter.notifyItemRangeInserted(0, data.getItems().size());
 
@@ -50,6 +63,9 @@ public class CartActivity extends AppCompatActivity {
             totalPriceTextView = findViewById(R.id.cart_total_price);
             String totalPrice = "$" + data.getTotalPrice();
             totalPriceTextView.setText(totalPrice);
+
+            placeOrderButton = findViewById(R.id.place_order_button);
+            placeOrderButton.setOnClickListener(buttonListener);
         }
 
         @Override
@@ -83,16 +99,33 @@ public class CartActivity extends AppCompatActivity {
         cartDataFetcher.readData(new CartFetchHandler());
     }
 
-//    public void onClick(View view) {
-//        switch (view.getId()) {
-//            case R.id.place_order_button:
-//
-//        }
-//    }
+    private View.OnClickListener buttonListener = new View.OnClickListener() {
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.place_order_button:
+                    Order newOrder = new Order(cartData.getItems());
+                    orderDataSender.writeCartOrderToFirestore(newOrder, new OrderDataSendHandler());
+//                    Intent intent = new Intent(CartActivity.this, CartActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                    overridePendingTransition(0, 0);
+//                    startActivity(getIntent());
+//                    overridePendingTransition(0, 0);
+                    break;
+            }
+        }
+    };
 
     public void updateTotalPrice(int totalPrice) {
         String price = "$" + totalPrice;
         totalPriceTextView.setText(price);
     }
 
+    private class OrderDataSendHandler implements ISendHandler {
+
+        @Override
+        public void onSendSuccess(boolean isSuccess) {
+            Toast.makeText(CartActivity.this,"Order Placed!",Toast.LENGTH_LONG).show();
+        }
+    }
 }

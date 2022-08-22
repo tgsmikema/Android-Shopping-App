@@ -26,7 +26,7 @@ import java.util.List;
 
 public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerViewAdapter.ViewHolder> {
     private List<ItemWithQuantity> itemsWithQuantity = new ArrayList<>();
-    private Cart cartData = new Cart();
+//    private Cart cartData = new Cart();
     private LayoutInflater layoutInflater;
     private Context context;
 
@@ -43,7 +43,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     }
 
     public void setData(Cart cartData) {
-        this.cartData = cartData;
+//        this.cartData = cartData;
         this.itemsWithQuantity = cartData.getItems();
         this.itemsTotalPrice = cartData.getTotalPrice();
     }
@@ -85,7 +85,6 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
             String price;
             switch (view.getId()) {
                 case R.id.button_plus:
-
                     // Call onIncrement to update quantity field in database
                     listener.onIncrement(this.getLayoutPosition());
 
@@ -94,8 +93,8 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                     price = "$" + (itemQuantity * itemPrice);
                     cartItemPriceTextView.setText(price);
                     break;
-                case R.id.button_minus:
 
+                case R.id.button_minus:
                     // Call onIncrement to update quantity field in database
                     listener.onDecrement(this.getLayoutPosition());
 
@@ -104,12 +103,12 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                     price = "$" + (itemQuantity * itemPrice);
                     cartItemPriceTextView.setText(price);
                     break;
-                case R.id.button_delete:
 
+                case R.id.button_delete:
                     // Call onDelete to remove item from database
                     listener.onDeletion(this.getLayoutPosition());
-
                     break;
+
                 default:
                     break;
             }
@@ -196,7 +195,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        itemsWithQuantity = cartData.getItems();
+//        itemsWithQuantity = cartData.getItems();
         ItemWithQuantity item = itemsWithQuantity.get(position);
         int drawableId = context.getResources().getIdentifier(item.getImagePaths().get(0),"drawable", context.getPackageName());
         holder.cartItemImageView.setImageResource(drawableId);
