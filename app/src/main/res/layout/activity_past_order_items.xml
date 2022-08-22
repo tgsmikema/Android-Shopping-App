@@ -7,30 +7,53 @@
     android:layout_height="match_parent"
     tools:context=".Activities.PastOrderItemsActivity">
 
+    <Button
+        android:id="@+id/button_back_past_order_items"
+        style="@style/Team42.BackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"/>
+
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/heading_cart"
+        android:id="@+id/title_past_order_items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="Placeholder ###"
+        android:text="Order Details"
         android:textAppearance="@style/Team42.Headline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/order_number_past_order_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="20220822191211943"
+        android:textAppearance="@style/Team42.Headline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_past_order_items" />
+
     <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress_pastorder_items"
+        android:id="@+id/progress_past_order_items"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:indeterminate="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/heading_cart" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_pastorder_items"
+        android:id="@+id/recycler_view_past_order_items"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -39,14 +62,14 @@
         android:layout_marginBottom="20dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintBottom_toTopOf="@+id/divider_past_order_items"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/heading_cart"
+        app:layout_constraintTop_toBottomOf="@+id/order_number_past_order_items"
         tools:listitem="@layout/past_order_item_card" />
 
     <View
-        android:id="@+id/divider"
+        android:id="@+id/divider_past_order_items"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginStart="16dp"
@@ -59,7 +82,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/order_date_heading"
+        android:id="@+id/order_date_heading_past_order_items"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -67,21 +90,21 @@
         android:text="Order Date"
         android:textAppearance="@style/Team42.Headline2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+        app:layout_constraintTop_toBottomOf="@+id/divider_past_order_items" />
 
     <TextView
-        android:id="@+id/order_date"
+        android:id="@+id/order_date_past_order_items"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:textAppearance="@style/Team42.Headline2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
-        tools:text="Date" />
+        app:layout_constraintTop_toBottomOf="@+id/divider_past_order_items"
+        tools:text="2021-12-03 12:24:33" />
 
     <TextView
-        android:id="@+id/order_total_heading"
+        android:id="@+id/order_total_heading_past_order_items"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -89,21 +112,21 @@
         android:text="Total"
         android:textAppearance="@style/Team42.Headline2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/order_date" />
+        app:layout_constraintTop_toBottomOf="@+id/order_date_past_order_items" />
 
     <TextView
-        android:id="@+id/order_total_price"
+        android:id="@+id/order_total_price_past_order_items"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:textAppearance="@style/Team42.Headline2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/order_date"
+        app:layout_constraintTop_toBottomOf="@+id/order_date_past_order_items"
         tools:text="$7147" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+        android:id="@+id/bottom_navigation_past_order_items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
