@@ -17,7 +17,7 @@ import com.google.android.material.card.MaterialCardView;
 // ItemWithQuantity Instead of Order Class
 public class PastOrderItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<ItemWithQuantity, PastOrderItemsRecyclerViewAdapter.ViewHolder> {
 
-    protected PastOrderItemsRecyclerViewAdapter(Context context) {
+    public PastOrderItemsRecyclerViewAdapter(Context context) {
         super(context);
     }
 
@@ -49,7 +49,7 @@ public class PastOrderItemsRecyclerViewAdapter extends GenericRecyclerViewAdapte
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PastOrderItemsRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(layoutInflater.inflate(R.layout.past_order_item_card, parent, false));
     }
 
@@ -66,7 +66,7 @@ public class PastOrderItemsRecyclerViewAdapter extends GenericRecyclerViewAdapte
         String quantity = "Qty: " + itemWithQuantity.getQuantity();
         holder.orderItemQuantity.setText(quantity);
 
-        String totalPrice = "$" + String.valueOf(itemWithQuantity.getQuantity() * itemWithQuantity.getPrice());
+        String totalPrice = "Total $" + String.valueOf(itemWithQuantity.getQuantity() * itemWithQuantity.getPrice());
         holder.orderItemTotalPrice.setText(totalPrice);
     }
 
