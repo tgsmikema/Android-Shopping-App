@@ -10,15 +10,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.ColorRes;
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
+import com.example.project_1_java_new_team42.util.CategoryChipUtil;
+import com.example.project_1_java_new_team42.util.CategoryChipUtil.CategoryChipData;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 
@@ -75,46 +75,6 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
         }
     }
 
-    // TODO Extract all chip data/logic into a separate util class
-    public @DrawableRes int determineChipIcon(String category) {
-        switch (category) {
-            case Category.DESKTOP:
-                return R.drawable.ic_desktop;
-            case Category.LAPTOP:
-                return R.drawable.ic_laptop;
-            case Category.TABLET:
-                return R.drawable.ic_tablet;
-            default:
-                throw new IllegalArgumentException("Unknown category: " + category);
-        }
-    }
-
-    public @ColorRes int determineChipForegroundColor(String category) {
-        switch (category) {
-            case Category.DESKTOP:
-                return R.color.chip_blue_dark;
-            case Category.LAPTOP:
-                return R.color.chip_green_dark;
-            case Category.TABLET:
-                return R.color.chip_tan_dark;
-            default:
-                throw new IllegalArgumentException("Unknown category: " + category);
-        }
-    }
-
-    public @ColorRes int determineChipBackgroundColor(String category) {
-        switch (category) {
-            case Category.DESKTOP:
-                return R.color.chip_blue_light;
-            case Category.LAPTOP:
-                return R.color.chip_green_light;
-            case Category.TABLET:
-                return R.color.chip_tan_light;
-            default:
-                throw new IllegalArgumentException("Unknown category: " + category);
-        }
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -137,10 +97,10 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
         holder.priceTextView.setText(price);
 
         // Dynamic chip icon and data depending on the category
-        holder.setChipColors(determineChipForegroundColor(item.getCategory()), determineChipBackgroundColor(item.getCategory()));
-        holder.categoryChip.setChipIcon(ContextCompat.getDrawable(context, determineChipIcon(item.getCategory())));
-        String capitalizedCategory = item.getCategory().substring(0, 1).toUpperCase() + item.getCategory().substring(1);
-        holder.categoryChip.setText(capitalizedCategory);
+        CategoryChipData chipData = CategoryChipUtil.getChipDataFromCategory(item.getCategory());
+        holder.setChipColors(chipData.getFgColor(), chipData.getBgColor());
+        holder.categoryChip.setChipIcon(ContextCompat.getDrawable(context, chipData.getIcon()));
+        holder.categoryChip.setText(chipData.getText());
     }
 
     @Override
