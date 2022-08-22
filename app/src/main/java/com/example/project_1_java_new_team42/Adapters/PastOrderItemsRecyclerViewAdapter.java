@@ -70,8 +70,4 @@ public class PastOrderItemsRecyclerViewAdapter extends GenericRecyclerViewAdapte
         holder.orderItemTotalPrice.setText(totalPrice);
     }
 
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
 }
