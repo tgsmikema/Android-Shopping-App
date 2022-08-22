@@ -1,26 +1,25 @@
 package com.example.project_1_java_new_team42.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.ColorRes;
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.project_1_java_new_team42.Activities.DetailsActivity;
-import com.example.project_1_java_new_team42.Activities.MainActivity;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
 import com.google.android.material.card.MaterialCardView;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.android.material.chip.Chip;
 
 public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, ItemsRecyclerViewAdapter.ViewHolder> {
 
@@ -29,22 +28,41 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        MaterialCardView itemCardView;
-        ImageView itemImageView;
-        TextView itemNameTextView;
-        TextView itemPriceTextView;
+        public MaterialCardView cardView;
+        public ImageView imageView;
+        public TextView nameTextView;
+        public TextView priceTextView;
+        public Chip categoryChip;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            itemImageView = itemView.findViewById(R.id.image_itemcard);
-            itemNameTextView = itemView.findViewById(R.id.text_itemcard_name);
-            itemPriceTextView = itemView.findViewById(R.id.text_itemcard_price);
-            itemCardView = itemView.findViewById(R.id.card_item);
+            imageView = itemView.findViewById(R.id.image_itemcard);
+            nameTextView = itemView.findViewById(R.id.text_itemcard_name);
+            priceTextView = itemView.findViewById(R.id.text_itemcard_price);
+            cardView = itemView.findViewById(R.id.card_item);
+            categoryChip = itemView.findViewById(R.id.chip_itemcard_category);
 
-            itemCardView.setClickable(true);
-            itemCardView.setFocusable(true);
-            itemCardView.setOnClickListener(this);
+            initializeCardView(cardView);
+            initializeChip(categoryChip);
+        }
+
+        private void initializeCardView(CardView cardView) {
+            cardView.setClickable(true);
+            cardView.setFocusable(true);
+            cardView.setOnClickListener(this);
+        }
+
+        private void initializeChip(Chip chip) {
+            chip.setClickable(false);
+            chip.setFocusable(false);
+        }
+
+        public void setChipColors(@ColorRes int foreground, @ColorRes int background) {
+            Resources res = context.getResources();
+            categoryChip.setChipBackgroundColor(ColorStateList.valueOf(res.getColor(background)));
+            categoryChip.setChipIconTint(ColorStateList.valueOf(res.getColor(foreground)));
+            categoryChip.setTextColor(ColorStateList.valueOf(res.getColor(foreground)));
         }
 
         @Override
@@ -65,11 +83,21 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         IItem item = items.get(position);
+
         int drawableId = context.getResources().getIdentifier(item.getImagePaths().get(0),"drawable", context.getPackageName());
-        holder.itemImageView.setImageResource(drawableId);
-        holder.itemNameTextView.setText(item.getName());
+        holder.imageView.setImageResource(drawableId);
+
+        holder.nameTextView.setText(item.getName());
+
+        // TODO Extract and allow for dynamic logic
+        holder.categoryChip.setBackgroundColor(ContextCompat.getColor(context, R.color.chip_blue_light));
+        holder.setChipColors(R.color.chip_blue_dark, R.color.chip_blue_light);
+        holder.categoryChip.setChipIcon(ContextCompat.getDrawable(context, R.drawable.ic_laptop));
+        String capitalizedCategory = item.getCategory().substring(0, 1).toUpperCase() + item.getCategory().substring(1);
+        holder.categoryChip.setText(capitalizedCategory);
+
         String price = "$" + item.getPrice();
-        holder.itemPriceTextView.setText(price);
+        holder.priceTextView.setText(price);
     }
 
     @Override

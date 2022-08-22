@@ -39,7 +39,7 @@
         <entry key="app/src/main/res/font/inter_bold.xml" value="0.24259259259259258" />
         <entry key="app/src/main/res/layout/activity_category_items.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_details.xml" value="0.13531047265987026" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_search_results.xml" value="0.335" />
         <entry key="app/src/main/res/layout/category_card.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item.xml" value="0.5" />
