@@ -10,12 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.ColorRes;
-import androidx.annotation.IdRes;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
 import com.google.android.material.card.MaterialCardView;
@@ -28,11 +29,11 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public MaterialCardView cardView;
-        public ImageView imageView;
-        public TextView nameTextView;
-        public TextView priceTextView;
-        public Chip categoryChip;
+        MaterialCardView cardView;
+        ImageView imageView;
+        TextView nameTextView;
+        TextView priceTextView;
+        Chip categoryChip;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -59,7 +60,7 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
         }
 
         public void setChipColors(@ColorRes int foreground, @ColorRes int background) {
-            Resources res = context.getResources();
+            Resources res = categoryChip.getContext().getResources();
             categoryChip.setChipBackgroundColor(ColorStateList.valueOf(res.getColor(background)));
             categoryChip.setChipIconTint(ColorStateList.valueOf(res.getColor(foreground)));
             categoryChip.setTextColor(ColorStateList.valueOf(res.getColor(foreground)));
@@ -74,6 +75,46 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
         }
     }
 
+    // TODO Extract all chip data/logic into a separate util class
+    public @DrawableRes int determineChipIcon(String category) {
+        switch (category) {
+            case Category.DESKTOP:
+                return R.drawable.ic_desktop;
+            case Category.LAPTOP:
+                return R.drawable.ic_laptop;
+            case Category.TABLET:
+                return R.drawable.ic_tablet;
+            default:
+                throw new IllegalArgumentException("Unknown category: " + category);
+        }
+    }
+
+    public @ColorRes int determineChipForegroundColor(String category) {
+        switch (category) {
+            case Category.DESKTOP:
+                return R.color.chip_blue_dark;
+            case Category.LAPTOP:
+                return R.color.chip_green_dark;
+            case Category.TABLET:
+                return R.color.chip_tan_dark;
+            default:
+                throw new IllegalArgumentException("Unknown category: " + category);
+        }
+    }
+
+    public @ColorRes int determineChipBackgroundColor(String category) {
+        switch (category) {
+            case Category.DESKTOP:
+                return R.color.chip_blue_light;
+            case Category.LAPTOP:
+                return R.color.chip_green_light;
+            case Category.TABLET:
+                return R.color.chip_tan_light;
+            default:
+                throw new IllegalArgumentException("Unknown category: " + category);
+        }
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -84,20 +125,22 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         IItem item = items.get(position);
 
+        // Item image
         int drawableId = context.getResources().getIdentifier(item.getImagePaths().get(0),"drawable", context.getPackageName());
         holder.imageView.setImageResource(drawableId);
 
+        // Item name
         holder.nameTextView.setText(item.getName());
 
-        // TODO Extract and allow for dynamic logic
-        holder.categoryChip.setBackgroundColor(ContextCompat.getColor(context, R.color.chip_blue_light));
-        holder.setChipColors(R.color.chip_blue_dark, R.color.chip_blue_light);
-        holder.categoryChip.setChipIcon(ContextCompat.getDrawable(context, R.drawable.ic_laptop));
-        String capitalizedCategory = item.getCategory().substring(0, 1).toUpperCase() + item.getCategory().substring(1);
-        holder.categoryChip.setText(capitalizedCategory);
-
+        // Item price
         String price = "$" + item.getPrice();
         holder.priceTextView.setText(price);
+
+        // Dynamic chip icon and data depending on the category
+        holder.setChipColors(determineChipForegroundColor(item.getCategory()), determineChipBackgroundColor(item.getCategory()));
+        holder.categoryChip.setChipIcon(ContextCompat.getDrawable(context, determineChipIcon(item.getCategory())));
+        String capitalizedCategory = item.getCategory().substring(0, 1).toUpperCase() + item.getCategory().substring(1);
+        holder.categoryChip.setText(capitalizedCategory);
     }
 
     @Override
