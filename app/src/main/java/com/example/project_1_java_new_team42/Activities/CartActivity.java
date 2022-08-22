@@ -50,7 +50,6 @@ public class CartActivity extends AppCompatActivity {
             totalPriceTextView = findViewById(R.id.cart_total_price);
             String totalPrice = "$" + data.getTotalPrice();
             totalPriceTextView.setText(totalPrice);
-            System.out.println(totalPrice);
         }
 
         @Override
@@ -84,10 +83,16 @@ public class CartActivity extends AppCompatActivity {
         cartDataFetcher.readData(new CartFetchHandler());
     }
 
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.place_order_button:
+//
+//        }
+//    }
+
     public void updateTotalPrice(int totalPrice) {
         String price = "$" + totalPrice;
         totalPriceTextView.setText(price);
-        System.out.println("this the teh total === " + totalPrice);
     }
 
 }

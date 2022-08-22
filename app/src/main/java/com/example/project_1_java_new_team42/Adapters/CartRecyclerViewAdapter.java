@@ -55,6 +55,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
         TextView cartItemQuantityTextView;
         Button incrementButton;
         Button decrementButton;
+        Button deleteButton;
         TextView quantityTextView;
         MyClickListener listener;
 
@@ -67,12 +68,14 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
             cartItemQuantityTextView = itemView.findViewById(R.id.text_item_quantity);
             incrementButton = itemView.findViewById(R.id.button_plus);
             decrementButton = itemView.findViewById(R.id.button_minus);
+            deleteButton = itemView.findViewById(R.id.button_delete);
             quantityTextView = itemView.findViewById(R.id.text_item_quantity);
 
             this.listener = listener;
 
             incrementButton.setOnClickListener(this);
             decrementButton.setOnClickListener(this);
+            deleteButton.setOnClickListener(this);
 
             quantityTextView.addTextChangedListener(quantityTextWatcher);
         }
@@ -83,7 +86,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
             switch (view.getId()) {
                 case R.id.button_plus:
 
-                    // Call onIncrement to update quantity field in Firebase
+                    // Call onIncrement to update quantity field in database
                     listener.onIncrement(this.getLayoutPosition());
 
                     // Set text views in RecyclerView
@@ -93,13 +96,19 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                     break;
                 case R.id.button_minus:
 
-                    // Call onIncrement to update quantity field in Firebase
+                    // Call onIncrement to update quantity field in database
                     listener.onDecrement(this.getLayoutPosition());
 
                     // Set text views in RecyclerView
                     quantityTextView.setText(String.valueOf(itemQuantity));
                     price = "$" + (itemQuantity * itemPrice);
                     cartItemPriceTextView.setText(price);
+                    break;
+                case R.id.button_delete:
+
+                    // Call onDelete to remove item from database
+                    listener.onDeletion(this.getLayoutPosition());
+
                     break;
                 default:
                     break;
@@ -166,6 +175,21 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                 cartDataSender.addItemWithQuantityToCart(item, new CartDataSendHandler());
                 itemsWithQuantity.set(p, item);
             }
+
+            @Override
+            public void onDeletion(int p) {
+                // Implement functionality for delete button
+                itemQuantity = itemsWithQuantity.get(p).getQuantity();
+                itemPrice = itemsWithQuantity.get(p).getPrice();
+
+                itemsTotalPrice -= (itemQuantity * itemPrice);
+
+                String itemId = itemsWithQuantity.get(p).getId();
+                cartDataSender.deleteSingleCartItem(itemId, new CartDataSendHandler());
+
+                itemsWithQuantity.remove(p);
+                notifyItemRemoved(p);
+            }
         });
         return holder;
     }
@@ -191,6 +215,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     public interface MyClickListener {
         void onIncrement(int p);
         void onDecrement(int p);
+        void onDeletion(int p);
     }
 
     // Implementation of CartDataSendHandler
