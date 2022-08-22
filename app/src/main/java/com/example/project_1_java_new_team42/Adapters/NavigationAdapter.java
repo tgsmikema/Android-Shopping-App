@@ -18,13 +18,13 @@ public class NavigationAdapter {
     private Context context;
     private Activity activity;
 
-    private final String MAIN_ACTIVITY = "Activities.MainActivity";
-    private final String CART_ACTIVITY = "Activities.CartActivity";
-    private final String CATEGORY_ITEMS_ACTIVITY = "Activities.CategoryItemsActivity";
-    private final String DETAILS_ACTIVITY = "Activities.DetailsActivity";
-    private final String PAST_ORDER_ITEMS_ACTIVITY = "Activities.PastOrderItemsActivity";
-    private final String PAST_ORDERS_ACTIVITY = "Activities.PastOrdersActivity";
-    private final String SEARCH_RESULT_ACTIVITY = "Activities.SearchResultsActivity";
+    public static final String MAIN_ACTIVITY = "Activities.MainActivity";
+    public static final String CART_ACTIVITY = "Activities.CartActivity";
+    public static final String CATEGORY_ITEMS_ACTIVITY = "Activities.CategoryItemsActivity";
+    public static final String DETAILS_ACTIVITY = "Activities.DetailsActivity";
+    public static final String PAST_ORDER_ITEMS_ACTIVITY = "Activities.PastOrderItemsActivity";
+    public static final String PAST_ORDERS_ACTIVITY = "Activities.PastOrdersActivity";
+    public static final String SEARCH_RESULT_ACTIVITY = "Activities.SearchResultsActivity";
 
     public NavigationAdapter(Context context){
         this.context = context;

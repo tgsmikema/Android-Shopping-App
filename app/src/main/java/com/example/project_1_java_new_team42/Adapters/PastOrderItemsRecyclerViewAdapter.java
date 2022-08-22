@@ -43,7 +43,7 @@ public class PastOrderItemsRecyclerViewAdapter extends GenericRecyclerViewAdapte
 
         @Override
         public void onClick(View view) {
-            //TODO implement onClick methods here.
+            //Do nothing.
         }
     }
 

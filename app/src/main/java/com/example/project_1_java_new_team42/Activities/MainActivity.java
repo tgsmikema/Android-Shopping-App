@@ -37,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
     public static final String INTENT_KEY_SEARCH = "SEARCH";
     public static final String INTENT_KEY_CATEGORY_NAME = "CATEGORY_NAME";
     public static final String INTENT_KEY_CATEGORY_IMAGE_URI = "CATEGORY_IMAGE_URI";
+    public static final String INTENT_KEY_ACTIVITY_NAME = "ACTIVITY_NAME";
+    public static final String INTENT_VALUE_MAIN_ACTIVITY = "Activities.MainActivity";
+    public static final String INTENT_VALUE_SEARCH_RESULTS_ACTIVITY = "Activities.SearchResultsActivity";
+    public static final String INTENT_VALUE_CATEGORY_ITEMS_ACTIVITY = "Activities.CategoryItemsActivity";
+    public static final String INTENT_KEY_ITEM_ID = "ITEM_ID";
+    public static final String INTENT_KEY_ORDER_ID = "ORDER_ID";
 
     protected RecyclerView categoriesRecyclerView;
     protected CategoriesRecyclerViewAdapter categoriesAdapter;

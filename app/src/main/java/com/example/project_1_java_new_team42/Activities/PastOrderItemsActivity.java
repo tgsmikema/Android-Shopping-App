@@ -83,6 +83,31 @@ public class PastOrderItemsActivity extends AppCompatActivity {
         }
     }
 
+    private View.OnClickListener buttonListener = new View.OnClickListener() {
+        public void onClick(View view) {
+            switch (view.getId()) {
+
+                case R.id.button_back_past_order_items:
+                    navigateBackToPreviousActivity();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    };
+
+    public void navigateBackToPreviousActivity() {
+        Intent intent = new Intent(this, PastOrdersActivity.class);
+        startActivity(intent);
+    }
+
+    private String constructItemFromIntent(){
+        Intent intent = getIntent();
+        String orderID = intent.getStringExtra(MainActivity.INTENT_KEY_ORDER_ID);
+        return orderID;
+    }
+
 
     protected void initializePastOrderItemsRecyclerView() {
         vh.pastOrderItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
@@ -99,15 +124,15 @@ public class PastOrderItemsActivity extends AppCompatActivity {
         vh = new ViewHolder();
         initializePastOrderItemsRecyclerView();
 
-        //ADD INTENT FOR navigation DATA FETCHING ----------------------------------------
-        pastOrderItemsDataFetcher.readData("20220814173058001", new pastOrderItemsFetchHandler());
-        //---------------------------------------------------------------------
+        pastOrderItemsDataFetcher.readData(constructItemFromIntent(), new pastOrderItemsFetchHandler());
 
         // Highlight the Selected Navigation ICON
         vh.bottomNavBar.setSelectedItemId(R.id.activity_orders);
         // Initialise the Bottom Bar Navigation Logic
         navigationAdapter = new NavigationAdapter(this);
         vh.bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
+
+        vh.backButton.setOnClickListener(buttonListener);
 
 
     }

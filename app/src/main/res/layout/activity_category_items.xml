@@ -52,7 +52,7 @@
                 tools:text="Laptops" />
 
             <Button
-                android:id="@+id/button_back"
+                android:id="@+id/button_back_category_items"
                 style="@style/Team42.BackButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

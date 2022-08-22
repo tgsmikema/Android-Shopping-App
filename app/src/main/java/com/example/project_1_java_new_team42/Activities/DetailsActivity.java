@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +25,7 @@ import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.ItemDetailsDataFetcher;
 import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
 import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
+import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
@@ -42,6 +44,12 @@ public class DetailsActivity extends AppCompatActivity {
     // Image Slider Dots
     private int dotsCount;
     private ImageView[] dots;
+
+    //Intent related variables
+    private String activityNamePreviousLevel;
+    private String categoryNamePreviousLevel;
+    private String categoryImageUriPreviousLevel;
+    private String searchStringPreviousLevel;
 
     ViewHolder vh;
     // Adapters
@@ -65,7 +73,7 @@ public class DetailsActivity extends AppCompatActivity {
         View divider;
 
         TextView itemName, itemDetail, itemPrice, itemTotalPrice, quantityText, quantity;
-        Button decreaseBtn, increaseBtn, addCartButton;
+        Button decreaseBtn, increaseBtn, addCartButton, backButton;
 
         NavigationBarView bottomNavBar;
 
@@ -88,6 +96,7 @@ public class DetailsActivity extends AppCompatActivity {
             decreaseBtn = findViewById(R.id.decrease_btn_details);
             increaseBtn = findViewById(R.id.increase_btn_details);
             addCartButton = findViewById(R.id.add_cart_button_details);
+            backButton = findViewById(R.id.button_back_details);
             // Bottom Nav Bar
             bottomNavBar = findViewById(R.id.bottom_navigation_details);
         }
@@ -191,6 +200,11 @@ public class DetailsActivity extends AppCompatActivity {
                     // add or update item to DB
                     cartDataSender.addItemWithQuantityToCart(itemWithQuantity, new CartDataSendHandler());
                     break;
+                case R.id.button_back_details:
+
+                    navigateBackToPreviousActivity();
+
+                    break;
                 default:
                     break;
             }
@@ -245,6 +259,54 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
+    private String constructItemFromIntent(){
+        Intent intent = getIntent();
+        activityNamePreviousLevel = intent.getStringExtra(MainActivity.INTENT_KEY_ACTIVITY_NAME);
+
+        if (activityNamePreviousLevel.equals(MainActivity.INTENT_VALUE_MAIN_ACTIVITY)){
+            //Toast.makeText(this,"From Main",Toast.LENGTH_LONG).show();
+            return (intent.getStringExtra(MainActivity.INTENT_KEY_ITEM_ID));
+
+        } else if (activityNamePreviousLevel.equals(MainActivity.INTENT_VALUE_CATEGORY_ITEMS_ACTIVITY)){
+            categoryNamePreviousLevel = intent.getStringExtra(MainActivity.INTENT_KEY_CATEGORY_NAME);
+            categoryImageUriPreviousLevel = intent.getStringExtra(MainActivity.INTENT_KEY_CATEGORY_IMAGE_URI);
+            //Toast.makeText(this,"From Cat: " + categoryNamePreviousLevel,Toast.LENGTH_LONG).show();
+            return (intent.getStringExtra(MainActivity.INTENT_KEY_ITEM_ID));
+
+        } else if (activityNamePreviousLevel.equals(MainActivity.INTENT_VALUE_SEARCH_RESULTS_ACTIVITY)){
+            searchStringPreviousLevel = intent.getStringExtra(MainActivity.INTENT_KEY_SEARCH);
+            //Toast.makeText(this,"From Search: " + searchStringPreviousLevel,Toast.LENGTH_LONG).show();
+            return (intent.getStringExtra(MainActivity.INTENT_KEY_ITEM_ID));
+
+        } else {
+            return "NoSuchItemID";
+        }
+
+    }
+
+    public void navigateBackToPreviousActivity() {
+
+        if (activityNamePreviousLevel.equals(MainActivity.INTENT_VALUE_MAIN_ACTIVITY)) {
+
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+
+        } else if (activityNamePreviousLevel.equals(MainActivity.INTENT_VALUE_CATEGORY_ITEMS_ACTIVITY)) {
+
+            Intent intent = new Intent(this, CategoryItemsActivity.class);
+            intent.putExtra(MainActivity.INTENT_KEY_CATEGORY_NAME, categoryNamePreviousLevel);
+            intent.putExtra(MainActivity.INTENT_KEY_CATEGORY_IMAGE_URI, categoryImageUriPreviousLevel);
+            startActivity(intent);
+
+        } else if (activityNamePreviousLevel.equals(MainActivity.INTENT_VALUE_SEARCH_RESULTS_ACTIVITY)) {
+
+            Intent intent = new Intent(this, SearchResultsActivity.class);
+            intent.putExtra(MainActivity.INTENT_KEY_SEARCH, searchStringPreviousLevel);
+            startActivity(intent);
+        }
+    }
+
+
     // ----------------------------------------------------------------------------------------//
     // Details Activity OnCreate Method (Main entry)
     @Override
@@ -258,6 +320,7 @@ public class DetailsActivity extends AppCompatActivity {
         vh.increaseBtn.setOnClickListener(buttonListener);
         vh.decreaseBtn.setOnClickListener(buttonListener);
         vh.addCartButton.setOnClickListener(buttonListener);
+        vh.backButton.setOnClickListener(buttonListener);
 
         // Highlight the Selected Navigation ICON
         vh.bottomNavBar.setSelectedItemId(R.id.activity_home);
@@ -265,19 +328,8 @@ public class DetailsActivity extends AppCompatActivity {
         navigationAdapter = new NavigationAdapter(this);
         vh.bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
 
-        // ----------TESTING PURPOSE, REPLACE Once Developed Navigation-------(API)--------//
-        // Intent intent = getIntent();
-        // String str = intent.getStringExtra("message_key");
-        itemDetailsDataFetcher.readData("laptop_2", new ItemDetailsFetchHandler());
-        // pass in id(string) of the selected Item.
-        // SENDER SIDE (API) CODE
-        // Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-        // intent.putExtra("message_key", "string");
-        // startActivity(intent);
-        // -----------------------------TESTING ENDS----------------------------------------//
-
-
-
+        String selectedItemId = constructItemFromIntent();
+        itemDetailsDataFetcher.readData(selectedItemId, new ItemDetailsFetchHandler());
 
     }
 }

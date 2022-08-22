@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.SearchItemsDataFetcher;
 import com.example.project_1_java_new_team42.Models.IItem;
+import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
 import com.example.project_1_java_new_team42.Widgets.ItemsRecyclerView;
 import com.example.project_1_java_new_team42.Widgets.RecyclerViewLayoutType;
@@ -54,6 +56,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     protected void initializeItemsRecyclerView() {
         ItemsRecyclerView searchedItemsRV = new ItemsRecyclerView(this, findViewById(R.id.recycler_view_search_items), RecyclerViewLayoutType.GRID);
         itemsAdapter = searchedItemsRV.getAdapter();
+        itemsAdapter.relaySearchString(searchedText);
     }
 
     private void setSearchBarText() {
@@ -70,6 +73,25 @@ public class SearchResultsActivity extends AppCompatActivity {
             String formatted = "Found " + numResults + " results for " + "\"" + searchedText + "\"";
             textView.setText(formatted);
         }
+    }
+
+    private View.OnClickListener buttonListener = new View.OnClickListener() {
+        public void onClick(View view) {
+            switch (view.getId()) {
+
+                case R.id.button_back_search_results:
+                    navigateBackToPreviousActivity();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    };
+
+    public void navigateBackToPreviousActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     protected void initializeSearch() {
@@ -103,8 +125,11 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         itemsDataFetcher.readData(searchedText, new SearchItemsFetchHandler());
 
-        //TODO(Refactor) put this inside ViewHolder
+        //TODO(Refactor) put this 2 lines inside ViewHolder
         NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation_search_results);
+        Button backButton = findViewById(R.id.button_back_search_results);
+
+        backButton.setOnClickListener(buttonListener);
 
         // Highlight the Selected Navigation ICON
         bottomNavBar.setSelectedItemId(R.id.activity_home);
