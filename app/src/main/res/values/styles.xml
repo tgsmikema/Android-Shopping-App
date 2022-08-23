@@ -59,6 +59,14 @@
         <item name="icon">@drawable/ic_chevron_left</item>
         <item name="iconPadding">0dp</item>
     </style>
+    <style name="Team42.CategoryChip" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="android:textSize">11sp</item>
+        <item name="android:checkable">false</item>
+        <item name="chipIconSize">12dp</item>
+        <item name="chipMinHeight">22dp</item>
+        <item name="iconStartPadding">6dp</item>
+        <item name="chipMinTouchTargetSize">0dp</item>
+    </style>
 
     <!--  Typography Theming  -->
     <style name="Team42.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
