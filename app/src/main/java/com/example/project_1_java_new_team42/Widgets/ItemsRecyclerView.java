@@ -74,4 +74,8 @@ public class ItemsRecyclerView {
     public ItemsRecyclerViewAdapter getAdapter() {
         return adapter;
     }
+
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
+    }
 }

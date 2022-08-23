@@ -25,6 +25,7 @@ import com.example.project_1_java_new_team42.Widgets.ItemsRecyclerView;
 import com.example.project_1_java_new_team42.Widgets.RecyclerViewLayoutType;
 import com.example.project_1_java_new_team42.Widgets.Search;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputLayout;
@@ -37,20 +38,20 @@ public class MainActivity extends AppCompatActivity {
     public static final String INTENT_KEY_CATEGORY_NAME = "CATEGORY_NAME";
     public static final String INTENT_KEY_CATEGORY_IMAGE_URI = "CATEGORY_IMAGE_URI";
 
-    protected RecyclerView categoriesRecyclerView;
-    protected CategoriesRecyclerViewAdapter categoriesAdapter;
-//    protected CircularProgressIndicator categoriesSpinner;
-    protected CategoryDataFetcher categoriesDataFetcher = new CategoryDataFetcher();
+    private RecyclerView categoriesRecyclerView;
+    private CategoriesRecyclerViewAdapter categoriesAdapter;
+    private CategoryDataFetcher categoriesDataFetcher = new CategoryDataFetcher();
 
-    protected ItemsRecyclerViewAdapter topItemsAdapter;
-//    protected CircularProgressIndicator topItemsSpinner;
-    protected TopItemsDataFetcher topItemsDataFetcher = new TopItemsDataFetcher();
+    private ShimmerFrameLayout topItemsShimmerLayout;
+    private ItemsRecyclerView topItemsRecyclerView;
+    private ItemsRecyclerViewAdapter topItemsAdapter;
+    private final TopItemsDataFetcher topItemsDataFetcher = new TopItemsDataFetcher();
 
     private class CategoriesFetchHandler implements IFetchHandler<List<Category>> {
         @Override
         public void onFetchComplete(List<Category> data) {
             categoriesAdapter.addItems(data);
-//            categoriesSpinner.setVisibility(View.GONE);
+            // TODO Handle shimmer and recycler view for categories
             Log.i(TAG, "Fetched categories successfully");
         }
 
@@ -65,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onFetchComplete(List<IItem> data) {
             topItemsAdapter.addItems(data);
-//            topItemsSpinner.setVisibility(View.GONE);
+            topItemsShimmerLayout.setVisibility(View.INVISIBLE);
+            topItemsRecyclerView.getRecyclerView().setVisibility(View.VISIBLE);
             Log.i(TAG, "Fetched top items successfully");
         }
 
@@ -89,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void initializeTopItemsRecyclerView() {
-        ItemsRecyclerView topItemsRecyclerView = new ItemsRecyclerView(this, findViewById(R.id.recycler_view_top_items), RecyclerViewLayoutType.HORIZONTAL);
+        topItemsRecyclerView = new ItemsRecyclerView(this, findViewById(R.id.recycler_view_top_items), RecyclerViewLayoutType.HORIZONTAL);
         topItemsAdapter = topItemsRecyclerView.getAdapter();
     }
 
@@ -142,30 +144,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        categoriesSpinner = findViewById(R.id.progress_categories);
-//        topItemsSpinner = findViewById(R.id.progress_top_items);
+        topItemsShimmerLayout = findViewById(R.id.shimmer_top_items);
+        topItemsShimmerLayout.startShimmer();
 
         initializeCategoriesRecyclerView();
         initializeTopItemsRecyclerView();
         initializeSearch();
 
 //        categoriesDataFetcher.readData(new CategoriesFetchHandler());
-//        topItemsDataFetcher.readData(new TopItemsFetchHandler());
+        topItemsDataFetcher.readData(new TopItemsFetchHandler());
 
         NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation);
 
-        // Highlight the Selected Navigation ICON
         bottomNavBar.setSelectedItemId(R.id.activity_home);
-        // Initialise the Bottom Bar Navigation Logic
-        // -----------------------NEED TO CHANGE NOTE: ---------------------------//
-        // Line 112 -
-        //                           1) Change DetailsActivity to CartActivity
-        // Uncomment Line 112 - 263 after implemented:
-        //                           1) CartActivity
-        //                           2) PastOrderActivity
-        // -----------------------------------------------------------------------//
         bottomNavBar.setOnItemSelectedListener(navigationListener);
-
     }
 }
 

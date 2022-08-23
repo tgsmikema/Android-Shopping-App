@@ -32,13 +32,12 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_marginTop="6dp"
-            android:layout_height="18dp"
-            app:cornerRadius="8dp"/>
+            android:layout_marginTop="4dp"
+            android:layout_height="18dp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="18dp"
-            android:layout_marginTop="6dp" />
+            android:layout_marginTop="4dp" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
