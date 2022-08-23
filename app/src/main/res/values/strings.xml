@@ -12,4 +12,7 @@
     <string name="heading_search">Search</string>
     <string name="button_back">Back</string>
     <string name="category_header_image">Category header image</string>
+    <string name="heading_cart">Cart</string>
+    <string name="total_price">Total</string>
+    <string name="place_order">Place Order</string>
 </resources>
