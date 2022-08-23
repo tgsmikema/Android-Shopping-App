@@ -6,5 +6,11 @@
     <color name="brand_black">#212121</color>
     <color name="brand_gray">#484848</color>
     <color name="brand_light_gray">#555</color>
+    <color name="chip_blue_dark">#3567BB</color>
+    <color name="chip_blue_light">#EBF2FF</color>
+    <color name="chip_green_dark">#38823F</color>
+    <color name="chip_green_light">#ECF7EC</color>
+    <color name="chip_tan_dark">#C18545</color>
+    <color name="chip_tan_light">#FFF0DF</color>
     <color name="button_unavailable">#C0C0C0</color>
 </resources>

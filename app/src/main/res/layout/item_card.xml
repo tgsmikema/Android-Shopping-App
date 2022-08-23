@@ -13,7 +13,6 @@
         app:strokeWidth="1dp"
         app:strokeColor="#eee"
         app:cardCornerRadius="@dimen/card_corner_radius"
-
         android:id="@+id/card_item"
         tools:layout_marginBottom="20dp"
         tools:layout_marginEnd="10dp"
@@ -30,8 +29,8 @@
             <ImageView
                 android:paddingVertical="10dp"
                 android:id="@+id/image_itemcard"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:scaleType="centerInside"
                 app:cornerRadius="8dp"
                 tools:contentDescription="Apple Macbook Air 2020"
@@ -51,10 +50,22 @@
             <TextView
                 android:id="@+id/text_itemcard_price"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:textSize="12sp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 tools:text="$2299" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_itemcard_category"
+                style="@style/Team42.CategoryChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                tools:chipIconTint="@color/chip_blue_dark"
+                tools:chipBackgroundColor="@color/chip_blue_light"
+                tools:chipIcon="@drawable/ic_laptop"
+                tools:textColor="@color/chip_blue_dark"
+                tools:text="Laptop" />
 
         </LinearLayout>
 
