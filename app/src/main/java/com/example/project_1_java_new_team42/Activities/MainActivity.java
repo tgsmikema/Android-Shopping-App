@@ -38,26 +38,28 @@ public class MainActivity extends AppCompatActivity {
     public static final String INTENT_KEY_CATEGORY_NAME = "CATEGORY_NAME";
     public static final String INTENT_KEY_CATEGORY_IMAGE_URI = "CATEGORY_IMAGE_URI";
 
+    private ShimmerFrameLayout categoriesShimmerLayout;
     private RecyclerView categoriesRecyclerView;
     private CategoriesRecyclerViewAdapter categoriesAdapter;
-    private CategoryDataFetcher categoriesDataFetcher = new CategoryDataFetcher();
 
     private ShimmerFrameLayout topItemsShimmerLayout;
     private ItemsRecyclerView topItemsRecyclerView;
     private ItemsRecyclerViewAdapter topItemsAdapter;
-    private final TopItemsDataFetcher topItemsDataFetcher = new TopItemsDataFetcher();
 
     private class CategoriesFetchHandler implements IFetchHandler<List<Category>> {
         @Override
         public void onFetchComplete(List<Category> data) {
             categoriesAdapter.addItems(data);
             // TODO Handle shimmer and recycler view for categories
+            categoriesShimmerLayout.setVisibility(View.INVISIBLE);
+            categoriesRecyclerView.setVisibility(View.VISIBLE);
             Log.i(TAG, "Fetched categories successfully");
         }
 
         @Override
         public void onFetchFail() {
             System.out.println("Failed to fetch categories");
+            categoriesShimmerLayout.hideShimmer();
             Toast.makeText(getApplicationContext(), "Failed to fetch categories", Toast.LENGTH_SHORT).show();
         }
     }
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onFetchFail() {
             System.out.println("Failed to fetch top items");
+            topItemsShimmerLayout.hideShimmer();
             Toast.makeText(getApplicationContext(), "Failed to fetch top items", Toast.LENGTH_SHORT).show();
         }
     }
@@ -85,13 +88,16 @@ public class MainActivity extends AppCompatActivity {
      */
     protected void initializeCategoriesRecyclerView() {
         categoriesRecyclerView = findViewById(R.id.recycler_view_category_cards);
+        categoriesRecyclerView.setVisibility(View.INVISIBLE);
         categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         categoriesAdapter = new CategoriesRecyclerViewAdapter(this);
         categoriesRecyclerView.setAdapter(categoriesAdapter);
     }
 
     protected void initializeTopItemsRecyclerView() {
-        topItemsRecyclerView = new ItemsRecyclerView(this, findViewById(R.id.recycler_view_top_items), RecyclerViewLayoutType.HORIZONTAL);
+        RecyclerView rv = findViewById(R.id.recycler_view_top_items);
+        rv.setVisibility(View.INVISIBLE);
+        topItemsRecyclerView = new ItemsRecyclerView(this, rv, RecyclerViewLayoutType.HORIZONTAL);
         topItemsAdapter = topItemsRecyclerView.getAdapter();
     }
 
@@ -113,6 +119,21 @@ public class MainActivity extends AppCompatActivity {
                 navigateToSearchResults(searchQuery);
             }
         });
+    }
+
+    private void showLoadingStates() {
+        topItemsShimmerLayout = findViewById(R.id.shimmer_top_items);
+        topItemsShimmerLayout.startShimmer();
+
+        categoriesShimmerLayout = findViewById(R.id.shimmer_categories);
+        categoriesShimmerLayout.startShimmer();
+    }
+
+    private void fetchHomePageData() {
+        CategoryDataFetcher categoriesDataFetcher = new CategoryDataFetcher();
+        TopItemsDataFetcher topItemsDataFetcher = new TopItemsDataFetcher();
+        categoriesDataFetcher.readData(new CategoriesFetchHandler());
+        topItemsDataFetcher.readData(new TopItemsFetchHandler());
     }
 
     // Logic of Navigation Bar selection.
@@ -144,18 +165,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        topItemsShimmerLayout = findViewById(R.id.shimmer_top_items);
-        topItemsShimmerLayout.startShimmer();
+        showLoadingStates();
 
         initializeCategoriesRecyclerView();
         initializeTopItemsRecyclerView();
         initializeSearch();
 
-//        categoriesDataFetcher.readData(new CategoriesFetchHandler());
-        topItemsDataFetcher.readData(new TopItemsFetchHandler());
+        fetchHomePageData();
 
         NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation);
-
         bottomNavBar.setSelectedItemId(R.id.activity_home);
         bottomNavBar.setOnItemSelectedListener(navigationListener);
     }
