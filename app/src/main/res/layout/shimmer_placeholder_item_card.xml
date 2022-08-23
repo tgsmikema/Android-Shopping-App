@@ -10,38 +10,35 @@
     app:strokeColor="#eee"
     app:cardCornerRadius="@dimen/card_corner_radius"
     android:id="@+id/card_item"
+    app:cardBackgroundColor="@color/shimmer_placeholder"
     tools:layout_marginBottom="20dp"
     tools:layout_marginEnd="10dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
-        android:paddingBottom="24dp"
+        android:padding="16dp"
         android:orientation="vertical">
 
-        <ImageView
-            android:backgroundTint="@color/brand_gray"
+        <View
+            android:layout_marginVertical="10dp"
             android:layout_width="140dp"
-            android:layout_height="140dp"
-            app:cornerRadius="8dp" />
+            android:layout_height="140dp" />
 
-        <TextView
-            android:backgroundTint="@color/brand_gray"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="16dp"
+            android:layout_height="18dp"
             android:layout_marginTop="4dp"/>
 
-        <TextView
-            android:backgroundTint="@color/brand_gray"
+        <View
             android:layout_width="match_parent"
             android:layout_marginTop="6dp"
-            android:layout_height="16dp" />
+            android:layout_height="18dp"
+            app:cornerRadius="8dp"/>
 
-        <com.google.android.material.chip.Chip
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            style="@style/Team42.CategoryChip" />
+            android:layout_height="18dp"
+            android:layout_marginTop="6dp" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
