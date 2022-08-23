@@ -7,13 +7,15 @@
     android:layout_marginBottom="10dp">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/material_past_order_item_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="true"
         app:cardCornerRadius="@dimen/card_corner_radius"
         app:cardElevation="0dp"
         app:strokeColor="#eee"
-        app:strokeWidth="1dp"
-        android:id="@+id/material_past_order_item_card">
+        app:strokeWidth="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -23,7 +25,7 @@
                 android:id="@+id/image_past_order_item_card"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:paddingVertical="6dp"
+                android:paddingHorizontal="14dp"
                 android:scaleType="centerInside"
                 app:cornerRadius="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
