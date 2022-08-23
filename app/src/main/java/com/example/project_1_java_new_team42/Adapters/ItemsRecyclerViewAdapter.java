@@ -154,9 +154,4 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
         holder.categoryChip.setChipIcon(ContextCompat.getDrawable(context, chipData.getIcon()));
         holder.categoryChip.setText(chipData.getText());
     }
-
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
 }
