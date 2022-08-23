@@ -101,6 +101,10 @@ public class SearchResultsActivity extends AppCompatActivity {
         search.setOnSearchActionListener(new Search.OnSearchActionListener() {
             @Override
             public void onSearch(EditText view, String searchQuery) {
+                if (searchedText.equals(searchQuery)) {
+                    return;
+                }
+
                 searchedText = searchQuery;
                 itemsAdapter.clearItems();
                 itemsShimmer.setVisibility(View.VISIBLE);
