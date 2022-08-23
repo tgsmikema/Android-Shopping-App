@@ -72,7 +72,60 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/image_category_header" />
 
+            <!-- Shimmer placeholders for searched items  -->
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_search_items"
+                android:layout_marginHorizontal="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintTop_toBottomOf="@+id/image_category_header">
+                <GridLayout
+                    android:id="@+id/grid_shimmer_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2">
+                    <include
+                        layout="@layout/shimmer_placeholder_item_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="20dp" />
+                    <include
+                        layout="@layout/shimmer_placeholder_item_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="20dp" />
+                    <include
+                        layout="@layout/shimmer_placeholder_item_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp" />
+                    <include
+                        layout="@layout/shimmer_placeholder_item_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="20dp" />
+                    <include
+                        layout="@layout/shimmer_placeholder_item_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="20dp" />
+                    <include
+                        layout="@layout/shimmer_placeholder_item_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="20dp" />
+                </GridLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
             <androidx.recyclerview.widget.RecyclerView
+                android:visibility="invisible"
                 android:id="@+id/recycler_view_category_items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

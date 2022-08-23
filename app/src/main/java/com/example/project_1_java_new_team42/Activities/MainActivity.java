@@ -3,12 +3,10 @@ package com.example.project_1_java_new_team42.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,8 +24,8 @@ import com.example.project_1_java_new_team42.Widgets.ItemsRecyclerView;
 import com.example.project_1_java_new_team42.Widgets.RecyclerViewLayoutType;
 import com.example.project_1_java_new_team42.Widgets.Search;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
@@ -44,14 +42,13 @@ public class MainActivity extends AppCompatActivity {
     public static final String INTENT_KEY_ITEM_ID = "ITEM_ID";
     public static final String INTENT_KEY_ORDER_ID = "ORDER_ID";
 
-    protected RecyclerView categoriesRecyclerView;
-    protected CategoriesRecyclerViewAdapter categoriesAdapter;
-    protected CircularProgressIndicator categoriesSpinner;
-    protected CategoryDataFetcher categoriesDataFetcher = new CategoryDataFetcher();
+    private ShimmerFrameLayout categoriesShimmerLayout;
+    private RecyclerView categoriesRecyclerView;
+    private CategoriesRecyclerViewAdapter categoriesAdapter;
 
-    protected ItemsRecyclerViewAdapter topItemsAdapter;
-    protected CircularProgressIndicator topItemsSpinner;
-    protected TopItemsDataFetcher topItemsDataFetcher = new TopItemsDataFetcher();
+    private ShimmerFrameLayout topItemsShimmerLayout;
+    private ItemsRecyclerView topItemsRecyclerView;
+    private ItemsRecyclerViewAdapter topItemsAdapter;
 
     protected NavigationAdapter navigationAdapter;
 
@@ -59,13 +56,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onFetchComplete(List<Category> data) {
             categoriesAdapter.addItems(data);
-            categoriesSpinner.setVisibility(View.GONE);
+            categoriesShimmerLayout.setVisibility(View.INVISIBLE);
+            categoriesRecyclerView.setVisibility(View.VISIBLE);
             Log.i(TAG, "Fetched categories successfully");
         }
 
         @Override
         public void onFetchFail() {
             System.out.println("Failed to fetch categories");
+            categoriesShimmerLayout.hideShimmer();
             Toast.makeText(getApplicationContext(), "Failed to fetch categories", Toast.LENGTH_SHORT).show();
         }
     }
@@ -74,13 +73,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onFetchComplete(List<IItem> data) {
             topItemsAdapter.addItems(data);
-            topItemsSpinner.setVisibility(View.GONE);
+            topItemsShimmerLayout.setVisibility(View.INVISIBLE);
+            topItemsRecyclerView.getRecyclerView().setVisibility(View.VISIBLE);
             Log.i(TAG, "Fetched top items successfully");
         }
 
         @Override
         public void onFetchFail() {
             System.out.println("Failed to fetch top items");
+            topItemsShimmerLayout.hideShimmer();
             Toast.makeText(getApplicationContext(), "Failed to fetch top items", Toast.LENGTH_SHORT).show();
         }
     }
@@ -92,13 +93,16 @@ public class MainActivity extends AppCompatActivity {
      */
     protected void initializeCategoriesRecyclerView() {
         categoriesRecyclerView = findViewById(R.id.recycler_view_category_cards);
+        categoriesRecyclerView.setVisibility(View.INVISIBLE);
         categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         categoriesAdapter = new CategoriesRecyclerViewAdapter(this);
         categoriesRecyclerView.setAdapter(categoriesAdapter);
     }
 
     protected void initializeTopItemsRecyclerView() {
-        ItemsRecyclerView topItemsRecyclerView = new ItemsRecyclerView(this, findViewById(R.id.recycler_view_top_items), RecyclerViewLayoutType.HORIZONTAL);
+        RecyclerView rv = findViewById(R.id.recycler_view_top_items);
+        rv.setVisibility(View.INVISIBLE);
+        topItemsRecyclerView = new ItemsRecyclerView(this, rv, RecyclerViewLayoutType.HORIZONTAL);
         topItemsAdapter = topItemsRecyclerView.getAdapter();
     }
 
@@ -122,30 +126,39 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void showLoadingStates() {
+        topItemsShimmerLayout = findViewById(R.id.shimmer_top_items);
+        topItemsShimmerLayout.startShimmer();
+
+        categoriesShimmerLayout = findViewById(R.id.shimmer_categories);
+        categoriesShimmerLayout.startShimmer();
+    }
+
+    private void fetchHomePageData() {
+        CategoryDataFetcher categoriesDataFetcher = new CategoryDataFetcher();
+        TopItemsDataFetcher topItemsDataFetcher = new TopItemsDataFetcher();
+        categoriesDataFetcher.readData(new CategoriesFetchHandler());
+        topItemsDataFetcher.readData(new TopItemsFetchHandler());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        categoriesSpinner = findViewById(R.id.progress_categories);
-        topItemsSpinner = findViewById(R.id.progress_top_items);
-
         initializeCategoriesRecyclerView();
         initializeTopItemsRecyclerView();
         initializeSearch();
 
-        categoriesDataFetcher.readData(new CategoriesFetchHandler());
-        topItemsDataFetcher.readData(new TopItemsFetchHandler());
+        showLoadingStates();
+        fetchHomePageData();
 
         //TODO(Refactor) put this inside ViewHolder
         NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation);
 
-        // Highlight the Selected Navigation ICON
         bottomNavBar.setSelectedItemId(R.id.activity_home);
-        // Add the Bottom Bar Navigation Logic
         navigationAdapter = new NavigationAdapter(this);
         bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
-
     }
 }
 
