@@ -37,7 +37,7 @@ public class ItemsRecyclerView {
         this.recyclerView.setAdapter(adapter);
     }
 
-    private int calculateNoOfColumns(float columnWidthDp) {
+    public int calculateNoOfColumns(float columnWidthDp) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
         return (int) (screenWidthDp / columnWidthDp + 0.5); // +0.5 for correct rounding to int.

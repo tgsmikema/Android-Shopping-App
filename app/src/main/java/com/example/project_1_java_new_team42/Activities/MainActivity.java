@@ -165,12 +165,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        showLoadingStates();
-
         initializeCategoriesRecyclerView();
         initializeTopItemsRecyclerView();
         initializeSearch();
 
+        showLoadingStates();
         fetchHomePageData();
 
         NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation);
