@@ -39,18 +39,18 @@ public class MainActivity extends AppCompatActivity {
 
     protected RecyclerView categoriesRecyclerView;
     protected CategoriesRecyclerViewAdapter categoriesAdapter;
-    protected CircularProgressIndicator categoriesSpinner;
+//    protected CircularProgressIndicator categoriesSpinner;
     protected CategoryDataFetcher categoriesDataFetcher = new CategoryDataFetcher();
 
     protected ItemsRecyclerViewAdapter topItemsAdapter;
-    protected CircularProgressIndicator topItemsSpinner;
+//    protected CircularProgressIndicator topItemsSpinner;
     protected TopItemsDataFetcher topItemsDataFetcher = new TopItemsDataFetcher();
 
     private class CategoriesFetchHandler implements IFetchHandler<List<Category>> {
         @Override
         public void onFetchComplete(List<Category> data) {
             categoriesAdapter.addItems(data);
-            categoriesSpinner.setVisibility(View.GONE);
+//            categoriesSpinner.setVisibility(View.GONE);
             Log.i(TAG, "Fetched categories successfully");
         }
 
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onFetchComplete(List<IItem> data) {
             topItemsAdapter.addItems(data);
-            topItemsSpinner.setVisibility(View.GONE);
+//            topItemsSpinner.setVisibility(View.GONE);
             Log.i(TAG, "Fetched top items successfully");
         }
 
@@ -142,15 +142,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        categoriesSpinner = findViewById(R.id.progress_categories);
-        topItemsSpinner = findViewById(R.id.progress_top_items);
+//        categoriesSpinner = findViewById(R.id.progress_categories);
+//        topItemsSpinner = findViewById(R.id.progress_top_items);
 
         initializeCategoriesRecyclerView();
         initializeTopItemsRecyclerView();
         initializeSearch();
 
-        categoriesDataFetcher.readData(new CategoriesFetchHandler());
-        topItemsDataFetcher.readData(new TopItemsFetchHandler());
+//        categoriesDataFetcher.readData(new CategoriesFetchHandler());
+//        topItemsDataFetcher.readData(new TopItemsFetchHandler());
 
         NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation);
 

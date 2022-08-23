@@ -12,4 +12,5 @@
     <color name="chip_green_light">#ECF7EC</color>
     <color name="chip_tan_dark">#C18545</color>
     <color name="chip_tan_light">#FFF0DF</color>
+    <color name="shimmer_placeholder">#555</color>
 </resources>
