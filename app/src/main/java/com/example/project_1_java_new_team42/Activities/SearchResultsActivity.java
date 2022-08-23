@@ -77,15 +77,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
     private View.OnClickListener buttonListener = new View.OnClickListener() {
         public void onClick(View view) {
-            switch (view.getId()) {
-
-                case R.id.button_back_search_results:
-                    navigateBackToPreviousActivity();
-                    break;
-
-                default:
-                    break;
-            }
+            navigateBackToPreviousActivity();
         }
     };
 

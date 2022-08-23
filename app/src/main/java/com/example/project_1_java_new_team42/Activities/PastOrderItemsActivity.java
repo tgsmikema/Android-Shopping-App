@@ -85,15 +85,7 @@ public class PastOrderItemsActivity extends AppCompatActivity {
 
     private View.OnClickListener buttonListener = new View.OnClickListener() {
         public void onClick(View view) {
-            switch (view.getId()) {
-
-                case R.id.button_back_past_order_items:
-                    navigateBackToPreviousActivity();
-                    break;
-
-                default:
-                    break;
-            }
+            navigateBackToPreviousActivity();
         }
     };
 

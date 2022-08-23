@@ -39,27 +39,21 @@ public class NavigationAdapter {
                     switch(item.getItemId())
                     {
                         case R.id.activity_home:
-                            if (activity.getLocalClassName().equalsIgnoreCase(MAIN_ACTIVITY)){
-                                // DO NOTHING
-                            } else {
+                            if (!activity.getLocalClassName().equalsIgnoreCase(MAIN_ACTIVITY)){
                                 context.startActivity(new Intent(context, MainActivity.class));
                                 // NO transition animation
                                 activity.overridePendingTransition(0, 0);
                             }
                             return true;
                         case R.id.activity_cart:
-                            if (activity.getLocalClassName().equalsIgnoreCase(CART_ACTIVITY)){
-                                // DO NOTHING
-                            } else {
+                            if (!activity.getLocalClassName().equalsIgnoreCase(CART_ACTIVITY)){
                                 context.startActivity(new Intent(context, CartActivity.class));
                                 // NO transition animation
                                 activity.overridePendingTransition(0,0);
                             }
                             return true;
                         case R.id.activity_orders:
-                            if (activity.getLocalClassName().equalsIgnoreCase(PAST_ORDERS_ACTIVITY)){
-                                // DO NOTHING
-                            } else {
+                            if (!activity.getLocalClassName().equalsIgnoreCase(PAST_ORDERS_ACTIVITY)){
                                 context.startActivity(new Intent(context, PastOrdersActivity.class));
                                 // NO transition animation
                                 activity.overridePendingTransition(0,0);

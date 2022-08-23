@@ -21,7 +21,7 @@ public class PastOrderItemsRecyclerViewAdapter extends GenericRecyclerViewAdapte
         super(context);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         MaterialCardView orderItemCardView;
         ImageView orderItemImage;
         TextView orderItemName, orderItemQuantity, orderItemTotalPrice;
@@ -38,12 +38,6 @@ public class PastOrderItemsRecyclerViewAdapter extends GenericRecyclerViewAdapte
 
             orderItemCardView.setClickable(true);
             orderItemCardView.setFocusable(true);
-            orderItemCardView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            //Do nothing.
         }
     }
 
