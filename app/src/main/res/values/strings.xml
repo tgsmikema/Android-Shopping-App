@@ -15,4 +15,7 @@
     <string name="heading_cart">Cart</string>
     <string name="total_price">Total</string>
     <string name="place_order">Place Order</string>
+    <string name="button_delete_cart_item">Delete Cart Item</string>
+    <string name="button_decrement">Decrement</string>
+    <string name="button_increment">Increment</string>
 </resources>

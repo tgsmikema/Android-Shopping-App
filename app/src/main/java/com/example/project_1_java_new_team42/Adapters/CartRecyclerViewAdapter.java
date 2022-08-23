@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,7 +54,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
         TextView cartItemQuantityTextView;
         Button incrementButton;
         Button decrementButton;
-        Button deleteButton;
+        ImageButton deleteButton;
         TextView quantityTextView;
         MyClickListener listener;
 
