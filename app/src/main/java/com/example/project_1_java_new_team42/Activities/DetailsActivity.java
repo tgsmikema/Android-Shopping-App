@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.project_1_java_new_team42.Adapters.ImageSliderAdapter;
 import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
+import com.example.project_1_java_new_team42.Adapters.ItemsRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.ItemDetailsDataFetcher;
 import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
@@ -332,6 +333,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         String selectedItemId = constructItemFromIntent();
         itemDetailsDataFetcher.readData(selectedItemId, new ItemDetailsFetchHandler());
+
 
     }
 }

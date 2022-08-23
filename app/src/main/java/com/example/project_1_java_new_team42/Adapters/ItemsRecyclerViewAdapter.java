@@ -7,27 +7,34 @@ import android.content.Intent;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1_java_new_team42.Activities.CategoryItemsActivity;
 import com.example.project_1_java_new_team42.Activities.DetailsActivity;
 import com.example.project_1_java_new_team42.Activities.MainActivity;
 import com.example.project_1_java_new_team42.Models.Category;
+import com.example.project_1_java_new_team42.Activities.SearchResultsActivity;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
+import com.example.project_1_java_new_team42.util.CategoryChipUtil;
+import com.example.project_1_java_new_team42.util.CategoryChipUtil.CategoryChipData;
 import com.google.android.material.card.MaterialCardView;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.android.material.chip.Chip;
 
 public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, ItemsRecyclerViewAdapter.ViewHolder> {
+    public static final String INTENT_KEY_ITEM_ID_TO_FETCH = "ITEM_ID_TO_FETCH";
 
     protected String searchString;
     protected Category category;
@@ -45,22 +52,41 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        MaterialCardView itemCardView;
-        ImageView itemImageView;
-        TextView itemNameTextView;
-        TextView itemPriceTextView;
+        MaterialCardView cardView;
+        ImageView imageView;
+        TextView nameTextView;
+        TextView priceTextView;
+        Chip categoryChip;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            itemImageView = itemView.findViewById(R.id.image_itemcard);
-            itemNameTextView = itemView.findViewById(R.id.text_itemcard_name);
-            itemPriceTextView = itemView.findViewById(R.id.text_itemcard_price);
-            itemCardView = itemView.findViewById(R.id.card_item);
+            imageView = itemView.findViewById(R.id.image_itemcard);
+            nameTextView = itemView.findViewById(R.id.text_itemcard_name);
+            priceTextView = itemView.findViewById(R.id.text_itemcard_price);
+            cardView = itemView.findViewById(R.id.card_item);
+            categoryChip = itemView.findViewById(R.id.chip_itemcard_category);
 
-            itemCardView.setClickable(true);
-            itemCardView.setFocusable(true);
-            itemCardView.setOnClickListener(this);
+            initializeCardView(cardView);
+            initializeChip(categoryChip);
+        }
+
+        private void initializeCardView(CardView cardView) {
+            cardView.setClickable(true);
+            cardView.setFocusable(true);
+            cardView.setOnClickListener(this);
+        }
+
+        private void initializeChip(Chip chip) {
+            chip.setClickable(false);
+            chip.setFocusable(false);
+        }
+
+        public void setChipColors(@ColorRes int foreground, @ColorRes int background) {
+            Resources res = categoryChip.getContext().getResources();
+            categoryChip.setChipBackgroundColor(ColorStateList.valueOf(res.getColor(background)));
+            categoryChip.setChipIconTint(ColorStateList.valueOf(res.getColor(foreground)));
+            categoryChip.setTextColor(ColorStateList.valueOf(res.getColor(foreground)));
         }
 
         private void navigateToDetailsActivity(IItem selectedItem){
@@ -110,11 +136,23 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         IItem item = items.get(position);
+
+        // Item image
         int drawableId = context.getResources().getIdentifier(item.getImagePaths().get(0),"drawable", context.getPackageName());
-        holder.itemImageView.setImageResource(drawableId);
-        holder.itemNameTextView.setText(item.getName());
+        holder.imageView.setImageResource(drawableId);
+
+        // Item name
+        holder.nameTextView.setText(item.getName());
+
+        // Item price
         String price = "$" + item.getPrice();
-        holder.itemPriceTextView.setText(price);
+        holder.priceTextView.setText(price);
+
+        // Dynamic chip icon and data depending on the category
+        CategoryChipData chipData = CategoryChipUtil.getChipDataFromCategory(item.getCategory());
+        holder.setChipColors(chipData.getFgColor(), chipData.getBgColor());
+        holder.categoryChip.setChipIcon(ContextCompat.getDrawable(context, chipData.getIcon()));
+        holder.categoryChip.setText(chipData.getText());
     }
 
     @Override

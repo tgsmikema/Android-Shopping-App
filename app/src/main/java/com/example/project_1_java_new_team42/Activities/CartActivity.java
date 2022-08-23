@@ -1,6 +1,7 @@
 package com.example.project_1_java_new_team42.Activities;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -96,16 +97,15 @@ public class CartActivity extends AppCompatActivity {
 
 
     private void disableSubmitButton() {
-        placeOrderButton.setText("Cart is Empty!");
-        placeOrderButton.setBackgroundColor(Color.parseColor("#C0C0C0"));
+        placeOrderButton.setText("Cart is Empty!"); 
+        placeOrderButton.setBackgroundColor(getResources().getColor(R.color.button_unavailable));
         placeOrderButton.setTextColor(Color.BLACK);
         placeOrderButton.setEnabled(false);
     }
 
     private void enableSubmitButton(){
         placeOrderButton.setText("Place Order");
-        //color-brand-black
-        placeOrderButton.setBackgroundColor(Color.parseColor("#212121"));
+        placeOrderButton.setBackgroundColor(getResources().getColor(R.color.brand_black));
         placeOrderButton.setTextColor(Color.WHITE);
         placeOrderButton.setEnabled(true);
     }
@@ -145,14 +145,10 @@ public class CartActivity extends AppCompatActivity {
 
     private View.OnClickListener buttonListener = new View.OnClickListener() {
         public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.place_order_button:
-                    Order newOrder = new Order(cartData.getItems());
-                    orderDataSender.writeCartOrderToFirestore(newOrder, new OrderDataSendHandler());
-                    Intent intent = new Intent(CartActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    break;
-            }
+            Order newOrder = new Order(cartData.getItems());
+            orderDataSender.writeCartOrderToFirestore(newOrder, new OrderDataSendHandler());
+            Intent intent = new Intent(CartActivity.this, MainActivity.class);
+            startActivity(intent);
         }
     };
 
