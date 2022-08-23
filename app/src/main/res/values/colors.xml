@@ -6,4 +6,5 @@
     <color name="brand_black">#212121</color>
     <color name="brand_gray">#484848</color>
     <color name="brand_light_gray">#555</color>
+    <color name="button_unavailable">#C0C0C0</color>
 </resources>
