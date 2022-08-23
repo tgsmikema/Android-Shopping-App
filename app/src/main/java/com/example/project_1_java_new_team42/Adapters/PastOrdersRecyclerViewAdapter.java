@@ -1,6 +1,7 @@
 package com.example.project_1_java_new_team42.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -8,6 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project_1_java_new_team42.Activities.CategoryItemsActivity;
+import com.example.project_1_java_new_team42.Activities.MainActivity;
+import com.example.project_1_java_new_team42.Activities.PastOrderItemsActivity;
+import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.Order;
 import com.example.project_1_java_new_team42.R;
 import com.google.android.material.card.MaterialCardView;
@@ -33,9 +38,15 @@ public class PastOrdersRecyclerViewAdapter extends GenericRecyclerViewAdapter<Or
             orderCardView.setOnClickListener(this);
         }
 
+        private void navigateToPastOrderItemsActivity(Order order) {
+            Intent intent = new Intent(context, PastOrderItemsActivity.class);
+            intent.putExtra(MainActivity.INTENT_KEY_ORDER_ID,order.getOrderId());
+            context.startActivity(intent);
+        }
+
         @Override
         public void onClick(View view) {
-            //TODO implement onClick methods here.
+            navigateToPastOrderItemsActivity(items.get(getAdapterPosition()));
         }
     }
 

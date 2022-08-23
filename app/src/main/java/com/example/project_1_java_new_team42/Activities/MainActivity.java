@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1_java_new_team42.Adapters.CategoriesRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Adapters.ItemsRecyclerViewAdapter;
+import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.CategoryDataFetcher;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.TopItemsDataFetcher;
@@ -36,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
     public static final String INTENT_KEY_SEARCH = "SEARCH";
     public static final String INTENT_KEY_CATEGORY_NAME = "CATEGORY_NAME";
     public static final String INTENT_KEY_CATEGORY_IMAGE_URI = "CATEGORY_IMAGE_URI";
+    public static final String INTENT_KEY_ACTIVITY_NAME = "ACTIVITY_NAME";
+    public static final String INTENT_VALUE_MAIN_ACTIVITY = "Activities.MainActivity";
+    public static final String INTENT_VALUE_SEARCH_RESULTS_ACTIVITY = "Activities.SearchResultsActivity";
+    public static final String INTENT_VALUE_CATEGORY_ITEMS_ACTIVITY = "Activities.CategoryItemsActivity";
+    public static final String INTENT_KEY_ITEM_ID = "ITEM_ID";
+    public static final String INTENT_KEY_ORDER_ID = "ORDER_ID";
 
     protected RecyclerView categoriesRecyclerView;
     protected CategoriesRecyclerViewAdapter categoriesAdapter;
@@ -45,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     protected ItemsRecyclerViewAdapter topItemsAdapter;
     protected CircularProgressIndicator topItemsSpinner;
     protected TopItemsDataFetcher topItemsDataFetcher = new TopItemsDataFetcher();
+
+    protected NavigationAdapter navigationAdapter;
 
     private class CategoriesFetchHandler implements IFetchHandler<List<Category>> {
         @Override
@@ -113,30 +122,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // Logic of Navigation Bar selection.
-    private NavigationBarView.OnItemSelectedListener navigationListener =
-            new NavigationBarView.OnItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch(item.getItemId())
-                    {
-                        case R.id.activity_home:
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                            overridePendingTransition(0,0);
-                            return true;
-                        case R.id.activity_cart:
-                            startActivity(new Intent(getApplicationContext(),DetailsActivity.class));
-                            overridePendingTransition(0,0);
-                            return true;
-                        case R.id.activity_orders:
-                            startActivity(new Intent(getApplicationContext(),PastOrdersActivity.class));
-                            overridePendingTransition(0,0);
-                            return true;
-                    }
-                    return false;
-                }
-            };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,19 +137,14 @@ public class MainActivity extends AppCompatActivity {
         categoriesDataFetcher.readData(new CategoriesFetchHandler());
         topItemsDataFetcher.readData(new TopItemsFetchHandler());
 
+        //TODO(Refactor) put this inside ViewHolder
         NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation);
 
         // Highlight the Selected Navigation ICON
         bottomNavBar.setSelectedItemId(R.id.activity_home);
-        // Initialise the Bottom Bar Navigation Logic
-        // -----------------------NEED TO CHANGE NOTE: ---------------------------//
-        // Line 112 -
-        //                           1) Change DetailsActivity to CartActivity
-        // Uncomment Line 112 - 263 after implemented:
-        //                           1) CartActivity
-        //                           2) PastOrderActivity
-        // -----------------------------------------------------------------------//
-        bottomNavBar.setOnItemSelectedListener(navigationListener);
+        // Add the Bottom Bar Navigation Logic
+        navigationAdapter = new NavigationAdapter(this);
+        bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
 
     }
 }

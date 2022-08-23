@@ -1,7 +1,12 @@
 package com.example.project_1_java_new_team42.Adapters;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.view.View;
@@ -16,7 +21,10 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project_1_java_new_team42.Activities.CategoryItemsActivity;
 import com.example.project_1_java_new_team42.Activities.DetailsActivity;
+import com.example.project_1_java_new_team42.Activities.MainActivity;
+import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Activities.SearchResultsActivity;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
@@ -28,8 +36,19 @@ import com.google.android.material.chip.Chip;
 public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, ItemsRecyclerViewAdapter.ViewHolder> {
     public static final String INTENT_KEY_ITEM_ID_TO_FETCH = "ITEM_ID_TO_FETCH";
 
+    protected String searchString;
+    protected Category category;
+
     public ItemsRecyclerViewAdapter(Context context) {
         super(context);
+    }
+
+    public void relaySearchString(String searchString){
+        this.searchString = searchString;
+    }
+
+    public void relayCategory(Category category){
+        this.category = new Category(category.getCategoryName(), category.getImageURI());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -70,12 +89,41 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
             categoryChip.setTextColor(ColorStateList.valueOf(res.getColor(foreground)));
         }
 
+        private void navigateToDetailsActivity(IItem selectedItem){
+            Intent intent = new Intent(context, DetailsActivity.class);
+
+            Activity activity = (Activity) context;
+            if (activity.getLocalClassName().equalsIgnoreCase(NavigationAdapter.MAIN_ACTIVITY)){
+
+                intent.putExtra(MainActivity.INTENT_KEY_ACTIVITY_NAME,MainActivity.INTENT_VALUE_MAIN_ACTIVITY);
+                intent.putExtra(MainActivity.INTENT_KEY_ITEM_ID,selectedItem.getId());
+                context.startActivity(intent);
+
+            } else if (activity.getLocalClassName().equalsIgnoreCase(NavigationAdapter.CATEGORY_ITEMS_ACTIVITY)){
+
+                intent.putExtra(MainActivity.INTENT_KEY_ACTIVITY_NAME,MainActivity.INTENT_VALUE_CATEGORY_ITEMS_ACTIVITY);
+                intent.putExtra(MainActivity.INTENT_KEY_ITEM_ID,selectedItem.getId());
+                intent.putExtra(MainActivity.INTENT_KEY_CATEGORY_NAME,category.getCategoryName());
+                intent.putExtra(MainActivity.INTENT_KEY_CATEGORY_IMAGE_URI,category.getImageURI());
+                context.startActivity(intent);
+
+
+            } else if (activity.getLocalClassName().equalsIgnoreCase(NavigationAdapter.SEARCH_RESULT_ACTIVITY)){
+
+                intent.putExtra(MainActivity.INTENT_KEY_ACTIVITY_NAME,MainActivity.INTENT_VALUE_SEARCH_RESULTS_ACTIVITY);
+                intent.putExtra(MainActivity.INTENT_KEY_ITEM_ID,selectedItem.getId());
+                intent.putExtra(MainActivity.INTENT_KEY_SEARCH,searchString);
+                context.startActivity(intent);
+
+            } else {
+                Toast.makeText(context,"Sorry, but an ERROR occurred!",Toast.LENGTH_LONG).show();
+            }
+
+        }
+
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(context, DetailsActivity.class);
-            IItem item = items.get(getAdapterPosition());
-            intent.putExtra(INTENT_KEY_ITEM_ID_TO_FETCH, item.getId());
-            context.startActivity(intent);
+            navigateToDetailsActivity(items.get(getAdapterPosition()));
         }
     }
 

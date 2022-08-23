@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1_java_new_team42.Adapters.CartRecyclerViewAdapter;
+import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.CartDataFetcher;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
@@ -24,6 +25,7 @@ import com.example.project_1_java_new_team42.Data.Senders.OrderDataSender;
 import com.example.project_1_java_new_team42.Models.Cart;
 import com.example.project_1_java_new_team42.Models.Order;
 import com.example.project_1_java_new_team42.R;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 public class CartActivity extends AppCompatActivity {
@@ -39,6 +41,8 @@ public class CartActivity extends AppCompatActivity {
     public static boolean isAddedToCart = false;
 
     private Cart cartData;
+
+    protected NavigationAdapter navigationAdapter;
 
     TextView totalPriceTextView;
     Button placeOrderButton;
@@ -128,6 +132,15 @@ public class CartActivity extends AppCompatActivity {
 
         initializeCartRecyclerView();
         cartDataFetcher.readData(new CartFetchHandler());
+
+        //TODO(Refactor) put this inside ViewHolder
+        NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation_cart);
+
+        // Highlight the Selected Navigation ICON
+        bottomNavBar.setSelectedItemId(R.id.activity_cart);
+        // Add the Bottom Bar Navigation Logic
+        navigationAdapter = new NavigationAdapter(this);
+        bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
     }
 
     private View.OnClickListener buttonListener = new View.OnClickListener() {
