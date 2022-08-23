@@ -80,6 +80,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/text_input_layout_search_results"
                 tools:text="Found 6 Results for &quot;Pro and this is really long search oh no&quot;" />
 
+            <!-- Shimmer placeholders for searched items  -->
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmer_search_items"
                 android:layout_width="match_parent"

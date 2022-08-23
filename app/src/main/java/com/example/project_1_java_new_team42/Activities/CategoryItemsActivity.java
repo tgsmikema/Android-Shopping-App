@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
 import com.example.project_1_java_new_team42.Widgets.ItemsRecyclerView;
 import com.example.project_1_java_new_team42.Widgets.RecyclerViewLayoutType;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.List;
@@ -27,19 +29,22 @@ public class CategoryItemsActivity extends AppCompatActivity {
 
     private final CategoryItemsDataFetcher itemsFetcher = new CategoryItemsDataFetcher();
     private ItemsRecyclerViewAdapter itemsAdapter;
-    private CircularProgressIndicator spinner;
+    private ItemsRecyclerView itemsRecyclerView;
+    private ShimmerFrameLayout itemsShimmer;
 
     private class CategoryItemsFetchHandler implements IFetchHandler<List<IItem>> {
         @Override
         public void onFetchComplete(List<IItem> data) {
            itemsAdapter.addItems(data);
-           spinner.setVisibility(View.GONE);
+           itemsRecyclerView.getRecyclerView().setVisibility(View.VISIBLE);
+           itemsShimmer.setVisibility(View.INVISIBLE);
            Log.i(TAG, "Fetched category  successfully");
         }
 
         @Override
         public void onFetchFail() {
             System.out.println("Failed to fetch items");
+            itemsShimmer.hideShimmer();
             Toast.makeText(getApplicationContext(), "Failed to fetch items", Toast.LENGTH_SHORT).show();
         }
     }
@@ -61,8 +66,15 @@ public class CategoryItemsActivity extends AppCompatActivity {
     }
 
     private void initializeItemsRecyclerView() {
-        ItemsRecyclerView searchedItemsRV = new ItemsRecyclerView(this, findViewById(R.id.recycler_view_category_items), RecyclerViewLayoutType.GRID);
-        itemsAdapter = searchedItemsRV.getAdapter();
+        itemsRecyclerView = new ItemsRecyclerView(this, findViewById(R.id.recycler_view_category_items), RecyclerViewLayoutType.GRID);
+        itemsAdapter = itemsRecyclerView.getAdapter();
+    }
+
+    private void initializeLoadingState() {
+        // Handles orientation changes as well
+        itemsShimmer = findViewById(R.id.shimmer_search_items);
+        GridLayout gridShimmer = findViewById(R.id.grid_shimmer_search);
+        gridShimmer.setColumnCount(itemsRecyclerView.calculateNoOfColumns(ItemsRecyclerView.ITEM_COLUMN_WIDTH_DP));
     }
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +84,8 @@ public class CategoryItemsActivity extends AppCompatActivity {
         Category category = constructCategoryFromIntent();
         setCategoryViews(category);
 
-        spinner = findViewById(R.id.progress_category_items);
-
         initializeItemsRecyclerView();
+        initializeLoadingState();
 
         String docId = category.getDocId();
         itemsFetcher.readData(docId, new CategoryItemsFetchHandler());
