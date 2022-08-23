@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Adapters.PastOrderItemsRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Adapters.PastOrdersRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
@@ -28,6 +29,8 @@ import java.util.List;
 public class PastOrderItemsActivity extends AppCompatActivity {
 
     ViewHolder vh;
+
+    protected NavigationAdapter navigationAdapter;
 
     protected PastOrderItemsRecyclerViewAdapter pastOrderItemsRecyclerViewAdapter;
     // initialise the DB fetcher class
@@ -80,6 +83,23 @@ public class PastOrderItemsActivity extends AppCompatActivity {
         }
     }
 
+    private View.OnClickListener buttonListener = new View.OnClickListener() {
+        public void onClick(View view) {
+            navigateBackToPreviousActivity();
+        }
+    };
+
+    public void navigateBackToPreviousActivity() {
+        Intent intent = new Intent(this, PastOrdersActivity.class);
+        startActivity(intent);
+    }
+
+    private String constructItemFromIntent(){
+        Intent intent = getIntent();
+        String orderID = intent.getStringExtra(MainActivity.INTENT_KEY_ORDER_ID);
+        return orderID;
+    }
+
 
     protected void initializePastOrderItemsRecyclerView() {
         vh.pastOrderItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
@@ -87,27 +107,6 @@ public class PastOrderItemsActivity extends AppCompatActivity {
         vh.pastOrderItemsRecyclerView.setAdapter(pastOrderItemsRecyclerViewAdapter);
     }
 
-    // Logic of Navigation Bar selection.
-    private NavigationBarView.OnItemSelectedListener navigationListener =
-            new NavigationBarView.OnItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch(item.getItemId())
-                    {
-                        case R.id.activity_home:
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                            overridePendingTransition(0,0);
-                            return true;
-                        case R.id.activity_cart:
-                            //startActivity(new Intent(getApplicationContext(),CartActivity.class));
-                            //overridePendingTransition(0,0);
-                            return true;
-                        case R.id.activity_orders:
-                            return true;
-                    }
-                    return false;
-                }
-            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,14 +116,15 @@ public class PastOrderItemsActivity extends AppCompatActivity {
         vh = new ViewHolder();
         initializePastOrderItemsRecyclerView();
 
-        //ADD INTENT FOR navigation DATA FETCHING ----------------------------------------
-        pastOrderItemsDataFetcher.readData("20220814173058001", new pastOrderItemsFetchHandler());
-        //---------------------------------------------------------------------
+        pastOrderItemsDataFetcher.readData(constructItemFromIntent(), new pastOrderItemsFetchHandler());
 
         // Highlight the Selected Navigation ICON
         vh.bottomNavBar.setSelectedItemId(R.id.activity_orders);
         // Initialise the Bottom Bar Navigation Logic
-        vh.bottomNavBar.setOnItemSelectedListener(navigationListener);
+        navigationAdapter = new NavigationAdapter(this);
+        vh.bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
+
+        vh.backButton.setOnClickListener(buttonListener);
 
 
     }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridLayout;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_1_java_new_team42.Adapters.ItemsRecyclerViewAdapter;
+import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.CategoryItemsDataFetcher;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Models.Category;
@@ -20,7 +22,7 @@ import com.example.project_1_java_new_team42.R;
 import com.example.project_1_java_new_team42.Widgets.ItemsRecyclerView;
 import com.example.project_1_java_new_team42.Widgets.RecyclerViewLayoutType;
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.List;
 
@@ -31,6 +33,8 @@ public class CategoryItemsActivity extends AppCompatActivity {
     private ItemsRecyclerViewAdapter itemsAdapter;
     private ItemsRecyclerView itemsRecyclerView;
     private ShimmerFrameLayout itemsShimmer;
+
+    private Category category;
 
     private class CategoryItemsFetchHandler implements IFetchHandler<List<IItem>> {
         @Override
@@ -65,9 +69,21 @@ public class CategoryItemsActivity extends AppCompatActivity {
         headingImageView.setImageResource(drawableId);
     }
 
+    private final View.OnClickListener buttonListener = new View.OnClickListener() {
+        public void onClick(View view) {
+            navigateBackToPreviousActivity();
+        }
+    };
+
+    public void navigateBackToPreviousActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
     private void initializeItemsRecyclerView() {
         itemsRecyclerView = new ItemsRecyclerView(this, findViewById(R.id.recycler_view_category_items), RecyclerViewLayoutType.GRID);
         itemsAdapter = itemsRecyclerView.getAdapter();
+        itemsAdapter.relayCategory(category);
     }
 
     private void initializeLoadingState() {
@@ -81,7 +97,7 @@ public class CategoryItemsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_items);
 
-        Category category = constructCategoryFromIntent();
+        category = constructCategoryFromIntent();
         setCategoryViews(category);
 
         initializeItemsRecyclerView();
@@ -89,5 +105,17 @@ public class CategoryItemsActivity extends AppCompatActivity {
 
         String docId = category.getDocId();
         itemsFetcher.readData(docId, new CategoryItemsFetchHandler());
+
+        //TODO(Refactor) put this 2 line inside ViewHolder
+        NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation_category_items);
+        Button backButton = findViewById(R.id.button_back_category_items);
+
+        backButton.setOnClickListener(buttonListener);
+
+        // Highlight the Selected Navigation ICON
+        bottomNavBar.setSelectedItemId(R.id.activity_home);
+        // Add the Bottom Bar Navigation Logic
+        NavigationAdapter navigationAdapter = new NavigationAdapter(this);
+        bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
     }
 }

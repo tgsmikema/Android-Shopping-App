@@ -3,18 +3,17 @@ package com.example.project_1_java_new_team42.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1_java_new_team42.Adapters.CategoriesRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Adapters.ItemsRecyclerViewAdapter;
+import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.CategoryDataFetcher;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.TopItemsDataFetcher;
@@ -27,7 +26,6 @@ import com.example.project_1_java_new_team42.Widgets.Search;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
@@ -37,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
     public static final String INTENT_KEY_SEARCH = "SEARCH";
     public static final String INTENT_KEY_CATEGORY_NAME = "CATEGORY_NAME";
     public static final String INTENT_KEY_CATEGORY_IMAGE_URI = "CATEGORY_IMAGE_URI";
+    public static final String INTENT_KEY_ACTIVITY_NAME = "ACTIVITY_NAME";
+    public static final String INTENT_VALUE_MAIN_ACTIVITY = "Activities.MainActivity";
+    public static final String INTENT_VALUE_SEARCH_RESULTS_ACTIVITY = "Activities.SearchResultsActivity";
+    public static final String INTENT_VALUE_CATEGORY_ITEMS_ACTIVITY = "Activities.CategoryItemsActivity";
+    public static final String INTENT_KEY_ITEM_ID = "ITEM_ID";
+    public static final String INTENT_KEY_ORDER_ID = "ORDER_ID";
 
     private ShimmerFrameLayout categoriesShimmerLayout;
     private RecyclerView categoriesRecyclerView;
@@ -46,11 +50,12 @@ public class MainActivity extends AppCompatActivity {
     private ItemsRecyclerView topItemsRecyclerView;
     private ItemsRecyclerViewAdapter topItemsAdapter;
 
+    protected NavigationAdapter navigationAdapter;
+
     private class CategoriesFetchHandler implements IFetchHandler<List<Category>> {
         @Override
         public void onFetchComplete(List<Category> data) {
             categoriesAdapter.addItems(data);
-            // TODO Handle shimmer and recycler view for categories
             categoriesShimmerLayout.setVisibility(View.INVISIBLE);
             categoriesRecyclerView.setVisibility(View.VISIBLE);
             Log.i(TAG, "Fetched categories successfully");
@@ -136,30 +141,6 @@ public class MainActivity extends AppCompatActivity {
         topItemsDataFetcher.readData(new TopItemsFetchHandler());
     }
 
-    // Logic of Navigation Bar selection.
-    private NavigationBarView.OnItemSelectedListener navigationListener =
-            new NavigationBarView.OnItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch(item.getItemId())
-                    {
-                        case R.id.activity_home:
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                            overridePendingTransition(0,0);
-                            return true;
-                        case R.id.activity_cart:
-                            startActivity(new Intent(getApplicationContext(),DetailsActivity.class));
-                            overridePendingTransition(0,0);
-                            return true;
-                        case R.id.activity_orders:
-                            startActivity(new Intent(getApplicationContext(),PastOrdersActivity.class));
-                            overridePendingTransition(0,0);
-                            return true;
-                    }
-                    return false;
-                }
-            };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,9 +153,12 @@ public class MainActivity extends AppCompatActivity {
         showLoadingStates();
         fetchHomePageData();
 
+        //TODO(Refactor) put this inside ViewHolder
         NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation);
+
         bottomNavBar.setSelectedItemId(R.id.activity_home);
-        bottomNavBar.setOnItemSelectedListener(navigationListener);
+        navigationAdapter = new NavigationAdapter(this);
+        bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
     }
 }
 

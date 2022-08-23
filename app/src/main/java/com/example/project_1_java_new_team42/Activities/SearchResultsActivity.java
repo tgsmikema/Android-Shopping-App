@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1_java_new_team42.Adapters.ItemsRecyclerViewAdapter;
+import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.SearchItemsDataFetcher;
 import com.example.project_1_java_new_team42.Models.IItem;
@@ -21,6 +23,7 @@ import com.example.project_1_java_new_team42.Widgets.ItemsRecyclerView;
 import com.example.project_1_java_new_team42.Widgets.RecyclerViewLayoutType;
 import com.example.project_1_java_new_team42.Widgets.Search;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
@@ -34,6 +37,8 @@ public class SearchResultsActivity extends AppCompatActivity {
     private ShimmerFrameLayout itemsShimmer;
     private TextView helperTextView;
     private String searchedText;
+
+    protected NavigationAdapter navigationAdapter;
 
     private class SearchItemsFetchHandler implements IFetchHandler<List<IItem>> {
         @Override
@@ -59,6 +64,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         rv.setVisibility(View.INVISIBLE);
         itemsRecyclerView = new ItemsRecyclerView(this, rv, RecyclerViewLayoutType.GRID);
         itemsAdapter = itemsRecyclerView.getAdapter();
+        itemsAdapter.relaySearchString(searchedText);
     }
 
     private void initializeSearchBarText(String text) {
@@ -104,6 +110,17 @@ public class SearchResultsActivity extends AppCompatActivity {
         });
     }
 
+    private View.OnClickListener buttonListener = new View.OnClickListener() {
+        public void onClick(View view) {
+            navigateBackToPreviousActivity();
+        }
+    };
+
+    public void navigateBackToPreviousActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,5 +138,16 @@ public class SearchResultsActivity extends AppCompatActivity {
         initializeSearchFunctionality();
 
         itemsDataFetcher.readData(searchedText, new SearchItemsFetchHandler());
+
+        //TODO(Refactor) put this 2 lines inside ViewHolder
+        NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation_search_results);
+        Button backButton = findViewById(R.id.button_back_search_results);
+
+        backButton.setOnClickListener(buttonListener);
+        // Highlight the Selected Navigation ICON
+        bottomNavBar.setSelectedItemId(R.id.activity_home);
+        // Add the Bottom Bar Navigation Logic
+        navigationAdapter = new NavigationAdapter(this);
+        bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
     }
 }
