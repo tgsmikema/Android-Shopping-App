@@ -30,7 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:background="@color/shimmer_placeholder"/>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:focusable="true"
                 android:id="@+id/button_back_details"
                 style="@style/Team42.BackButton"
@@ -186,7 +186,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/add_cart_button_details"
                     style="@style/Team42.Button"
                     android:layout_width="match_parent"

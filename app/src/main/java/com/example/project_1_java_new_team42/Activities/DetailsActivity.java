@@ -9,10 +9,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,15 +23,18 @@ import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
+    private static final int MAX_QTY = 9;
+    private static final int MIN_QTY = 1;
 
     // global variables
-    public static int initialQuantity = 1;
+    public static int quantity = 1;
     public static boolean isAddedToCart = false;
     public static IItem item;
 
@@ -67,7 +68,7 @@ public class DetailsActivity extends AppCompatActivity {
         LinearLayout imageSliderDotPanel;
 
         TextView itemName, itemDetail, itemPrice, itemTotalPrice, quantityText, quantity;
-        Button decreaseBtn, increaseBtn, addCartButton, backButton;
+        MaterialButton decreaseBtn, increaseBtn, backButton, addCartButton;
 
         NavigationBarView bottomNavBar;
 
@@ -125,7 +126,7 @@ public class DetailsActivity extends AppCompatActivity {
 
             // display the image slider dots
             initializeImageSliderDots();
-            initializeItemDetails();
+            setItemDetailViews(item);
 
             vh.quantity.addTextChangedListener(textWatcherImpl);
 
@@ -147,35 +148,35 @@ public class DetailsActivity extends AppCompatActivity {
         public void afterTextChanged(Editable editable) {
             int currentQuantity = Integer.parseInt(vh.quantity.getText().toString());
 
-            // Logic for Gray out button when limit of quantity REACHED.
-            if (currentQuantity == 1) {
-                vh.decreaseBtn.setBackgroundResource(R.drawable.ic_decrease_btn_not_available);
-                vh.increaseBtn.setBackgroundResource(R.drawable.ic_increase_btn_available);
-            } else if ((currentQuantity < 9) && (currentQuantity > 1)) {
-                vh.decreaseBtn.setBackgroundResource(R.drawable.ic_decrease_btn_available);
-                vh.increaseBtn.setBackgroundResource(R.drawable.ic_increase_btn_available);
+            // Disabling/enabling quantity buttons with respect to order limits.
+            if (currentQuantity == MIN_QTY) {
+                vh.decreaseBtn.setEnabled(false);
+                vh.increaseBtn.setEnabled(true);
+            } else if (currentQuantity > MIN_QTY && currentQuantity < MAX_QTY) {
+                vh.decreaseBtn.setEnabled(true);
+                vh.increaseBtn.setEnabled(true);
             } else {
-                vh.decreaseBtn.setBackgroundResource(R.drawable.ic_decrease_btn_available);
-                vh.increaseBtn.setBackgroundResource(R.drawable.ic_increase_btn_not_available);
+                vh.decreaseBtn.setEnabled(true);
+                vh.increaseBtn.setEnabled(false);
             }
+
             // Update Total Price
-            String totalPrice = "Total $ " + item.getPrice() *
-                    Integer.parseInt(vh.quantity.getText().toString());
+            int readjustedPrice = item.getPrice() * Integer.parseInt(vh.quantity.getText().toString());
+            String totalPrice = "Total $ " + readjustedPrice;
             vh.itemTotalPrice.setText(totalPrice);
         }
     }
-
-    // On Click Listener for All Buttons Logic Compilation
 
     protected void initializeDecreaseQtyButton() {
         vh.decreaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initialQuantity--;
-                if (initialQuantity < 1) {
-                    initialQuantity = 1;
+                // Decrease Quantity
+                if (quantity > MIN_QTY) {
+                    quantity--;
+                    vh.quantity.setText(String.valueOf(quantity));
                 }
-                vh.quantity.setText(String.valueOf(initialQuantity));
+
             }
         });
     }
@@ -184,11 +185,10 @@ public class DetailsActivity extends AppCompatActivity {
         vh.increaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initialQuantity++;
-                if (initialQuantity > 9) {
-                    initialQuantity = 9;
+                if (quantity < MAX_QTY) {
+                    quantity++;
+                    vh.quantity.setText(String.valueOf(quantity));
                 }
-                vh.quantity.setText(String.valueOf(initialQuantity));
             }
         });
     }
@@ -211,8 +211,7 @@ public class DetailsActivity extends AppCompatActivity {
         vh.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish(); // See if this works
-                // navigateBackToPreviousActivity();
+                finish();
             }
         });
     }
@@ -222,17 +221,14 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     // Initialise all details of an item to be shown on this activity
-    protected void initializeItemDetails() {
-//        vh.quantityBar.setVisibility(View.VISIBLE);
-//        vh.addToCartSection.setVisibility(View.VISIBLE);
-
+    protected void setItemDetailViews(IItem item) {
         vh.itemName.setText(item.getName());
         vh.itemDetail.setText(item.getDescription());
         String price = "Price $ " + item.getPrice();
         vh.itemPrice.setText(price);
         String totalPrice = "Total $ " + item.getPrice();
         vh.itemTotalPrice.setText(totalPrice);
-        vh.quantity.setText(String.valueOf(initialQuantity));
+        vh.quantity.setText(String.valueOf(quantity));
     }
 
     // initialise image slider dots configuration
@@ -268,47 +264,23 @@ public class DetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         activityNamePreviousLevel = intent.getStringExtra(MainActivity.INTENT_KEY_ACTIVITY_NAME);
 
-        if (activityNamePreviousLevel.equals(MainActivity.INTENT_VALUE_MAIN_ACTIVITY)){
-            //Toast.makeText(this,"From Main",Toast.LENGTH_LONG).show();
-            return (intent.getStringExtra(MainActivity.INTENT_KEY_ITEM_ID));
+        switch (activityNamePreviousLevel) {
+            case MainActivity.INTENT_VALUE_MAIN_ACTIVITY:
+                return (intent.getStringExtra(MainActivity.INTENT_KEY_ITEM_ID));
 
-        } else if (activityNamePreviousLevel.equals(MainActivity.INTENT_VALUE_CATEGORY_ITEMS_ACTIVITY)){
-            categoryNamePreviousLevel = intent.getStringExtra(MainActivity.INTENT_KEY_CATEGORY_NAME);
-            categoryImageUriPreviousLevel = intent.getStringExtra(MainActivity.INTENT_KEY_CATEGORY_IMAGE_URI);
-            //Toast.makeText(this,"From Cat: " + categoryNamePreviousLevel,Toast.LENGTH_LONG).show();
-            return (intent.getStringExtra(MainActivity.INTENT_KEY_ITEM_ID));
+            case MainActivity.INTENT_VALUE_CATEGORY_ITEMS_ACTIVITY:
+                categoryNamePreviousLevel = intent.getStringExtra(MainActivity.INTENT_KEY_CATEGORY_NAME);
+                categoryImageUriPreviousLevel = intent.getStringExtra(MainActivity.INTENT_KEY_CATEGORY_IMAGE_URI);
+                return (intent.getStringExtra(MainActivity.INTENT_KEY_ITEM_ID));
 
-        } else if (activityNamePreviousLevel.equals(MainActivity.INTENT_VALUE_SEARCH_RESULTS_ACTIVITY)){
-            searchStringPreviousLevel = intent.getStringExtra(MainActivity.INTENT_KEY_SEARCH);
-            //Toast.makeText(this,"From Search: " + searchStringPreviousLevel,Toast.LENGTH_LONG).show();
-            return (intent.getStringExtra(MainActivity.INTENT_KEY_ITEM_ID));
+            case MainActivity.INTENT_VALUE_SEARCH_RESULTS_ACTIVITY:
+                searchStringPreviousLevel = intent.getStringExtra(MainActivity.INTENT_KEY_SEARCH);
+                return (intent.getStringExtra(MainActivity.INTENT_KEY_ITEM_ID));
 
-        } else {
-            return "NoSuchItemID";
+            default:
+                return "NoSuchItemID";
         }
 
-    }
-
-    public void navigateBackToPreviousActivity() {
-
-        if (activityNamePreviousLevel.equals(MainActivity.INTENT_VALUE_MAIN_ACTIVITY)) {
-
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-
-        } else if (activityNamePreviousLevel.equals(MainActivity.INTENT_VALUE_CATEGORY_ITEMS_ACTIVITY)) {
-
-            Intent intent = new Intent(this, CategoryItemsActivity.class);
-            intent.putExtra(MainActivity.INTENT_KEY_CATEGORY_NAME, categoryNamePreviousLevel);
-            intent.putExtra(MainActivity.INTENT_KEY_CATEGORY_IMAGE_URI, categoryImageUriPreviousLevel);
-            startActivity(intent);
-
-        } else if (activityNamePreviousLevel.equals(MainActivity.INTENT_VALUE_SEARCH_RESULTS_ACTIVITY)) {
-
-            Intent intent = new Intent(this, SearchResultsActivity.class);
-            intent.putExtra(MainActivity.INTENT_KEY_SEARCH, searchStringPreviousLevel);
-            startActivity(intent);
-        }
     }
 
     // ----------------------------------------------------------------------------------------//
@@ -318,7 +290,7 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        initialQuantity = 1;
+        quantity = 1;
 
         vh = new ViewHolder();
         initializeImageSlider();
