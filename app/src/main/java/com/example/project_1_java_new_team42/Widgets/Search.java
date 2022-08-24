@@ -1,7 +1,9 @@
 package com.example.project_1_java_new_team42.Widgets;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -13,6 +15,20 @@ public class Search implements ISearch {
     private final EditText searchEditText;
 
     private boolean disableSearchIfEmpty = false; // Setting
+    private boolean clearQueryOnSearch = false; // Setting
+
+    /**
+     * Setting that allows the user to optionally clear the text field
+     * upon a search action.
+     * @param clearQueryOnSearch setting that clears the query upon searching action.
+     */
+    public void setClearQueryOnSearch(boolean clearQueryOnSearch) {
+        this.clearQueryOnSearch = clearQueryOnSearch;
+    }
+
+    private void clearSearch() {
+        searchEditText.setText("");
+    }
 
     /**
      * Setting that allows the user to disable the search
@@ -20,7 +36,7 @@ public class Search implements ISearch {
      * or handle it themselves.
      * @param disableSearch setting that will disable the search if it is empty.
      */
-    public void setDisableSearchIfEmpty(Boolean disableSearch) {
+    public void setDisableSearchIfEmpty(boolean disableSearch) {
         this.disableSearchIfEmpty = disableSearch;
     }
 
@@ -49,7 +65,25 @@ public class Search implements ISearch {
         searchEditText.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
     }
 
-    private void hideKeyboard(View v) {
+    // Hides the keyboard when the user clicks outside of the search bar
+    // https://stackoverflow.com/questions/4828636/edittext-clear-focus-on-touch-outside
+    public static void handleTouchEventOutsideKeyboard(MotionEvent event, View view) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (view instanceof EditText) {
+                Rect rect = new Rect();
+                view.getGlobalVisibleRect(rect);
+
+                boolean rectContainsTouch = rect.contains((int) event.getRawX(), (int) event.getRawY());
+
+                if (!rectContainsTouch) {
+                    view.clearFocus();
+                    hideKeyboard(view);
+                }
+            }
+        }
+    }
+
+    private static void hideKeyboard(View v) {
         InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
@@ -78,6 +112,9 @@ public class Search implements ISearch {
                 }
 
                 if (pressedSearch || hardKeyboardEnter) {
+                    if (clearQueryOnSearch) {
+                        clearSearch();
+                    }
                     listener.onSearch(searchEditText, searchText);
                     hideKeyboard(searchEditText);
                     return true;

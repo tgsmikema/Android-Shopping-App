@@ -3,6 +3,7 @@ package com.example.project_1_java_new_team42.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -122,6 +123,13 @@ public class SearchResultsActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        View view = getCurrentFocus();
+        Search.handleTouchEventOutsideKeyboard(event, view);
+        return super.dispatchTouchEvent(event);
     }
 
     @Override
