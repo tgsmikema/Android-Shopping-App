@@ -3,6 +3,7 @@ package com.example.project_1_java_new_team42.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -139,6 +140,13 @@ public class MainActivity extends AppCompatActivity {
         TopItemsDataFetcher topItemsDataFetcher = new TopItemsDataFetcher();
         categoriesDataFetcher.readData(new CategoriesFetchHandler());
         topItemsDataFetcher.readData(new TopItemsFetchHandler());
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        View view = getCurrentFocus();
+        Search.handleTouchEventOutsideKeyboard(event, view);
+        return super.dispatchTouchEvent(event);
     }
 
     @Override
