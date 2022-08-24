@@ -27,13 +27,24 @@
             <TextView
                 android:id="@+id/textView"
                 style="@style/Team42.Headline1"
-                android:textSize="28sp"
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
+                android:textSize="28sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/app_logo_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toTopOf="@+id/textView"
+                app:srcCompat="@drawable/app_logo"
+                android:contentDescription="@string/app_logo" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_marginTop="12dp"
@@ -59,6 +70,16 @@
                 android:textAppearance="@style/Team42.Headline2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_input_layout_search_results" />
+
+            <ImageView
+                android:id="@+id/best_selling_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/heading_home_best_selling"
+                app:layout_constraintStart_toEndOf="@+id/heading_home_best_selling"
+                app:layout_constraintTop_toTopOf="@+id/heading_home_best_selling"
+                app:srcCompat="@drawable/ic_fire" />
 
             <!--  Shimmer Placeholders for loading state of top items  -->
             <com.facebook.shimmer.ShimmerFrameLayout
@@ -131,6 +152,17 @@
                 android:textAppearance="@style/Team42.Headline2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/shimmer_top_items" />
+
+            <ImageView
+                android:id="@+id/categories_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/heading_home_categories"
+                app:layout_constraintStart_toEndOf="@+id/heading_home_categories"
+                app:layout_constraintTop_toTopOf="@+id/heading_home_categories"
+                app:srcCompat="@drawable/ic_category" />
 
             <!-- Shimmer placeholders for category cards -->
             <com.facebook.shimmer.ShimmerFrameLayout
