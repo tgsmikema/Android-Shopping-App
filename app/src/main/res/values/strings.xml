@@ -23,5 +23,5 @@
     <string name="button_decrement">Decrement</string>
     <string name="button_increment">Increment</string>
     <string name="order_date">Order Date</string>
-    <string name="order_details_total">Total</string>
+    <string name="text_total">Total</string>
 </resources>
