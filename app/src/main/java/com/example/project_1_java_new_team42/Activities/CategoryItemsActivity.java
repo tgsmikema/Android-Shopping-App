@@ -69,16 +69,21 @@ public class CategoryItemsActivity extends AppCompatActivity {
         headingImageView.setImageResource(drawableId);
     }
 
+    private void initializeBackButton() {
+        Button backButton = findViewById(R.id.button_back_category_items);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
     private final View.OnClickListener buttonListener = new View.OnClickListener() {
         public void onClick(View view) {
-            navigateBackToPreviousActivity();
+            finish();
         }
     };
-
-    public void navigateBackToPreviousActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
 
     private void initializeItemsRecyclerView() {
         itemsRecyclerView = new ItemsRecyclerView(this, findViewById(R.id.recycler_view_category_items), RecyclerViewLayoutType.GRID);
@@ -100,6 +105,7 @@ public class CategoryItemsActivity extends AppCompatActivity {
         category = constructCategoryFromIntent();
         setCategoryViews(category);
 
+        initializeBackButton();
         initializeItemsRecyclerView();
         initializeLoadingState();
 
@@ -108,9 +114,6 @@ public class CategoryItemsActivity extends AppCompatActivity {
 
         //TODO(Refactor) put this 2 line inside ViewHolder
         NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation_category_items);
-        Button backButton = findViewById(R.id.button_back_category_items);
-
-        backButton.setOnClickListener(buttonListener);
 
         // Highlight the Selected Navigation ICON
         bottomNavBar.setSelectedItemId(R.id.activity_home);
