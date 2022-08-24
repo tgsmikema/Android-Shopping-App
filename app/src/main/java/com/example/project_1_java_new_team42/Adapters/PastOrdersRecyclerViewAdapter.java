@@ -64,7 +64,7 @@ public class PastOrdersRecyclerViewAdapter extends GenericRecyclerViewAdapter<Or
         holder.orderNumber.setText(orderId);
 
         String orderDateRaw = order.getPlacedDateAndTime();
-        String orderDateStr = orderDateRaw.substring(0, orderDateRaw.length() - 3);
+        String orderDateStr = orderDateRaw.substring(0, orderDateRaw.length());
         holder.orderDate.setText(orderDateStr);
     }
 
