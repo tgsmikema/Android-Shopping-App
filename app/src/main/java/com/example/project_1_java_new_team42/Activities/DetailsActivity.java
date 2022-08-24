@@ -42,12 +42,6 @@ public class DetailsActivity extends AppCompatActivity {
     private int dotsCount;
     private ImageView[] dots;
 
-    //Intent related variables
-    private String activityNamePreviousLevel;
-    private String categoryNamePreviousLevel;
-    private String categoryImageUriPreviousLevel;
-    private String searchStringPreviousLevel;
-
     ViewHolder vh;
     // Adapters
     protected ImageSliderAdapter imageSliderAdapter;
@@ -260,29 +254,6 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-    private String constructItemFromIntent(){
-        Intent intent = getIntent();
-        activityNamePreviousLevel = intent.getStringExtra(MainActivity.INTENT_KEY_ACTIVITY_NAME);
-
-        switch (activityNamePreviousLevel) {
-            case MainActivity.INTENT_VALUE_MAIN_ACTIVITY:
-                return (intent.getStringExtra(MainActivity.INTENT_KEY_ITEM_ID));
-
-            case MainActivity.INTENT_VALUE_CATEGORY_ITEMS_ACTIVITY:
-                categoryNamePreviousLevel = intent.getStringExtra(MainActivity.INTENT_KEY_CATEGORY_NAME);
-                categoryImageUriPreviousLevel = intent.getStringExtra(MainActivity.INTENT_KEY_CATEGORY_IMAGE_URI);
-                return (intent.getStringExtra(MainActivity.INTENT_KEY_ITEM_ID));
-
-            case MainActivity.INTENT_VALUE_SEARCH_RESULTS_ACTIVITY:
-                searchStringPreviousLevel = intent.getStringExtra(MainActivity.INTENT_KEY_SEARCH);
-                return (intent.getStringExtra(MainActivity.INTENT_KEY_ITEM_ID));
-
-            default:
-                return "NoSuchItemID";
-        }
-
-    }
-
     // ----------------------------------------------------------------------------------------//
     // Details Activity OnCreate Method (Main entry)
     @Override
@@ -306,7 +277,8 @@ public class DetailsActivity extends AppCompatActivity {
         navigationAdapter = new NavigationAdapter(this);
         vh.bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
 
-        String selectedItemId = constructItemFromIntent();
+        Intent intent = getIntent();
+        String selectedItemId = intent.getStringExtra(MainActivity.INTENT_KEY_ITEM_ID);;
         itemDetailsDataFetcher.readData(selectedItemId, new ItemDetailsFetchHandler());
 
 
