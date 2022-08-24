@@ -90,17 +90,24 @@ public class DetailsActivity extends AppCompatActivity {
         }
     }
 
+
     // Implementation of CartDataSendHandler.
     private class CartDataSendHandler implements ISendHandler {
 
         @Override
         public void onSendSuccess(boolean isSuccess) {
-            if (!isAddedToCart) {
-                isAddedToCart = true;
-                Toast.makeText(DetailsActivity.this, "Item(s) has been Added to cart!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(DetailsActivity.this, "Item(s) in the Cart has been Updated!", Toast.LENGTH_SHORT).show();
-            }
+//            if (!isAddedToCart) {
+//                isAddedToCart = true;
+//                //Toast.makeText(DetailsActivity.this, "Item(s) has been Added to cart!", Toast.LENGTH_SHORT).show();
+//            } else {
+//                Toast.makeText(DetailsActivity.this, "Item(s) in the Cart has been Updated!", Toast.LENGTH_SHORT).show();
+//            }
+            navigateToCartActivity();
+        }
+
+        private void navigateToCartActivity(){
+            Intent intent = new Intent(DetailsActivity.this, CartActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -193,12 +200,10 @@ public class DetailsActivity extends AppCompatActivity {
         vh.addCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String updateCartText = "Update Cart";
-                vh.addCartButton.setText(updateCartText);
                 ItemWithQuantity itemWithQuantity = new ItemWithQuantity(item, Integer.parseInt(vh.quantity.getText().toString()));
-
                 // add or update item to DB
                 cartDataSender.addItemWithQuantityToCart(itemWithQuantity, new CartDataSendHandler());
+
             }
         });
     }
