@@ -3,6 +3,7 @@ package com.example.project_1_java_new_team42.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -101,6 +102,10 @@ public class SearchResultsActivity extends AppCompatActivity {
         search.setOnSearchActionListener(new Search.OnSearchActionListener() {
             @Override
             public void onSearch(EditText view, String searchQuery) {
+                if (searchedText.equals(searchQuery)) {
+                    return;
+                }
+
                 searchedText = searchQuery;
                 itemsAdapter.clearItems();
                 itemsShimmer.setVisibility(View.VISIBLE);
@@ -110,15 +115,21 @@ public class SearchResultsActivity extends AppCompatActivity {
         });
     }
 
-    private View.OnClickListener buttonListener = new View.OnClickListener() {
-        public void onClick(View view) {
-            navigateBackToPreviousActivity();
-        }
-    };
+    private void initializeBackButton() {
+        Button backButton = findViewById(R.id.button_back_search_results);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
 
-    public void navigateBackToPreviousActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        View view = getCurrentFocus();
+        Search.handleTouchEventOutsideKeyboard(event, view);
+        return super.dispatchTouchEvent(event);
     }
 
     @Override
@@ -129,21 +140,17 @@ public class SearchResultsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         searchedText = intent.getStringExtra(MainActivity.INTENT_KEY_SEARCH);
 
+        initializeBackButton();
         initializeSearchBarText(searchedText);
+        initializeSearchFunctionality();
         initializeHelperText();
-
         initializeItemsRecyclerView();
         initializeLoadingState();
 
-        initializeSearchFunctionality();
-
         itemsDataFetcher.readData(searchedText, new SearchItemsFetchHandler());
 
-        //TODO(Refactor) put this 2 lines inside ViewHolder
         NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation_search_results);
-        Button backButton = findViewById(R.id.button_back_search_results);
 
-        backButton.setOnClickListener(buttonListener);
         // Highlight the Selected Navigation ICON
         bottomNavBar.setSelectedItemId(R.id.activity_home);
         // Add the Bottom Bar Navigation Logic

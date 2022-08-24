@@ -9,24 +9,33 @@
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/drawable/decrease_btn_available.xml" value="0.1955" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/drawable/decrease_btn_not_available.xml" value="0.1955" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/drawable/ic_cart.xml" value="0.1955" />
+        <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/drawable/ic_category.xml" value="0.1955" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/drawable/ic_delete.xml" value="0.1955" />
+        <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/drawable/ic_fire.xml" value="0.1955" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/drawable/ic_home.xml" value="0.1955" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/drawable/ic_increase_btn_available.xml" value="0.1955" />
+        <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/drawable/ic_laptop.xml" value="0.1955" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1955" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/drawable/ic_minus.xml" value="0.1955" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/drawable/ic_plus.xml" value="0.1955" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/drawable/ic_search.xml" value="0.1955" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/drawable/increase_btn.xml" value="0.1955" />
-        <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/activity_cart.xml" value="0.2" />
+        <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/activity_cart.xml" value="0.264" />
+        <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/activity_category_items.xml" value="0.19927536231884058" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/activity_details.xml" value="0.19927536231884058" />
-        <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/activity_main.xml" value="0.37109375" />
-        <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/activity_past_order_items.xml" value="0.2" />
+        <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/activity_main.xml" value="0.20140321914981427" />
+        <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/activity_past_order_items.xml" value="0.4" />
+        <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/activity_past_orders.xml" value="0.536" />
+        <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/activity_search_results.xml" value="0.19927536231884058" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/cart_item_card.xml" value="0.4" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/cart_item_cart.xml" value="0.264" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/cart_item_group.xml" value="0.6" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/category_card.xml" value="0.19927536231884058" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/item_card.xml" value="0.4" />
+        <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/order_card.xml" value="0.4" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/past_order_item_card.xml" value="0.4" />
+        <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/shimmer_placeholder_category_card.xml" value="0.19927536231884058" />
+        <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/layout/shimmer_placeholder_item_card.xml" value="0.19927536231884058" />
         <entry key="..\:/Uni-Work/Year-3/Semester_2/SOFTENG_306/AndroidProject/project-1-java-new-team42/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/User.LAPTOP-7IBUGTTH/AndroidStudioProjects/project-1-java-new-team42/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1285" />
         <entry key="..\:/Users/User.LAPTOP-7IBUGTTH/AndroidStudioProjects/project-1-java-new-team42/app/src/main/res/drawable/active_dot.xml" value="0.1285" />
@@ -47,7 +56,6 @@
         <entry key="..\:/Users/User.LAPTOP-7IBUGTTH/AndroidStudioProjects/project-1-java-new-team42/app/src/main/res/drawable/increase_button.xml" value="0.1285" />
         <entry key="..\:/Users/User.LAPTOP-7IBUGTTH/AndroidStudioProjects/project-1-java-new-team42/app/src/main/res/drawable/increast_btn.xml" value="0.1285" />
         <entry key="..\:/Users/User.LAPTOP-7IBUGTTH/AndroidStudioProjects/project-1-java-new-team42/app/src/main/res/drawable/non_active_dot.xml" value="0.1285" />
-        <entry key="..\:/Users/User.LAPTOP-7IBUGTTH/AndroidStudioProjects/project-1-java-new-team42/app/src/main/res/layout/activity_cart.xml" value="0.1" />
         <entry key="..\:/Users/User.LAPTOP-7IBUGTTH/AndroidStudioProjects/project-1-java-new-team42/app/src/main/res/layout/activity_category_items.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/User.LAPTOP-7IBUGTTH/AndroidStudioProjects/project-1-java-new-team42/app/src/main/res/layout/activity_details.xml" value="0.22" />
         <entry key="..\:/Users/User.LAPTOP-7IBUGTTH/AndroidStudioProjects/project-1-java-new-team42/app/src/main/res/layout/activity_main.xml" value="0.22" />
@@ -61,25 +69,24 @@
         <entry key="..\:/Users/User.LAPTOP-7IBUGTTH/AndroidStudioProjects/project-1-java-new-team42/app/src/main/res/layout/past_order_item_card.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/User.LAPTOP-7IBUGTTH/AndroidStudioProjects/project-1-java-new-team42/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.17552083333333332" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.403" />
+        <entry key="app/src/main/res/drawable/active_dot.xml" value="0.1855" />
         <entry key="app/src/main/res/drawable/baseline_search_black_24dp.xml" value="0.3815" />
         <entry key="app/src/main/res/drawable/chevron_left.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/ic_inactive_dot.xml" value="0.1435" />
         <entry key="app/src/main/res/drawable/search.xml" value="0.3815" />
         <entry key="app/src/main/res/font-v26/inter.xml" value="0.33796296296296297" />
         <entry key="app/src/main/res/font/.xml" value="0.2712962962962963" />
         <entry key="app/src/main/res/font/inter.xml" value="0.3453703703703704" />
         <entry key="app/src/main/res/font/inter_bold.xml" value="0.24259259259259258" />
         <entry key="app/src/main/res/layout/activity_category_items.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_details.xml" value="0.13531047265987026" />
+        <entry key="app/src/main/res/layout/activity_details.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_search_results.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_search_results.xml" value="0.33" />
         <entry key="app/src/main/res/layout/category_card.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/image_slider_layout.xml" value="0.2736212056434374" />
         <entry key="app/src/main/res/layout/item.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_card.xml" value="0.5" />
         <entry key="app/src/main/res/layout/items_recycler_view_fragment.xml" value="0.2693119459687632" />
-        <entry key="app/src/main/res/layout/shimmer_grid_items.xml" value="0.33133817870884996" />
-        <entry key="app/src/main/res/layout/shimmer_placeholder_category_card.xml" value="0.3304831124412142" />
-        <entry key="app/src/main/res/layout/shimmer_placeholder_item.xml" value="0.3304831124412142" />
-        <entry key="app/src/main/res/layout/shimmer_placeholder_item_card.xml" value="0.3304831124412142" />
         <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.302734375" />
       </map>
     </option>

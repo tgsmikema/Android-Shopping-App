@@ -70,7 +70,8 @@ public class PastOrderItemsActivity extends AppCompatActivity {
             pastOrderItemsRecyclerViewAdapter.addItems(data.get(0).getOrderItems());
             vh.pastOrderItemsSpinner.setVisibility(View.GONE);
 
-            vh.orderNumber.setText(data.get(0).getOrderId());
+            String orderNum = "#" + data.get(0).getOrderId();
+            vh.orderNumber.setText(orderNum);
             vh.orderDate.setText(data.get(0).getPlacedDateAndTime());
 
             String totalPriceOfOrder = "$" + String.valueOf(data.get(0).getTotalCost());

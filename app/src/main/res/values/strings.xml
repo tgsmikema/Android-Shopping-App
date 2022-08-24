@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">MAD Computers</string>
+    <string name="app_logo">App Logo</string>
     <string name="search_hint">Search for a product</string>
     <string name="search_icon_description">Search For Product</string>
     <string name="heading_home_best_selling">Best Selling</string>
@@ -13,6 +14,15 @@
     <string name="button_back">Back</string>
     <string name="category_header_image">Category header image</string>
     <string name="heading_cart">Cart</string>
-    <string name="total_price">Total</string>
+    <string name="heading_past_orders">Order History</string>
+    <string name="heading_order_details">Order Details</string>
     <string name="place_order">Place Order</string>
+    <string name="text_default_qty">1</string>
+    <string name="text_qty">Qty</string>
+    <string name="text_btn_add_to_cart">Add To Cart</string>
+    <string name="button_delete_cart_item">Delete Cart Item</string>
+    <string name="button_decrement">Decrement</string>
+    <string name="button_increment">Increment</string>
+    <string name="order_date">Order Date</string>
+    <string name="text_total">Total</string>
 </resources>

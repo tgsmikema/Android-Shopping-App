@@ -14,4 +14,5 @@
     <color name="chip_tan_light">#FFF0DF</color>
     <color name="shimmer_placeholder">#DDD</color>
     <color name="button_unavailable">#C0C0C0</color>
+    <color name="button_delete">#C16A6A</color>
 </resources>

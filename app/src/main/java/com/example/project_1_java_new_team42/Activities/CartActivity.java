@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,21 +39,19 @@ public class CartActivity extends AppCompatActivity {
     protected CartDataFetcher cartDataFetcher = new CartDataFetcher();
     protected CartDataSender cartDataSender = new CartDataSender();
     protected OrderDataSender orderDataSender = new OrderDataSender();
-    public static boolean isAddedToCart = false;
 
     private Cart cartData;
 
     protected NavigationAdapter navigationAdapter;
 
     TextView totalPriceTextView;
+    ImageView emptyCartImage;
     Button placeOrderButton;
 
     private class CartFetchHandler implements IFetchHandler<Cart> {
         @Override
         public void onFetchComplete(Cart data) {
             cartData = data;
-
-
 
             cartItemsAdapter.setData(data);
             cartItemsAdapter.notifyItemRangeInserted(0, data.getItems().size());
@@ -68,9 +67,12 @@ public class CartActivity extends AppCompatActivity {
             placeOrderButton = findViewById(R.id.place_order_button);
             placeOrderButton.setOnClickListener(buttonListener);
 
+            emptyCartImage = findViewById(R.id.cart_empty_image);
+
             //initially, check if cart is empty
             if (data.getItems().size() == 0){
                 disableSubmitButton();
+                emptyCartImage.setVisibility(View.VISIBLE);
             }
 
             cartRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
@@ -83,6 +85,7 @@ public class CartActivity extends AppCompatActivity {
                 public void onChildViewDetachedFromWindow(@NonNull View view) {
                     if (cartItemsAdapter.getItemCount() <= 0){
                         disableSubmitButton();
+                        emptyCartImage.setVisibility(View.VISIBLE);
                     }
                 }
             });

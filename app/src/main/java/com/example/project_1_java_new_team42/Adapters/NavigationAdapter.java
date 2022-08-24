@@ -36,8 +36,7 @@ public class NavigationAdapter {
             new NavigationBarView.OnItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch(item.getItemId())
-                    {
+                    switch(item.getItemId()) {
                         case R.id.activity_home:
                             if (!activity.getLocalClassName().equalsIgnoreCase(MAIN_ACTIVITY)){
                                 context.startActivity(new Intent(context, MainActivity.class));

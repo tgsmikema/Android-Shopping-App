@@ -25,7 +25,6 @@
                 android:id="@+id/image_cart_itemcard"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:paddingVertical="6dp"
                 android:paddingHorizontal="14dp"
                 android:scaleType="centerInside"
                 app:cornerRadius="8dp"
@@ -44,35 +43,36 @@
                 android:layout_marginEnd="48dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textAppearance="@style/Team42.Headline2"
+                android:textAppearance="@style/Team42.Headline4"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/image_cart_itemcard"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Apple Macbook Air" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/button_delete"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="13dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/ic_delete"
-                android:backgroundTint="@color/white"
-                android:contentDescription="deletion"
+                android:contentDescription="@string/button_delete_cart_item"
                 android:enabled="true"
-                android:foreground="@drawable/ic_delete"
+                android:backgroundTint="@color/button_delete"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/button_minus"
-                android:contentDescription="decrement"
+                android:contentDescription="@string/button_decrement"
                 android:layout_width="20dp"
                 android:layout_height="31dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginBottom="16dp"
                 android:enabled="true"
-                android:paddingLeft="2dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
                 app:icon="@drawable/ic_minus"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/image_cart_itemcard" />
@@ -90,13 +90,14 @@
 
             <Button
                 android:id="@+id/button_plus"
-                android:contentDescription="increment"
+                android:contentDescription="@string/button_increment"
                 android:layout_width="20dp"
                 android:layout_height="31dp"
                 android:layout_marginStart="14dp"
                 android:layout_marginBottom="16dp"
                 android:enabled="true"
-                android:paddingLeft="2dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
                 app:icon="@drawable/ic_plus"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/text_item_quantity" />
@@ -106,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="24dp"
                 android:textAppearance="@style/Team42.Body1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

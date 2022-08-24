@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
     >
 
     <com.google.android.material.card.MaterialCardView
@@ -30,21 +31,21 @@
 
             <TextView
                 android:id="@+id/text_ordercard_number"
-                android:textAppearance="@style/Team42.Headline4"
+                android:textAppearance="@style/Team42.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
-                tools:text="Order #20220814173058001" />
+                tools:text="Order #0814173058" />
 
             <TextView
                 android:id="@+id/text_ordercard_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:textSize="12sp"
-                tools:text="2022-08-14 17:30" />
+                tools:text="14 August 2022" />
 
         </RelativeLayout>
 

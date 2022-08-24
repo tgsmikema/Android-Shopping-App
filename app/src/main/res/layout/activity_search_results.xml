@@ -22,19 +22,15 @@
             android:paddingBottom="100dp"
             android:clickable="true"
             android:focusable="true"
-            android:focusableInTouchMode="true"
-            >
+            android:focusableInTouchMode="true">
 
             <Button
                 android:id="@+id/button_back_search_results"
                 style="@style/Team42.BackButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@id/textView2"
                 style="@style/Team42PageSmallHeading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,15 +38,6 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/button_back_search_results"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
-
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/progress_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2"
-                android:layout_marginTop="24dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_layout_search_results"
@@ -61,7 +48,6 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_back_search_results">
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

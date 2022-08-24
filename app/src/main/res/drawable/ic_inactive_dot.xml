@@ -3,7 +3,9 @@
     android:shape="oval" android:useLevel="true"
     android:dither="true">
 
-    <size android:height="8dip" android:width="8dip"/>
+    <size
+        android:height="@dimen/image_slider_dot_radius_inactive"
+        android:width="@dimen/image_slider_dot_radius_inactive"/>
 
     <solid android:color="#BEBEBE"/>
 </shape>
