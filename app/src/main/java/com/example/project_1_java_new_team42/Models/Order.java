@@ -58,7 +58,7 @@ public class Order {
 
     private String getCurrentDateTimeAsString(){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat s = new SimpleDateFormat("dd MMMM yyyy");
         String dateStr = s.format(calendar.getTime());
 
         return dateStr;
