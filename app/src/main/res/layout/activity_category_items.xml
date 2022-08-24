@@ -22,7 +22,7 @@
             <ImageView
                 android:id="@+id/image_category_header"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/image_category_header_height"
+                android:layout_height="@dimen/image_header_height"
                 android:scaleType="centerCrop"
                 android:contentDescription="@string/category_header_image"
                 app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +30,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/image_category_header_height"
+                android:layout_height="@dimen/image_header_height"
                 android:alpha="0.75"
                 android:background="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/image_category_header"

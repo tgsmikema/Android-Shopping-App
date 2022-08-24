@@ -1,6 +1,5 @@
 package com.example.project_1_java_new_team42.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
@@ -9,9 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,12 +18,10 @@ import android.widget.Toast;
 
 import com.example.project_1_java_new_team42.Adapters.ImageSliderAdapter;
 import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
-import com.example.project_1_java_new_team42.Adapters.ItemsRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.ItemDetailsDataFetcher;
 import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
 import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
-import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
@@ -71,7 +66,6 @@ public class DetailsActivity extends AppCompatActivity {
         CircularProgressIndicator imageSpinner;
         LinearLayout imageSliderDotPanel;
         RelativeLayout quantityBar, addToCartSection;
-        View divider;
 
         TextView itemName, itemDetail, itemPrice, itemTotalPrice, quantityText, quantity;
         Button decreaseBtn, increaseBtn, addCartButton, backButton;
@@ -85,7 +79,6 @@ public class DetailsActivity extends AppCompatActivity {
             imageSliderDotPanel = findViewById(R.id.image_slider_dots);
             quantityBar = findViewById(R.id.quantity_bar_details);
             addToCartSection = findViewById(R.id.add_to_cart_section_details);
-            divider = findViewById(R.id.divider_details);
             // TextView
             itemName = findViewById(R.id.item_name_details);
             itemDetail = findViewById(R.id.item_detail_details);
@@ -218,7 +211,6 @@ public class DetailsActivity extends AppCompatActivity {
 
     // Initialise all details of an item to be shown on this activity
     protected void initializeItemDetails() {
-        vh.divider.setVisibility(View.VISIBLE);
         vh.quantityBar.setVisibility(View.VISIBLE);
         vh.addToCartSection.setVisibility(View.VISIBLE);
 
@@ -237,12 +229,12 @@ public class DetailsActivity extends AppCompatActivity {
         dots = new ImageView[dotsCount];
         for (int i = 0; i < dotsCount; i++) {
             dots[i] = new ImageView(DetailsActivity.this);
-            dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.non_active_dot));
+            dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_inactive_dot));
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(8, 0, 8, 0);
             vh.imageSliderDotPanel.addView(dots[i], layoutParams);
         }
-        dots[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
+        dots[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_active_dot));
         vh.imageSlider.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
@@ -250,10 +242,10 @@ public class DetailsActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 for (int i = 0; i < dotsCount; i++) {
                     dots[i].setImageDrawable(ContextCompat.getDrawable
-                            (getApplicationContext(), R.drawable.non_active_dot));
+                            (getApplicationContext(), R.drawable.ic_inactive_dot));
                 }
                 dots[position].setImageDrawable(ContextCompat.getDrawable
-                        (getApplicationContext(), R.drawable.active_dot));
+                        (getApplicationContext(), R.drawable.ic_active_dot));
             }
             @Override
             public void onPageScrollStateChanged(int state) {}

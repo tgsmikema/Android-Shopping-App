@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".Activities.DetailsActivity">
 
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,27 +14,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:overScrollMode="never"
-        >
+        android:overScrollMode="never">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingBottom="60dp"
-            >
-
+            android:paddingBottom="80dp">
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/image_slide_details"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="0dp">
-
-            </androidx.viewpager.widget.ViewPager>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@color/shimmer_placeholder"/>
 
             <Button
                 android:focusable="true"
@@ -50,151 +43,178 @@
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progress_images"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="200dp"
-                android:layout_centerHorizontal="true"
-                android:indeterminate="true" />
+                android:indeterminate="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:id="@+id/image_slider_dots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/image_slide_details"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="6dp"
                 android:orientation="horizontal"
-                android:gravity="center_vertical|center_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image_slide_details"
+                tools:layout_width="20dp"
+                tools:background="@color/shimmer_placeholder"/>
 
-
-            <TextView
-                android:id="@+id/item_name_details"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/image_slider_dots"
-                android:layout_marginStart="20dp"
+                android:layout_marginHorizontal="@dimen/layout_container_padding"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:textSize="32sp"
-                android:textColor="@color/brand_black"
-
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/item_detail_details"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/item_name_details"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="20dp"
-                android:textAppearance="@style/Team42.Body2"
-                android:textStyle="normal"/>
-
-            <TextView
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/item_detail_details"
-                android:textAppearance="@style/Team42.Headline1"
-                android:id="@+id/item_price_details" />
-
-            <View
-                android:id="@+id/divider_details"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignBottom="@id/item_price_details"
-                android:layout_marginStart="20dp"
-                android:layout_marginBottom="-11dp"
-                android:layout_marginEnd="20dp"
-                android:background="?android:attr/listDivider" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:visibility="invisible"
-                android:layout_below="@+id/divider_details"
-                android:id="@+id/quantity_bar_details">
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image_slider_dots">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentStart="true"
-                    android:textAppearance="@style/Team42.Headline1"
-
-                    android:id="@+id/item_total_price_details" />
-
-            <Button
-                android:layout_width="48dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/increase_btn_details"
-                android:background="@drawable/ic_increase_btn_available"
-                android:foreground="?attr/selectableItemBackground"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
+                    style="@style/Team42.Headline1"
                     android:textStyle="bold"
-                    android:layout_toStartOf="@+id/increase_btn_details"
-                    android:text="1"
-                    android:textAppearance="@style/Team42.Headline1"
-                    android:id="@+id/quantity_details" />
-
-                <Button
-                    android:layout_width="48dp"
-                    android:layout_height="wrap_content"
-                    android:layout_toStartOf="@id/quantity_details"
-                    android:id="@+id/decrease_btn_details"
-                    android:background="@drawable/ic_decrease_btn_not_available"
-                    android:foreground="?attr/selectableItemBackground"/>
-
-                <TextView
+                    android:id="@+id/item_name_details"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginEnd="20dp"
-                    android:layout_toStartOf="@+id/decrease_btn_details"
-                    android:text="Qty"
-                    android:textAppearance="@style/Team42.Headline1"
-                    android:id="@+id/quantity_text_details" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/image_slider_dots"
+                    tools:text="Apple iPad Air 2022" />
 
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="20dp"
-                android:visibility="invisible"
-                android:id="@+id/add_to_cart_section_details"
-                android:layout_below="@+id/quantity_bar_details">
-
-                <Button
+                <TextView
+                    android:id="@+id/item_detail_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Add To Cart"
-                    android:textStyle="bold"
-                    android:textAppearance="@style/Team42.Headline1"
-                    android:id="@+id/add_cart_button_details"/>
+                    android:textAppearance="@style/Team42.Body2"
+                    android:lineSpacingMultiplier="1.125"
+                    android:layout_marginTop="16dp"
+                    tools:text="Apple iPad Air 2022 is a new generation of iPad Air. It has a 10.9-inch Liquid Retina display with True Tone and P3 wide color. It comes with A14 Bionic chip, which is the fastest chip in a tablet. It has a 12MP back camera and a 7MP FaceTime HD front camera. It has a Touch ID fingerprint sensor. It has a USB-C port for charging and data transfer. It has a 10-hour battery life. It has a 64GB storage capacity." />
+
+                <TextView
+                    android:id="@+id/item_price_details"
+                    android:layout_width="match_parent"
+                    android:textAlignment="textEnd"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="16dp"
+                    tools:text="$2299"/>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/quantity_bar_details"
+                    android:layout_marginVertical="16dp">
+
+                    <TextView
+                        android:id="@+id/item_total_price_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Total: $2299"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+<!--                    <Button-->
+<!--                        android:id="@+id/increase_btn_details"-->
+<!--                        android:layout_width="48dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_alignParentEnd="true"-->
+<!--                        android:background="@drawable/ic_increase_btn_available"-->
+<!--                        android:foreground="?attr/selectableItemBackground" />-->
+
+                    <TextView
+                        android:id="@+id/quantity_text_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_toStartOf="@+id/decrease_btn_details"
+                        android:text="@string/text_qty"
+                        android:layout_marginEnd="16dp"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/decrease_btn_details"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/decrease_btn_details"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        app:icon="@drawable/ic_minus"
+                        app:iconGravity="textStart"
+                        app:iconPadding="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/quantity_details"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/quantity_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_default_qty"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:layout_marginEnd="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/increase_btn_details"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/increase_btn_details"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        app:icon="@drawable/ic_plus"
+                        app:iconGravity="textStart"
+                        app:iconPadding="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <RelativeLayout
+                    android:id="@+id/add_to_cart_section_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/quantity_bar_details">
+
+                    <Button
+                        android:id="@+id/add_cart_button_details"
+                        style="@style/Team42.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_btn_add_to_cart"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
 
-            </RelativeLayout>
 
-        </RelativeLayout>
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 

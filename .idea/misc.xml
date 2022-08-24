@@ -61,18 +61,21 @@
         <entry key="..\:/Users/User.LAPTOP-7IBUGTTH/AndroidStudioProjects/project-1-java-new-team42/app/src/main/res/layout/past_order_item_card.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/User.LAPTOP-7IBUGTTH/AndroidStudioProjects/project-1-java-new-team42/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.17552083333333332" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.403" />
+        <entry key="app/src/main/res/drawable/active_dot.xml" value="0.1855" />
         <entry key="app/src/main/res/drawable/baseline_search_black_24dp.xml" value="0.3815" />
         <entry key="app/src/main/res/drawable/chevron_left.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/ic_inactive_dot.xml" value="0.1435" />
         <entry key="app/src/main/res/drawable/search.xml" value="0.3815" />
         <entry key="app/src/main/res/font-v26/inter.xml" value="0.33796296296296297" />
         <entry key="app/src/main/res/font/.xml" value="0.2712962962962963" />
         <entry key="app/src/main/res/font/inter.xml" value="0.3453703703703704" />
         <entry key="app/src/main/res/font/inter_bold.xml" value="0.24259259259259258" />
         <entry key="app/src/main/res/layout/activity_category_items.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_details.xml" value="0.13531047265987026" />
+        <entry key="app/src/main/res/layout/activity_details.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_search_results.xml" value="0.1" />
         <entry key="app/src/main/res/layout/category_card.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/image_slider_layout.xml" value="0.2736212056434374" />
         <entry key="app/src/main/res/layout/item.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_card.xml" value="0.5" />
         <entry key="app/src/main/res/layout/items_recycler_view_fragment.xml" value="0.2693119459687632" />
