@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="Order Details"
+        android:text="@string/heading_order_details"
         android:textAppearance="@style/Team42.Headline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,11 +35,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:gravity="center"
-        android:text="20220822191211943"
         android:textAppearance="@style/Team42.Headline4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_past_order_items" />
+        app:layout_constraintTop_toBottomOf="@+id/title_past_order_items"
+        tools:text="20220822191211943" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_past_order_items"
@@ -109,7 +109,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="Total"
+        android:text="@string/text_total"
         android:textAppearance="@style/Team42.Headline4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/order_date_past_order_items" />

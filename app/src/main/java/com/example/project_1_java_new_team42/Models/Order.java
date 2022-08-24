@@ -50,7 +50,7 @@ public class Order {
 
     private String getCurrentDateTimeConcatenateAsString(){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat s = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        SimpleDateFormat s = new SimpleDateFormat("MMddHHmmss");
         String dateStr = s.format(calendar.getTime());
 
         return dateStr;
