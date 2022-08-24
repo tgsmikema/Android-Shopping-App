@@ -18,4 +18,8 @@
     <string name="text_default_qty">1</string>
     <string name="text_qty">Qty</string>
     <string name="text_btn_add_to_cart">Add To Cart</string>
+    <string name="heading_past_orders">Order History</string>
+    <string name="heading_order_details">Order</string>
+    <string name="order_date">Order Date</string>
+    <string name="order_details_total">Total</string>
 </resources>

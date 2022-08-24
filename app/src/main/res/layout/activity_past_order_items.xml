@@ -10,33 +10,31 @@
     <Button
         android:id="@+id/button_back_past_order_items"
         style="@style/Team42.BackButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="16dp"/>
+        android:layout_marginStart="8dp"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/title_past_order_items"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="Order Details"
-        android:textAppearance="@style/Team42.Headline2"
+        android:text="@string/heading_order_details"
+        android:textAppearance="@style/Team42PageSmallHeading"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/order_number_past_order_items"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:gravity="center"
-        android:text="20220822191211943"
-        android:textAppearance="@style/Team42.Headline2"
+        tools:text="20220822191211943"
+        android:textAppearance="@style/Team42PageSmallHeading"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_past_order_items" />
@@ -68,7 +66,7 @@
         app:layout_constraintTop_toBottomOf="@+id/order_number_past_order_items"
         tools:listitem="@layout/past_order_item_card" />
 
-    <View
+    <com.google.android.material.divider.MaterialDivider
         android:id="@+id/divider_past_order_items"
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -86,9 +84,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="Order Date"
-        android:textAppearance="@style/Team42.Headline2"
+        android:layout_marginTop="16dp"
+        android:text="@string/order_date"
+        android:textSize="18sp"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider_past_order_items" />
 
@@ -96,9 +95,10 @@
         android:id="@+id/order_date_past_order_items"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:textAppearance="@style/Team42.Headline2"
+        android:textSize="18sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider_past_order_items"
         tools:text="2021-12-03 12:24:33" />
@@ -109,7 +109,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="Total"
+        android:text="@string/order_details_total"
         android:textAppearance="@style/Team42.Headline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/order_date_past_order_items" />

@@ -29,16 +29,15 @@
                 android:id="@+id/topic_panel_past_orders">
 
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/title_past_orders"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Past Orders"
-                android:layout_centerVertical="true"
-                android:textStyle="bold"
-                android:layout_centerHorizontal="true"
-                android:textAppearance="@style/Team42.Headline2"
-                app:layout_constraintStart_toStartOf="parent"/>
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/title_past_orders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/heading_past_orders"
+                    android:textAppearance="@style/Team42PageSmallHeading"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </RelativeLayout>
 
