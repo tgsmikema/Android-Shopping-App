@@ -15,6 +15,20 @@ public class Search implements ISearch {
     private final EditText searchEditText;
 
     private boolean disableSearchIfEmpty = false; // Setting
+    private boolean clearQueryOnSearch = false; // Setting
+
+    /**
+     * Setting that allows the user to optionally clear the text field
+     * upon a search action.
+     * @param clearQueryOnSearch setting that clears the query upon searching action.
+     */
+    public void setClearQueryOnSearch(boolean clearQueryOnSearch) {
+        this.clearQueryOnSearch = clearQueryOnSearch;
+    }
+
+    private void clearSearch() {
+        searchEditText.setText("");
+    }
 
     /**
      * Setting that allows the user to disable the search
@@ -22,7 +36,7 @@ public class Search implements ISearch {
      * or handle it themselves.
      * @param disableSearch setting that will disable the search if it is empty.
      */
-    public void setDisableSearchIfEmpty(Boolean disableSearch) {
+    public void setDisableSearchIfEmpty(boolean disableSearch) {
         this.disableSearchIfEmpty = disableSearch;
     }
 
@@ -98,6 +112,9 @@ public class Search implements ISearch {
                 }
 
                 if (pressedSearch || hardKeyboardEnter) {
+                    if (clearQueryOnSearch) {
+                        clearSearch();
+                    }
                     listener.onSearch(searchEditText, searchText);
                     hideKeyboard(searchEditText);
                     return true;

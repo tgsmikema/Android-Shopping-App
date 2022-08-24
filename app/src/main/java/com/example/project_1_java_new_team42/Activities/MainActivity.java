@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         TextInputLayout searchTextInputLayout = findViewById(R.id.text_input_layout_search_results);
         Search search = new Search(searchTextInputLayout.getEditText());
         search.setDisableSearchIfEmpty(true);
+        search.setClearQueryOnSearch(true);
 
         search.setOnSearchActionListener(new Search.OnSearchActionListener() {
             @Override
