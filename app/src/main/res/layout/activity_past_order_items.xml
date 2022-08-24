@@ -36,7 +36,7 @@
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="20220822191211943"
-        android:textAppearance="@style/Team42.Headline2"
+        android:textAppearance="@style/Team42.Headline4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_past_order_items" />
@@ -88,7 +88,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="Order Date"
-        android:textAppearance="@style/Team42.Headline2"
+        android:textAppearance="@style/Team42.Headline4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider_past_order_items" />
 
@@ -98,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:textAppearance="@style/Team42.Headline2"
+        android:textAppearance="@style/Team42.Headline4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider_past_order_items"
         tools:text="2021-12-03 12:24:33" />
@@ -110,7 +110,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="Total"
-        android:textAppearance="@style/Team42.Headline2"
+        android:textAppearance="@style/Team42.Headline4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/order_date_past_order_items" />
 
@@ -120,7 +120,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:textAppearance="@style/Team42.Headline2"
+        android:textAppearance="@style/Team42.Headline4"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/order_date_past_order_items"
         tools:text="$7147" />

@@ -60,7 +60,7 @@ public class PastOrdersRecyclerViewAdapter extends GenericRecyclerViewAdapter<Or
     public void onBindViewHolder(@NonNull PastOrdersRecyclerViewAdapter.ViewHolder holder, int position) {
         Order order = items.get(position);
 
-        String orderId = "Order " + order.getOrderId();
+        String orderId = "Order #" + order.getOrderId();
         holder.orderNumber.setText(orderId);
 
         String orderDateRaw = order.getPlacedDateAndTime();
