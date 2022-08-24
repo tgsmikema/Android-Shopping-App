@@ -34,12 +34,10 @@
                 android:focusable="true"
                 android:id="@+id/button_back_details"
                 style="@style/Team42.BackButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"/>
+                android:layout_marginStart="8dp"/>
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progress_images"
@@ -143,16 +141,9 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/decrease_btn_details"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        style="@style/Team42.IconButton"
                         android:layout_marginEnd="16dp"
-                        android:insetLeft="0dp"
-                        android:insetTop="0dp"
-                        android:insetRight="0dp"
-                        android:insetBottom="0dp"
                         app:icon="@drawable/ic_minus"
-                        app:iconGravity="textStart"
-                        app:iconPadding="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/quantity_details"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -172,15 +163,8 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/increase_btn_details"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:insetLeft="0dp"
-                        android:insetTop="0dp"
-                        android:insetRight="0dp"
-                        android:insetBottom="0dp"
+                        style="@style/Team42.IconButton"
                         app:icon="@drawable/ic_plus"
-                        app:iconGravity="textStart"
-                        app:iconPadding="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
