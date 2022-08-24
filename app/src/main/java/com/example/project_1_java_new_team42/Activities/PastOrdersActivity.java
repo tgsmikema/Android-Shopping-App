@@ -63,7 +63,10 @@ public class PastOrdersActivity extends AppCompatActivity {
     }
 
     protected void initializePastOrdersRecyclerView() {
-        vh.pastOrdersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setReverseLayout(true);
+        llm.setStackFromEnd(true);
+        vh.pastOrdersRecyclerView.setLayoutManager(llm);
         pastOrdersRecyclerViewAdapter = new PastOrdersRecyclerViewAdapter(this);
         vh.pastOrdersRecyclerView.setAdapter(pastOrdersRecyclerViewAdapter);
     }

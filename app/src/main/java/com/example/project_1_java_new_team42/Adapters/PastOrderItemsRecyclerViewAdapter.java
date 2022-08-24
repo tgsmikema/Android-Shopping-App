@@ -60,7 +60,7 @@ public class PastOrderItemsRecyclerViewAdapter extends GenericRecyclerViewAdapte
         String quantity = "Qty: " + itemWithQuantity.getQuantity();
         holder.orderItemQuantity.setText(quantity);
 
-        String totalPrice = "Total $" + String.valueOf(itemWithQuantity.getQuantity() * itemWithQuantity.getPrice());
+        String totalPrice = "$" + String.valueOf(itemWithQuantity.getQuantity() * itemWithQuantity.getPrice());
         holder.orderItemTotalPrice.setText(totalPrice);
     }
 
