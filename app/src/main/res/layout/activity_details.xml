@@ -126,14 +126,6 @@
                         android:textSize="16sp"
                         android:textColor="@color/black"/>
 
-<!--                    <Button-->
-<!--                        android:id="@+id/increase_btn_details"-->
-<!--                        android:layout_width="48dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_alignParentEnd="true"-->
-<!--                        android:background="@drawable/ic_increase_btn_available"-->
-<!--                        android:foreground="?attr/selectableItemBackground" />-->
-
                     <TextView
                         android:id="@+id/quantity_text_details"
                         android:layout_width="wrap_content"
@@ -194,21 +186,13 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <RelativeLayout
-                    android:id="@+id/add_to_cart_section_details"
+                <Button
+                    android:id="@+id/add_cart_button_details"
+                    style="@style/Team42.Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/quantity_bar_details">
-
-                    <Button
-                        android:id="@+id/add_cart_button_details"
-                        style="@style/Team42.Button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_btn_add_to_cart"
-                        android:textStyle="bold" />
-
-                </RelativeLayout>
+                    android:text="@string/text_btn_add_to_cart"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

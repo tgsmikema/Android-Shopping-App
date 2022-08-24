@@ -65,7 +65,6 @@ public class DetailsActivity extends AppCompatActivity {
         ViewPager imageSlider;
         CircularProgressIndicator imageSpinner;
         LinearLayout imageSliderDotPanel;
-        RelativeLayout quantityBar, addToCartSection;
 
         TextView itemName, itemDetail, itemPrice, itemTotalPrice, quantityText, quantity;
         Button decreaseBtn, increaseBtn, addCartButton, backButton;
@@ -77,8 +76,7 @@ public class DetailsActivity extends AppCompatActivity {
             imageSlider = findViewById(R.id.image_slide_details);
             imageSpinner = findViewById(R.id.progress_images);
             imageSliderDotPanel = findViewById(R.id.image_slider_dots);
-            quantityBar = findViewById(R.id.quantity_bar_details);
-            addToCartSection = findViewById(R.id.add_to_cart_section_details);
+
             // TextView
             itemName = findViewById(R.id.item_name_details);
             itemDetail = findViewById(R.id.item_detail_details);
@@ -86,11 +84,13 @@ public class DetailsActivity extends AppCompatActivity {
             itemTotalPrice = findViewById(R.id.item_total_price_details);
             quantityText = findViewById(R.id.quantity_text_details);
             quantity = findViewById(R.id.quantity_details);
+
             // Button
             decreaseBtn = findViewById(R.id.decrease_btn_details);
             increaseBtn = findViewById(R.id.increase_btn_details);
             addCartButton = findViewById(R.id.add_cart_button_details);
             backButton = findViewById(R.id.button_back_details);
+
             // Bottom Nav Bar
             bottomNavBar = findViewById(R.id.bottom_navigation_details);
         }
@@ -166,44 +166,56 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     // On Click Listener for All Buttons Logic Compilation
-    private View.OnClickListener buttonListener = new View.OnClickListener() {
-        public void onClick(View view) {
-            switch (view.getId()) {
 
-                case R.id.decrease_btn_details:
-                    initialQuantity--;
-                    if (initialQuantity < 1) {
-                        initialQuantity = 1;
-                    }
-                    vh.quantity.setText(String.valueOf(initialQuantity));
-                    break;
-
-                case R.id.increase_btn_details:
-                    initialQuantity++;
-                    if (initialQuantity > 9) {
-                        initialQuantity = 9;
-                    }
-                    vh.quantity.setText(String.valueOf(initialQuantity));
-                    break;
-
-                case R.id.add_cart_button_details:
-                    String updateCartText = "Update Cart";
-                    vh.addCartButton.setText(updateCartText);
-                    ItemWithQuantity itemWithQuantity = new ItemWithQuantity
-                            (item, Integer.parseInt(vh.quantity.getText().toString()));
-                    // add or update item to DB
-                    cartDataSender.addItemWithQuantityToCart(itemWithQuantity, new CartDataSendHandler());
-                    break;
-                case R.id.button_back_details:
-
-                    navigateBackToPreviousActivity();
-
-                    break;
-                default:
-                    break;
+    protected void initializeDecreaseQtyButton() {
+        vh.decreaseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initialQuantity--;
+                if (initialQuantity < 1) {
+                    initialQuantity = 1;
+                }
+                vh.quantity.setText(String.valueOf(initialQuantity));
             }
-        }
-    };
+        });
+    }
+
+    protected void initializeIncreaseQtyButton() {
+        vh.increaseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initialQuantity++;
+                if (initialQuantity > 9) {
+                    initialQuantity = 9;
+                }
+                vh.quantity.setText(String.valueOf(initialQuantity));
+            }
+        });
+    }
+
+    protected void initializeAddToCartButton() {
+        vh.addCartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String updateCartText = "Update Cart";
+                vh.addCartButton.setText(updateCartText);
+                ItemWithQuantity itemWithQuantity = new ItemWithQuantity(item, Integer.parseInt(vh.quantity.getText().toString()));
+
+                // add or update item to DB
+                cartDataSender.addItemWithQuantityToCart(itemWithQuantity, new CartDataSendHandler());
+            }
+        });
+    }
+
+    protected void initializeBackButton() {
+        vh.backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish(); // See if this works
+                // navigateBackToPreviousActivity();
+            }
+        });
+    }
 
     protected void initializeImageSlider() {
         imageSliderAdapter = new ImageSliderAdapter(this);
@@ -211,8 +223,8 @@ public class DetailsActivity extends AppCompatActivity {
 
     // Initialise all details of an item to be shown on this activity
     protected void initializeItemDetails() {
-        vh.quantityBar.setVisibility(View.VISIBLE);
-        vh.addToCartSection.setVisibility(View.VISIBLE);
+//        vh.quantityBar.setVisibility(View.VISIBLE);
+//        vh.addToCartSection.setVisibility(View.VISIBLE);
 
         vh.itemName.setText(item.getName());
         vh.itemDetail.setText(item.getDescription());
@@ -299,7 +311,6 @@ public class DetailsActivity extends AppCompatActivity {
         }
     }
 
-
     // ----------------------------------------------------------------------------------------//
     // Details Activity OnCreate Method (Main entry)
     @Override
@@ -312,10 +323,10 @@ public class DetailsActivity extends AppCompatActivity {
         vh = new ViewHolder();
         initializeImageSlider();
 
-        vh.increaseBtn.setOnClickListener(buttonListener);
-        vh.decreaseBtn.setOnClickListener(buttonListener);
-        vh.addCartButton.setOnClickListener(buttonListener);
-        vh.backButton.setOnClickListener(buttonListener);
+        initializeDecreaseQtyButton();
+        initializeIncreaseQtyButton();
+        initializeAddToCartButton();
+        initializeBackButton();
 
         // Highlight the Selected Navigation ICON
         vh.bottomNavBar.setSelectedItemId(R.id.activity_home);
