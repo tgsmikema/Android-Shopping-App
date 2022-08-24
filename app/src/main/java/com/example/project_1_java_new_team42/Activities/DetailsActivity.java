@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -33,14 +34,13 @@ public class DetailsActivity extends AppCompatActivity {
     private static final int MAX_QTY = 9;
     private static final int MIN_QTY = 1;
 
+    private static final int DOT_HOR_MARGIN = 10;
+    private static final int DOT_VER_MARGIN = 0;
+
     // global variables
     public static int quantity = 1;
     public static boolean isAddedToCart = false;
     public static IItem item;
-
-    // Image Slider Dots
-    private int dotsCount;
-    private ImageView[] dots;
 
     ViewHolder vh;
     // Adapters
@@ -72,7 +72,7 @@ public class DetailsActivity extends AppCompatActivity {
             imageSpinner = findViewById(R.id.progress_images);
             imageSliderDotPanel = findViewById(R.id.image_slider_dots);
 
-            // TextView
+            // TextViews
             itemName = findViewById(R.id.item_name_details);
             itemDetail = findViewById(R.id.item_detail_details);
             itemPrice = findViewById(R.id.item_price_details);
@@ -80,13 +80,12 @@ public class DetailsActivity extends AppCompatActivity {
             quantityText = findViewById(R.id.quantity_text_details);
             quantity = findViewById(R.id.quantity_details);
 
-            // Button
+            // Buttons
             decreaseBtn = findViewById(R.id.decrease_btn_details);
             increaseBtn = findViewById(R.id.increase_btn_details);
             addCartButton = findViewById(R.id.add_cart_button_details);
             backButton = findViewById(R.id.button_back_details);
 
-            // Bottom Nav Bar
             bottomNavBar = findViewById(R.id.bottom_navigation_details);
         }
     }
@@ -155,8 +154,8 @@ public class DetailsActivity extends AppCompatActivity {
             }
 
             // Update Total Price
-            int readjustedPrice = item.getPrice() * Integer.parseInt(vh.quantity.getText().toString());
-            String totalPrice = "Total $ " + readjustedPrice;
+            int calculatedPrice = item.getPrice() * Integer.parseInt(vh.quantity.getText().toString());
+            String totalPrice = "Total $" + calculatedPrice;
             vh.itemTotalPrice.setText(totalPrice);
         }
     }
@@ -218,39 +217,50 @@ public class DetailsActivity extends AppCompatActivity {
     protected void setItemDetailViews(IItem item) {
         vh.itemName.setText(item.getName());
         vh.itemDetail.setText(item.getDescription());
-        String price = "Price $ " + item.getPrice();
+
+        String price = "$" + item.getPrice();
         vh.itemPrice.setText(price);
-        String totalPrice = "Total $ " + item.getPrice();
+
+        String totalPrice = "Total $" + item.getPrice();
         vh.itemTotalPrice.setText(totalPrice);
+
         vh.quantity.setText(String.valueOf(quantity));
     }
 
-    // initialise image slider dots configuration
+    // Initialise image slider dots configuration
     protected void initializeImageSliderDots() {
-        dotsCount = imageSliderAdapter.getCount();
-        dots = new ImageView[dotsCount];
-        for (int i = 0; i < dotsCount; i++) {
+        int numDots = imageSliderAdapter.getCount();
+        ImageView[] dots = new ImageView[numDots];
+
+        Context context = DetailsActivity.this;
+
+        for (int i = 0; i < numDots; i++) {
             dots[i] = new ImageView(DetailsActivity.this);
-            dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_inactive_dot));
+            dots[i].setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_inactive_dot));
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(8, 0, 8, 0);
+            layoutParams.setMargins(DOT_HOR_MARGIN, DOT_VER_MARGIN, DOT_HOR_MARGIN, DOT_VER_MARGIN);
             vh.imageSliderDotPanel.addView(dots[i], layoutParams);
         }
-        dots[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_active_dot));
+
+        dots[0].setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_active_dot));
+
         vh.imageSlider.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-            @Override
-            public void onPageSelected(int position) {
-                for (int i = 0; i < dotsCount; i++) {
-                    dots[i].setImageDrawable(ContextCompat.getDrawable
-                            (getApplicationContext(), R.drawable.ic_inactive_dot));
-                }
-                dots[position].setImageDrawable(ContextCompat.getDrawable
-                        (getApplicationContext(), R.drawable.ic_active_dot));
-            }
+
             @Override
             public void onPageScrollStateChanged(int state) {}
+
+            @Override
+            public void onPageSelected(int position) {
+                for (int i = 0; i < numDots; i++) {
+                    if (i == position) {
+                        dots[i].setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_active_dot));
+                    } else {
+                        dots[i].setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_inactive_dot));
+                    }
+                }
+            }
         });
     }
 

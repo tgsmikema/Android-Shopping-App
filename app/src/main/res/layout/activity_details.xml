@@ -59,6 +59,7 @@
                 android:layout_below="@+id/image_slide_details"
                 android:layout_marginTop="6dp"
                 android:orientation="horizontal"
+                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/image_slide_details"
