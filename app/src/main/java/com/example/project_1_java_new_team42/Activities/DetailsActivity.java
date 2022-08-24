@@ -161,6 +161,9 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     protected void initializeDecreaseQtyButton() {
+        if (quantity == MIN_QTY) {
+            vh.decreaseBtn.setEnabled(false);
+        }
         vh.decreaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
