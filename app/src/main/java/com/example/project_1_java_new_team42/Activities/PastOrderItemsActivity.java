@@ -2,20 +2,16 @@ package com.example.project_1_java_new_team42.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Adapters.PastOrderItemsRecyclerViewAdapter;
-import com.example.project_1_java_new_team42.Adapters.PastOrdersRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.PastOrderItemsDataFetcher;
 import com.example.project_1_java_new_team42.Models.Order;
@@ -84,21 +80,18 @@ public class PastOrderItemsActivity extends AppCompatActivity {
         }
     }
 
-    private View.OnClickListener buttonListener = new View.OnClickListener() {
-        public void onClick(View view) {
-            navigateBackToPreviousActivity();
-        }
-    };
-
-    public void navigateBackToPreviousActivity() {
-        Intent intent = new Intent(this, PastOrdersActivity.class);
-        startActivity(intent);
+    private void initializeBackButton() {
+        vh.backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
-    private String constructItemFromIntent(){
+    private String getItemIdFromIntent(){
         Intent intent = getIntent();
-        String orderID = intent.getStringExtra(MainActivity.INTENT_KEY_ORDER_ID);
-        return orderID;
+        return intent.getStringExtra(MainActivity.INTENT_KEY_ORDER_ID);
     }
 
 
@@ -108,7 +101,6 @@ public class PastOrderItemsActivity extends AppCompatActivity {
         vh.pastOrderItemsRecyclerView.setAdapter(pastOrderItemsRecyclerViewAdapter);
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,7 +109,7 @@ public class PastOrderItemsActivity extends AppCompatActivity {
         vh = new ViewHolder();
         initializePastOrderItemsRecyclerView();
 
-        pastOrderItemsDataFetcher.readData(constructItemFromIntent(), new pastOrderItemsFetchHandler());
+        pastOrderItemsDataFetcher.readData(getItemIdFromIntent(), new pastOrderItemsFetchHandler());
 
         // Highlight the Selected Navigation ICON
         vh.bottomNavBar.setSelectedItemId(R.id.activity_orders);
@@ -125,9 +117,7 @@ public class PastOrderItemsActivity extends AppCompatActivity {
         navigationAdapter = new NavigationAdapter(this);
         vh.bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
 
-        vh.backButton.setOnClickListener(buttonListener);
-
-
+        initializeBackButton();
     }
 
 }
