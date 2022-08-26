@@ -89,6 +89,7 @@
         <entry key="app/src/main/res/layout/item.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_card.xml" value="0.5" />
         <entry key="app/src/main/res/layout/items_recycler_view_fragment.xml" value="0.2693119459687632" />
+        <entry key="app/src/main/res/layout/order_success_tick.xml" value="0.32629801604052344" />
         <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.302734375" />
       </map>
     </option>

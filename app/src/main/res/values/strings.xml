@@ -35,4 +35,5 @@
     <string name="button_go_home">Home</string>
     <string name="text_order_placed">Your Order Has Been Placed</string>
     <string name="text_thank_for_shopping">Thank you for shopping with us!</string>
+    <string name="initial_check_mark">animated_filled_check_mark</string>
 </resources>
