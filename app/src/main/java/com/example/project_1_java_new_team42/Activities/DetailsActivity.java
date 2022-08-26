@@ -31,15 +31,14 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
-    private static final int MAX_QTY = 9;
-    private static final int MIN_QTY = 1;
+//    private static final int MAX_QTY = 9;
+//    private static final int MIN_QTY = 1;
 
     private static final int DOT_HOR_MARGIN = 10;
     private static final int DOT_VER_MARGIN = 0;
 
     // global variables
     public static int quantity = 1;
-    public static boolean isAddedToCart = false;
     public static IItem item;
 
     ViewHolder vh;
@@ -96,12 +95,6 @@ public class DetailsActivity extends AppCompatActivity {
 
         @Override
         public void onSendSuccess(boolean isSuccess) {
-//            if (!isAddedToCart) {
-//                isAddedToCart = true;
-//                //Toast.makeText(DetailsActivity.this, "Item(s) has been Added to cart!", Toast.LENGTH_SHORT).show();
-//            } else {
-//                Toast.makeText(DetailsActivity.this, "Item(s) in the Cart has been Updated!", Toast.LENGTH_SHORT).show();
-//            }
             navigateToCartActivity();
         }
 
@@ -149,10 +142,10 @@ public class DetailsActivity extends AppCompatActivity {
             int currentQuantity = Integer.parseInt(vh.quantity.getText().toString());
 
             // Disabling/enabling quantity buttons with respect to order limits.
-            if (currentQuantity == MIN_QTY) {
+            if (currentQuantity == ItemWithQuantity.MIN_QUANTITY) {
                 vh.decreaseBtn.setEnabled(false);
                 vh.increaseBtn.setEnabled(true);
-            } else if (currentQuantity > MIN_QTY && currentQuantity < MAX_QTY) {
+            } else if (currentQuantity > ItemWithQuantity.MIN_QUANTITY && currentQuantity < ItemWithQuantity.MAX_QUANTITY) {
                 vh.decreaseBtn.setEnabled(true);
                 vh.increaseBtn.setEnabled(true);
             } else {
@@ -168,14 +161,14 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     protected void initializeDecreaseQtyButton() {
-        if (quantity == MIN_QTY) {
+        if (quantity == ItemWithQuantity.MIN_QUANTITY) {
             vh.decreaseBtn.setEnabled(false);
         }
         vh.decreaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Decrease Quantity
-                if (quantity > MIN_QTY) {
+                if (quantity > ItemWithQuantity.MIN_QUANTITY) {
                     quantity--;
                     vh.quantity.setText(String.valueOf(quantity));
                 }
@@ -188,7 +181,7 @@ public class DetailsActivity extends AppCompatActivity {
         vh.increaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (quantity < MAX_QTY) {
+                if (quantity < ItemWithQuantity.MAX_QUANTITY) {
                     quantity++;
                     vh.quantity.setText(String.valueOf(quantity));
                 }

@@ -37,7 +37,6 @@ public class CartActivity extends AppCompatActivity {
     protected CircularProgressIndicator cartItemsSpinner;
 
     protected CartDataFetcher cartDataFetcher = new CartDataFetcher();
-    protected CartDataSender cartDataSender = new CartDataSender();
     protected OrderDataSender orderDataSender = new OrderDataSender();
 
     private Cart cartData;
@@ -53,8 +52,8 @@ public class CartActivity extends AppCompatActivity {
         public void onFetchComplete(Cart data) {
             cartData = data;
 
-            cartItemsAdapter.setData(data);
-            cartItemsAdapter.notifyItemRangeInserted(0, data.getItems().size());
+            cartItemsAdapter.addItems(data.getItems());
+            cartItemsAdapter.setItemsTotalPrice(data.getTotalPrice());
 
             cartItemsSpinner.setVisibility(View.GONE);
 
@@ -64,13 +63,9 @@ public class CartActivity extends AppCompatActivity {
             String totalPrice = "$" + data.getTotalPrice();
             totalPriceTextView.setText(totalPrice);
 
-            placeOrderButton = findViewById(R.id.place_order_button);
-            placeOrderButton.setOnClickListener(buttonListener);
-
             emptyCartImage = findViewById(R.id.cart_empty_image);
 
-            //initially, check if cart is empty
-            if (data.getItems().size() == 0){
+            if (data.getItems().isEmpty()){
                 disableSubmitButton();
                 emptyCartImage.setVisibility(View.VISIBLE);
             }
@@ -113,11 +108,18 @@ public class CartActivity extends AppCompatActivity {
         placeOrderButton.setEnabled(true);
     }
 
-    /**
-     * Initialize the recycler view which will be called when the activity is created in `onCreate`.
-     * This has to be done in the main UI thread otherwise will get warning that no adapter is
-     * attached to the recycler view.
-     */
+    private void initializePlaceOrderButton() {
+        placeOrderButton = findViewById(R.id.place_order_button);
+        placeOrderButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Order newOrder = new Order(cartData.getItems());
+                orderDataSender.writeCartOrderToFirestore(newOrder, new OrderDataSendHandler());
+                Intent intent = new Intent(CartActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
     protected void initializeCartRecyclerView() {
         cartRecyclerView = findViewById(R.id.recycler_view_cart);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -133,6 +135,8 @@ public class CartActivity extends AppCompatActivity {
 
         cartItemsSpinner = findViewById(R.id.progress_cart_items);
 
+        initializePlaceOrderButton();
+
         initializeCartRecyclerView();
         cartDataFetcher.readData(new CartFetchHandler());
 
@@ -146,22 +150,12 @@ public class CartActivity extends AppCompatActivity {
         bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
     }
 
-    private View.OnClickListener buttonListener = new View.OnClickListener() {
-        public void onClick(View view) {
-            Order newOrder = new Order(cartData.getItems());
-            orderDataSender.writeCartOrderToFirestore(newOrder, new OrderDataSendHandler());
-            Intent intent = new Intent(CartActivity.this, MainActivity.class);
-            startActivity(intent);
-        }
-    };
-
     public void updateTotalPrice(int totalPrice) {
         String price = "$" + totalPrice;
         totalPriceTextView.setText(price);
     }
 
     private class OrderDataSendHandler implements ISendHandler {
-
         @Override
         public void onSendSuccess(boolean isSuccess) {
             Toast.makeText(CartActivity.this,"Order Placed!",Toast.LENGTH_LONG).show();
