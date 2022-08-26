@@ -6,7 +6,7 @@
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/brand_gray</item>
-        <item name="android:colorBackground">#f5f5f7</item>
+        <item name="android:colorBackground">@color/background_color</item>
 
         <item name="buttonStyle">@style/Team42.Button</item>
         <item name="bottomNavigationStyle">@style/Team42.BottomNavigation</item>
@@ -16,6 +16,12 @@
         <item name="textAppearanceHeadline2">@style/Team42.Headline2</item>
         <item name="textAppearanceHeadline3">@style/Team42.Headline3</item>
         <item name="textAppearanceBody1">@style/Team42.Body1</item>
+    </style>
+    <style name="Theme.Team42.Dialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="materialAlertDialogTitleTextStyle">@style/Team42.DialogTitle</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/Team42.DialogBody</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Team42.DialogButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Team42.DialogButton</item>
     </style>
 
     <!--  General Styles  -->
@@ -32,6 +38,23 @@
     </style>
 
     <!--  Widget Theming  -->
+    <style name="Team42.DialogTitle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="Team42.DialogBody" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/brand_light_gray</item>
+        <item name="android:lineSpacingMultiplier">1.25</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+    </style>
+    <style name="Team42.DialogButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="textAllCaps">false</item>
+    </style>
     <style name="Team42.Button" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/brand_black</item>
         <item name="android:fontFamily">@font/inter</item>

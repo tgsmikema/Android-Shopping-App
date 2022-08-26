@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +28,7 @@ import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
 import com.example.project_1_java_new_team42.Util.ItemUtil;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
@@ -90,12 +92,26 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
 
-    // Implementation of CartDataSendHandler.
     private class CartDataSendHandler implements ISendHandler {
 
         @Override
         public void onSendSuccess(boolean isSuccess) {
-            navigateToCartActivity();
+            showSuccessfulDialog();
+        }
+
+        private void showSuccessfulDialog() {
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(DetailsActivity.this, R.style.Theme_Team42_Dialog);
+
+            builder.setTitle(R.string.text_added_to_cart);
+            builder.setMessage(R.string.text_added_to_cart_body);
+            builder.setCancelable(false);
+            builder.setPositiveButton(R.string.dialog_btn_checkout, (dialog, which) -> {
+                navigateToCartActivity();
+            });
+            builder.setNegativeButton(R.string.dialog_btn_back, (dialog, which) -> {
+                finish();
+            });
+            builder.show();
         }
 
         private void navigateToCartActivity(){
@@ -194,9 +210,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ItemWithQuantity itemWithQuantity = new ItemWithQuantity(item, Integer.parseInt(vh.quantity.getText().toString()));
-                // add or update item to DB
                 cartDataSender.addItemWithQuantityToCart(itemWithQuantity, new CartDataSendHandler());
-
             }
         });
     }

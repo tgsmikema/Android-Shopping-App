@@ -96,14 +96,14 @@ public class CartActivity extends AppCompatActivity {
 
 
     private void disableSubmitButton() {
-        placeOrderButton.setText("Cart is Empty!"); 
+        placeOrderButton.setText(R.string.text_cart_empty);
         placeOrderButton.setBackgroundColor(getResources().getColor(R.color.button_unavailable));
         placeOrderButton.setTextColor(Color.BLACK);
         placeOrderButton.setEnabled(false);
     }
 
     private void enableSubmitButton(){
-        placeOrderButton.setText("Place Order");
+        placeOrderButton.setText(R.string.text_cart_place_order);
         placeOrderButton.setBackgroundColor(getResources().getColor(R.color.brand_black));
         placeOrderButton.setTextColor(Color.WHITE);
         placeOrderButton.setEnabled(true);
