@@ -26,6 +26,7 @@ import com.example.project_1_java_new_team42.Data.Senders.OrderDataSender;
 import com.example.project_1_java_new_team42.Models.Cart;
 import com.example.project_1_java_new_team42.Models.Order;
 import com.example.project_1_java_new_team42.R;
+import com.example.project_1_java_new_team42.Util.ItemUtil;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
@@ -60,7 +61,7 @@ public class CartActivity extends AppCompatActivity {
             Log.i(TAG, "Fetched cart items successfully");
 
             totalPriceTextView = findViewById(R.id.cart_total_price);
-            String totalPrice = "$" + data.getTotalPrice();
+            String totalPrice = ItemUtil.addDollarSignToPrice(data.getTotalPrice());
             totalPriceTextView.setText(totalPrice);
 
             emptyCartImage = findViewById(R.id.cart_empty_image);
@@ -151,7 +152,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void updateTotalPrice(int totalPrice) {
-        String price = "$" + totalPrice;
+        String price = ItemUtil.addDollarSignToPrice(totalPrice);
         totalPriceTextView.setText(price);
     }
 

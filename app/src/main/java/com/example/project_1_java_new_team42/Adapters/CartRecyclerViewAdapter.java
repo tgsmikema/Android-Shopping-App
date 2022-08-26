@@ -3,7 +3,6 @@ package com.example.project_1_java_new_team42.Adapters;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,13 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.project_1_java_new_team42.Activities.CartActivity;
 import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
 import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
-import com.example.project_1_java_new_team42.Models.Cart;
-import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.project_1_java_new_team42.Util.ItemUtil;
 
 public class CartRecyclerViewAdapter extends GenericRecyclerViewAdapter<ItemWithQuantity, CartRecyclerViewAdapter.ViewHolder> {
 
@@ -96,7 +91,7 @@ public class CartRecyclerViewAdapter extends GenericRecyclerViewAdapter<ItemWith
 
                     // Set text views in RecyclerView
                     quantityTextView.setText(String.valueOf(itemQuantity));
-                    price = "$" + (itemQuantity * itemPrice);
+                    price = ItemUtil.addDollarSignToPrice(itemPrice * itemQuantity);
                     cartItemPriceTextView.setText(price);
                     break;
 
@@ -106,7 +101,7 @@ public class CartRecyclerViewAdapter extends GenericRecyclerViewAdapter<ItemWith
 
                     // Set text views in RecyclerView
                     quantityTextView.setText(String.valueOf(itemQuantity));
-                    price = "$" + (itemQuantity * itemPrice);
+                    price = ItemUtil.addDollarSignToPrice(itemPrice * itemQuantity);
                     cartItemPriceTextView.setText(price);
                     break;
 
@@ -168,7 +163,6 @@ public class CartRecyclerViewAdapter extends GenericRecyclerViewAdapter<ItemWith
 
                 cartDataSender.addItemWithQuantityToCart(updatedItem, cartDataSenderHandler);
                 items.set(pos, updatedItem);
-                notifyItemChanged(pos);
             }
 
             @Override
@@ -185,7 +179,6 @@ public class CartRecyclerViewAdapter extends GenericRecyclerViewAdapter<ItemWith
 
                 cartDataSender.addItemWithQuantityToCart(updatedItem, cartDataSenderHandler);
                 items.set(pos, updatedItem);
-                notifyItemChanged(pos);
             }
 
             @Override
@@ -209,14 +202,14 @@ public class CartRecyclerViewAdapter extends GenericRecyclerViewAdapter<ItemWith
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ItemWithQuantity item = items.get(position);
 
-        int drawableId = context.getResources().getIdentifier(item.getImagePaths().get(0),"drawable", context.getPackageName());
+        int drawableId = ItemUtil.getImageDrawableId(context, item.getImagePaths().get(0));
         holder.cartItemImageView.setImageResource(drawableId);
         holder.cartItemNameTextView.setText(item.getName());
 
-        String price = "$" + item.getPrice() * item.getQuantity();
+        String price = ItemUtil.addDollarSignToPrice(item.getPrice() * item.getQuantity());
         holder.cartItemPriceTextView.setText(price);
 
-        String quantity = "" + item.getQuantity();
+        String quantity = Integer.toString(item.getQuantity());
         holder.cartItemQuantityTextView.setText(quantity);
     }
 

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.project_1_java_new_team42.Adapters.ImageSliderAdapter;
+import com.example.project_1_java_new_team42.Adapters.ItemsRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.ItemDetailsDataFetcher;
@@ -24,6 +25,7 @@ import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
+import com.example.project_1_java_new_team42.Util.ItemUtil;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
@@ -31,8 +33,6 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
-//    private static final int MAX_QTY = 9;
-//    private static final int MIN_QTY = 1;
 
     private static final int DOT_HOR_MARGIN = 10;
     private static final int DOT_VER_MARGIN = 0;
@@ -219,10 +219,10 @@ public class DetailsActivity extends AppCompatActivity {
         vh.itemName.setText(item.getName());
         vh.itemDetail.setText(item.getDescription());
 
-        String price = "$" + item.getPrice();
+        String price = ItemUtil.addDollarSignToPrice(item.getPrice());
         vh.itemPrice.setText(price);
 
-        String totalPrice = "Total $" + item.getPrice();
+        String totalPrice = "Total " + ItemUtil.addDollarSignToPrice(item.getPrice());
         vh.itemTotalPrice.setText(totalPrice);
 
         vh.quantity.setText(String.valueOf(quantity));
@@ -289,9 +289,7 @@ public class DetailsActivity extends AppCompatActivity {
         vh.bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
 
         Intent intent = getIntent();
-        String selectedItemId = intent.getStringExtra(MainActivity.INTENT_KEY_ITEM_ID);;
+        String selectedItemId = intent.getStringExtra(ItemsRecyclerViewAdapter.INTENT_KEY_ITEM_ID_TO_FETCH);
         itemDetailsDataFetcher.readData(selectedItemId, new ItemDetailsFetchHandler());
-
-
     }
 }

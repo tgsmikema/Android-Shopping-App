@@ -1,19 +1,13 @@
 package com.example.project_1_java_new_team42.Adapters;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
@@ -21,15 +15,13 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.project_1_java_new_team42.Activities.CategoryItemsActivity;
 import com.example.project_1_java_new_team42.Activities.DetailsActivity;
-import com.example.project_1_java_new_team42.Activities.MainActivity;
 import com.example.project_1_java_new_team42.Models.Category;
-import com.example.project_1_java_new_team42.Activities.SearchResultsActivity;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
-import com.example.project_1_java_new_team42.util.CategoryChipUtil;
-import com.example.project_1_java_new_team42.util.CategoryChipUtil.CategoryChipData;
+import com.example.project_1_java_new_team42.Util.CategoryChipUtil;
+import com.example.project_1_java_new_team42.Util.CategoryChipUtil.CategoryChipData;
+import com.example.project_1_java_new_team42.Util.ItemUtil;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 
@@ -91,34 +83,8 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
 
         private void navigateToDetailsActivity(IItem selectedItem){
             Intent intent = new Intent(context, DetailsActivity.class);
-
-            Activity activity = (Activity) context;
-            if (activity.getLocalClassName().equalsIgnoreCase(NavigationAdapter.MAIN_ACTIVITY)){
-
-                intent.putExtra(MainActivity.INTENT_KEY_ACTIVITY_NAME,MainActivity.INTENT_VALUE_MAIN_ACTIVITY);
-                intent.putExtra(MainActivity.INTENT_KEY_ITEM_ID,selectedItem.getId());
-                context.startActivity(intent);
-
-            } else if (activity.getLocalClassName().equalsIgnoreCase(NavigationAdapter.CATEGORY_ITEMS_ACTIVITY)){
-
-                intent.putExtra(MainActivity.INTENT_KEY_ACTIVITY_NAME,MainActivity.INTENT_VALUE_CATEGORY_ITEMS_ACTIVITY);
-                intent.putExtra(MainActivity.INTENT_KEY_ITEM_ID,selectedItem.getId());
-                intent.putExtra(MainActivity.INTENT_KEY_CATEGORY_NAME,category.getCategoryName());
-                intent.putExtra(MainActivity.INTENT_KEY_CATEGORY_IMAGE_URI,category.getImageURI());
-                context.startActivity(intent);
-
-
-            } else if (activity.getLocalClassName().equalsIgnoreCase(NavigationAdapter.SEARCH_RESULT_ACTIVITY)){
-
-                intent.putExtra(MainActivity.INTENT_KEY_ACTIVITY_NAME,MainActivity.INTENT_VALUE_SEARCH_RESULTS_ACTIVITY);
-                intent.putExtra(MainActivity.INTENT_KEY_ITEM_ID,selectedItem.getId());
-                intent.putExtra(MainActivity.INTENT_KEY_SEARCH,searchString);
-                context.startActivity(intent);
-
-            } else {
-                Toast.makeText(context,"Sorry, but an ERROR occurred!",Toast.LENGTH_LONG).show();
-            }
-
+            intent.putExtra(INTENT_KEY_ITEM_ID_TO_FETCH, selectedItem.getId());
+            context.startActivity(intent);
         }
 
         @Override
@@ -138,14 +104,14 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
         IItem item = items.get(position);
 
         // Item image
-        int drawableId = context.getResources().getIdentifier(item.getImagePaths().get(0),"drawable", context.getPackageName());
+        int drawableId = ItemUtil.getImageDrawableId(context, item.getImagePaths().get(0));
         holder.imageView.setImageResource(drawableId);
 
         // Item name
         holder.nameTextView.setText(item.getName());
 
         // Item price
-        String price = "$" + item.getPrice();
+        String price = ItemUtil.addDollarSignToPrice(item.getPrice());;
         holder.priceTextView.setText(price);
 
         // Dynamic chip icon and data depending on the category
