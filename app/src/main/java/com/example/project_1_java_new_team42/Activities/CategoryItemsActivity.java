@@ -19,6 +19,7 @@ import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
+import com.example.project_1_java_new_team42.Util.ItemUtil;
 import com.example.project_1_java_new_team42.Widgets.ItemsRecyclerView;
 import com.example.project_1_java_new_team42.Widgets.RecyclerViewLayoutType;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -65,7 +66,7 @@ public class CategoryItemsActivity extends AppCompatActivity {
         headingTextView.setText(category.getCategoryName());
 
         ImageView headingImageView = findViewById(R.id.image_category_header);
-        int drawableId = getResources().getIdentifier(category.getImageURI(), "drawable", getPackageName());
+        int drawableId = ItemUtil.getImageDrawableId(this, category.getImageURI());
         headingImageView.setImageResource(drawableId);
     }
 

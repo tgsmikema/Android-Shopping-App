@@ -11,6 +11,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
+import com.example.project_1_java_new_team42.Util.ItemUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class ImageSliderAdapter extends PagerAdapter {
         // convert imagePaths from String to Integer, add to imageResourceList for populating purpose.
         List<String> imagePathList = itemDetail.getImagePaths();
         for (String imagePath : imagePathList){
-            int imageResourceId = context.getResources().getIdentifier(imagePath, "drawable", context.getPackageName());
+            int imageResourceId = ItemUtil.getImageDrawableId(context, imagePath);
             imageResourceList.add(imageResourceId);
         }
 

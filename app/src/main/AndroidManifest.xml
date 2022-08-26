@@ -45,6 +45,9 @@
         <activity
             android:name=".Activities.CartActivity"
             android:parentActivityName=".Activities.MainActivity" />
+        <activity
+            android:name=".Activities.SuccessfulOrderActivity"
+            android:parentActivityName=".Activities.CartActivity" />
     </application>
 
 </manifest>

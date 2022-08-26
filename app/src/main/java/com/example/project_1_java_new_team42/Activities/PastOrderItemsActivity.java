@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.PastOrderItemsDataFetcher;
 import com.example.project_1_java_new_team42.Models.Order;
 import com.example.project_1_java_new_team42.R;
+import com.example.project_1_java_new_team42.Util.ItemUtil;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textview.MaterialTextView;
@@ -63,20 +65,22 @@ public class PastOrderItemsActivity extends AppCompatActivity {
 
         @Override
         public void onFetchComplete(List<Order> data) {
-            pastOrderItemsRecyclerViewAdapter.addItems(data.get(0).getOrderItems());
+            Order order = data.get(0);
+            pastOrderItemsRecyclerViewAdapter.addItems(order.getOrderItems());
             vh.pastOrderItemsSpinner.setVisibility(View.GONE);
 
-            String orderNum = "#" + data.get(0).getOrderId();
+            String orderNum = "#" + order.getOrderId();
             vh.orderNumber.setText(orderNum);
-            vh.orderDate.setText(data.get(0).getPlacedDateAndTime());
+            vh.orderDate.setText(order.getPlacedDateAndTime());
 
-            String totalPriceOfOrder = "$" + String.valueOf(data.get(0).getTotalCost());
+            String totalPriceOfOrder = ItemUtil.addDollarSignToPrice(order.getTotalCost());
             vh.orderTotalPrice.setText(totalPriceOfOrder);
         }
 
         @Override
         public void onFetchFail() {
-
+            System.out.println("Failed to fetch cart items");
+            Toast.makeText(getApplicationContext(), "Failed to fetch cart items", Toast.LENGTH_SHORT).show();
         }
     }
 

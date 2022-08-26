@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,30 +17,31 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.project_1_java_new_team42.Adapters.ImageSliderAdapter;
+import com.example.project_1_java_new_team42.Adapters.ItemsRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.ItemDetailsDataFetcher;
 import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
 import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
+import com.example.project_1_java_new_team42.Models.Cart;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
+import com.example.project_1_java_new_team42.Util.ItemUtil;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
-    private static final int MAX_QTY = 9;
-    private static final int MIN_QTY = 1;
 
     private static final int DOT_HOR_MARGIN = 10;
     private static final int DOT_VER_MARGIN = 0;
 
     // global variables
     public static int quantity = 1;
-    public static boolean isAddedToCart = false;
     public static IItem item;
 
     ViewHolder vh;
@@ -91,18 +93,26 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
 
-    // Implementation of CartDataSendHandler.
     private class CartDataSendHandler implements ISendHandler {
 
         @Override
         public void onSendSuccess(boolean isSuccess) {
-//            if (!isAddedToCart) {
-//                isAddedToCart = true;
-//                //Toast.makeText(DetailsActivity.this, "Item(s) has been Added to cart!", Toast.LENGTH_SHORT).show();
-//            } else {
-//                Toast.makeText(DetailsActivity.this, "Item(s) in the Cart has been Updated!", Toast.LENGTH_SHORT).show();
-//            }
-            navigateToCartActivity();
+            showSuccessfulDialog();
+        }
+
+        private void showSuccessfulDialog() {
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(DetailsActivity.this, R.style.Theme_Team42_Dialog);
+
+            builder.setTitle(R.string.text_added_to_cart);
+            builder.setMessage(R.string.text_added_to_cart_body);
+            builder.setCancelable(false);
+            builder.setPositiveButton(R.string.dialog_btn_checkout, (dialog, which) -> {
+                navigateToCartActivity();
+            });
+            builder.setNegativeButton(R.string.dialog_btn_back, (dialog, which) -> {
+                finish();
+            });
+            builder.show();
         }
 
         private void navigateToCartActivity(){
@@ -149,10 +159,10 @@ public class DetailsActivity extends AppCompatActivity {
             int currentQuantity = Integer.parseInt(vh.quantity.getText().toString());
 
             // Disabling/enabling quantity buttons with respect to order limits.
-            if (currentQuantity == MIN_QTY) {
+            if (currentQuantity == ItemWithQuantity.MIN_QUANTITY) {
                 vh.decreaseBtn.setEnabled(false);
                 vh.increaseBtn.setEnabled(true);
-            } else if (currentQuantity > MIN_QTY && currentQuantity < MAX_QTY) {
+            } else if (currentQuantity > ItemWithQuantity.MIN_QUANTITY && currentQuantity < ItemWithQuantity.MAX_QUANTITY) {
                 vh.decreaseBtn.setEnabled(true);
                 vh.increaseBtn.setEnabled(true);
             } else {
@@ -168,14 +178,14 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     protected void initializeDecreaseQtyButton() {
-        if (quantity == MIN_QTY) {
+        if (quantity == ItemWithQuantity.MIN_QUANTITY) {
             vh.decreaseBtn.setEnabled(false);
         }
         vh.decreaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Decrease Quantity
-                if (quantity > MIN_QTY) {
+                if (quantity > ItemWithQuantity.MIN_QUANTITY) {
                     quantity--;
                     vh.quantity.setText(String.valueOf(quantity));
                 }
@@ -188,7 +198,7 @@ public class DetailsActivity extends AppCompatActivity {
         vh.increaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (quantity < MAX_QTY) {
+                if (quantity < ItemWithQuantity.MAX_QUANTITY) {
                     quantity++;
                     vh.quantity.setText(String.valueOf(quantity));
                 }
@@ -201,9 +211,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ItemWithQuantity itemWithQuantity = new ItemWithQuantity(item, Integer.parseInt(vh.quantity.getText().toString()));
-                // add or update item to DB
                 cartDataSender.addItemWithQuantityToCart(itemWithQuantity, new CartDataSendHandler());
-
             }
         });
     }
@@ -226,10 +234,10 @@ public class DetailsActivity extends AppCompatActivity {
         vh.itemName.setText(item.getName());
         vh.itemDetail.setText(item.getDescription());
 
-        String price = "$" + item.getPrice();
+        String price = ItemUtil.addDollarSignToPrice(item.getPrice());
         vh.itemPrice.setText(price);
 
-        String totalPrice = "Total $" + item.getPrice();
+        String totalPrice = "Total " + ItemUtil.addDollarSignToPrice(item.getPrice());
         vh.itemTotalPrice.setText(totalPrice);
 
         vh.quantity.setText(String.valueOf(quantity));
@@ -296,9 +304,7 @@ public class DetailsActivity extends AppCompatActivity {
         vh.bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
 
         Intent intent = getIntent();
-        String selectedItemId = intent.getStringExtra(MainActivity.INTENT_KEY_ITEM_ID);;
+        String selectedItemId = intent.getStringExtra(ItemsRecyclerViewAdapter.INTENT_KEY_ITEM_ID_TO_FETCH);
         itemDetailsDataFetcher.readData(selectedItemId, new ItemDetailsFetchHandler());
-
-
     }
 }
