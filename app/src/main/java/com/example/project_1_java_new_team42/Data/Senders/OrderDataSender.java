@@ -74,7 +74,7 @@ public class OrderDataSender {
             String currentItemId = itemWithQuantity.getId();
 
             // get the document reference of the current item sold in the `items` collection from the database
-            DocumentReference currentItemInFirestore = db.collection("items").document(currentItemId);
+            DocumentReference currentItemInFirestore = db.collection("itemstesting").document(currentItemId);
             // increase the database `totalSold` field of the selected item by QUANTITY specified on the order.
             currentItemInFirestore.update("totalSold", FieldValue.increment(currentItemOrderedQuantity));
         }

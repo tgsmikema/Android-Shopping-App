@@ -19,7 +19,7 @@ public class CategoryItemsDataFetcher extends AssignCategory {
     public void readData(String category, IFetchHandler<List<IItem>> dataFetchHandler) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("items")
+        db.collection("itemstesting")
                 .whereEqualTo("category", category)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

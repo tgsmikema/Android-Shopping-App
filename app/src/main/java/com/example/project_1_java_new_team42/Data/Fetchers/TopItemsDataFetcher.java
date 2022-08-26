@@ -22,7 +22,7 @@ public class TopItemsDataFetcher extends AssignCategory {
     public void readData(IFetchHandler<List<IItem>> dataFetchHandler) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("items")
+        db.collection("itemstesting")
             .orderBy("totalSold", Query.Direction.DESCENDING)
             .limit(NO_OF_TOP_ITEMS_TO_FETCH)
             .get()
