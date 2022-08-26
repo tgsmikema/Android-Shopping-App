@@ -31,4 +31,8 @@
     <string name="text_added_to_cart_body">Proceed to checkout or head back and continue shopping.</string>
     <string name="dialog_btn_checkout">Checkout</string>
     <string name="dialog_btn_back">Back</string>
+    <string name="button_go_to_orders">View My Past Orders</string>
+    <string name="button_go_home">Home</string>
+    <string name="text_order_placed">Your Order Has Been Placed</string>
+    <string name="text_thank_for_shopping">Thank you for shopping with us!</string>
 </resources>

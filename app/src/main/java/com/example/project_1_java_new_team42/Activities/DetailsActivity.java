@@ -23,6 +23,7 @@ import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.ItemDetailsDataFetcher;
 import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
 import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
+import com.example.project_1_java_new_team42.Models.Cart;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;

@@ -1,7 +1,6 @@
 package com.example.project_1_java_new_team42.Activities;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,7 +19,6 @@ import com.example.project_1_java_new_team42.Adapters.CartRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.CartDataFetcher;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
-import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
 import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
 import com.example.project_1_java_new_team42.Data.Senders.OrderDataSender;
 import com.example.project_1_java_new_team42.Models.Cart;
@@ -115,8 +113,6 @@ public class CartActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Order newOrder = new Order(cartData.getItems());
                 orderDataSender.writeCartOrderToFirestore(newOrder, new OrderDataSendHandler());
-                Intent intent = new Intent(CartActivity.this, MainActivity.class);
-                startActivity(intent);
             }
         });
     }
@@ -141,7 +137,6 @@ public class CartActivity extends AppCompatActivity {
         initializeCartRecyclerView();
         cartDataFetcher.readData(new CartFetchHandler());
 
-        //TODO(Refactor) put this inside ViewHolder
         NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation_cart);
 
         // Highlight the Selected Navigation ICON
@@ -157,9 +152,11 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private class OrderDataSendHandler implements ISendHandler {
+
         @Override
         public void onSendSuccess(boolean isSuccess) {
-            Toast.makeText(CartActivity.this,"Order Placed!",Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(CartActivity.this, SuccessfulOrderActivity.class);
+            startActivity(intent);
         }
     }
 }

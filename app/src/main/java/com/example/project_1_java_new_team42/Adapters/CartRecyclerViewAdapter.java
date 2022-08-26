@@ -9,16 +9,20 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1_java_new_team42.Activities.CartActivity;
+import com.example.project_1_java_new_team42.Activities.DetailsActivity;
 import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
 import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
 import com.example.project_1_java_new_team42.Util.ItemUtil;
+
+import java.util.List;
 
 public class CartRecyclerViewAdapter extends GenericRecyclerViewAdapter<ItemWithQuantity, CartRecyclerViewAdapter.ViewHolder> {
 

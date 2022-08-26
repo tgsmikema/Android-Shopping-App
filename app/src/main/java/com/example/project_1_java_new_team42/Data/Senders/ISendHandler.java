@@ -7,5 +7,4 @@ import java.util.List;
 public interface ISendHandler {
 
     void onSendSuccess(boolean isSuccess);
-
 }
