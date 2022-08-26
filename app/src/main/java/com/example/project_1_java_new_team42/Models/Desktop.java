@@ -5,12 +5,20 @@ import java.util.List;
 
 public class Desktop extends Item{
 
+    protected boolean isTouchScreen;
+
+    public boolean getIsTouchScreen() {
+        return isTouchScreen;
+    }
+
+
     public Desktop(){
 
     }
 
 
-    public Desktop(String id, String name, List<String> imagePaths, String category, int price, int totalSold, String description) {
+    public Desktop(String id, String name, List<String> imagePaths, String category, int price, int totalSold, String description, boolean isTouchScreen) {
         super(id, name, imagePaths, category, price, totalSold, description);
+        this.isTouchScreen = isTouchScreen;
     }
 }

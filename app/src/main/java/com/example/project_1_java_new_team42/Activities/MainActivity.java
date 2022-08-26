@@ -18,6 +18,7 @@ import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.CategoryDataFetcher;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Data.Fetchers.TopItemsDataFetcher;
+import com.example.project_1_java_new_team42.Data.Providers.ItemsDataProvider;
 import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
@@ -168,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavBar.setSelectedItemId(R.id.activity_home);
         navigationAdapter = new NavigationAdapter(this);
         bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
+
     }
 }
 

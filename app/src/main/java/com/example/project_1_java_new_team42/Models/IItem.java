@@ -18,4 +18,10 @@ public interface IItem {
 
     String getDescription();
 
+    boolean getIsKeyboard();
+
+    boolean getIsSSD();
+
+    boolean getIsTouchScreen();
+
 }
