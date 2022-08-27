@@ -92,7 +92,6 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
         private void navigateToDetailsActivity(Item selectedItem){
             Intent intent = new Intent(context, DetailsActivity.class);
             intent.putExtra(INTENT_KEY_ITEM, selectedItem);
-//            ((Activity) context).overridePendingTransition(R.anim.scale_simple, R.anim.scale_back_simple);
             context.startActivity(intent);
         }
 
