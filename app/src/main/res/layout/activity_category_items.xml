@@ -41,7 +41,6 @@
 
             <TextView
                 android:id="@+id/text_category_heading"
-                android:transitionName="category_name_transition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"

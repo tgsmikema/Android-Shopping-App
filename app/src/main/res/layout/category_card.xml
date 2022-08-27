@@ -40,7 +40,6 @@
 
             <TextView
                 android:id="@+id/text_category_card_name"
-                android:transitionName="category_name_transition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/category_desktop"
