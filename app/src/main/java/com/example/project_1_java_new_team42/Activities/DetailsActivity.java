@@ -39,7 +39,6 @@ public class DetailsActivity extends AppCompatActivity {
 
     // global variables
     public static int quantity = 1;
-    public static IItem item;
 
     ViewHolder vh;
 
@@ -51,7 +50,7 @@ public class DetailsActivity extends AppCompatActivity {
     protected ICartDataSender cartDataSender = new CartDataSender();
 
     // On Change Listener Watcher
-    protected TextWatcherImpl textWatcherImpl = new TextWatcherImpl();
+    protected TextWatcherImpl textWatcherImpl;
 
     // View Holders Class for all Views in the current Activity
     private class ViewHolder {
@@ -117,6 +116,12 @@ public class DetailsActivity extends AppCompatActivity {
 
     // Implementation of TextWatcher for On Change Listener
     private class TextWatcherImpl implements TextWatcher {
+        IItem item;
+
+        public TextWatcherImpl(IItem item) {
+            this.item = item;
+        }
+
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
         @Override
@@ -261,6 +266,8 @@ public class DetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Item selectedItem = (Item) intent.getSerializableExtra(ItemsRecyclerViewAdapter.INTENT_KEY_ITEM);
         setItemDetailViews(selectedItem);
+
+        this.textWatcherImpl = new TextWatcherImpl(selectedItem);
 
         initializeDecreaseQtyButton();
         initializeIncreaseQtyButton();
