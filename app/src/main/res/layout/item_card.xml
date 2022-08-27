@@ -47,9 +47,6 @@
                 android:ellipsize="end"
                 tools:text="Apple Macbook Air" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/text_itemcard_price"
@@ -59,29 +56,35 @@
                 android:layout_marginTop="6dp"
                 tools:text="$2299" />
 
-            <TextView
-                android:id="@+id/image_itemcard_accessory"
-                android:layout_width="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:textSize="14sp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:visibility="invisible"
-                tools:text="SSD" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_itemcard_category"
+                    style="@style/Team42.CategoryChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="16dp"
+                    tools:chipBackgroundColor="@color/chip_blue_light"
+                    tools:chipIcon="@drawable/ic_laptop"
+                    tools:chipIconTint="@color/chip_blue_dark"
+                    tools:text="Laptop"
+                    tools:textColor="@color/chip_blue_dark" />
+
+                <ImageView
+                    android:id="@+id/image_itemcard_accessory"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_ssd"
+                    android:visibility="invisible"/>
 
             </RelativeLayout>
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_itemcard_category"
-                style="@style/Team42.CategoryChip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                tools:chipIconTint="@color/chip_blue_dark"
-                tools:chipBackgroundColor="@color/chip_blue_light"
-                tools:chipIcon="@drawable/ic_laptop"
-                tools:textColor="@color/chip_blue_dark"
-                tools:text="Laptop" />
 
         </LinearLayout>
 
