@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-public class Order implements Serializable {
+public class Order implements IOrder, Serializable {
 
     private String orderId;
     private String placedDateAndTime;
