@@ -3,6 +3,9 @@ package com.example.project_1_java_new_team42.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.view.Gravity;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -11,6 +14,7 @@ import com.example.project_1_java_new_team42.Activities.CartActivity;
 import com.example.project_1_java_new_team42.Activities.MainActivity;
 import com.example.project_1_java_new_team42.Activities.PastOrdersActivity;
 import com.example.project_1_java_new_team42.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class NavigationAdapter {
@@ -31,31 +35,34 @@ public class NavigationAdapter {
         this.activity = (Activity) context;
     }
 
+    public void applyTransition() {
+        activity.overridePendingTransition(R.anim.fade_activity_in, android.R.anim.fade_out);
+    }
+
     // Logic of Navigation Bar selection.
     public NavigationBarView.OnItemSelectedListener navigationListener =
             new NavigationBarView.OnItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                    String className = activity.getLocalClassName();
                     switch(item.getItemId()) {
                         case R.id.activity_home:
-                            if (!activity.getLocalClassName().equalsIgnoreCase(MAIN_ACTIVITY)){
+                            if (!className.equalsIgnoreCase(MAIN_ACTIVITY)){
                                 context.startActivity(new Intent(context, MainActivity.class));
-                                // NO transition animation
-                                activity.overridePendingTransition(0, 0);
+                                applyTransition();
                             }
                             return true;
                         case R.id.activity_cart:
-                            if (!activity.getLocalClassName().equalsIgnoreCase(CART_ACTIVITY)){
+                            if (!className.equalsIgnoreCase(CART_ACTIVITY)){
                                 context.startActivity(new Intent(context, CartActivity.class));
-                                // NO transition animation
-                                activity.overridePendingTransition(0,0);
+                                applyTransition();
                             }
                             return true;
                         case R.id.activity_orders:
-                            if (!activity.getLocalClassName().equalsIgnoreCase(PAST_ORDERS_ACTIVITY)){
+                            if (!className.equalsIgnoreCase(PAST_ORDERS_ACTIVITY)){
                                 context.startActivity(new Intent(context, PastOrdersActivity.class));
-                                // NO transition animation
-                                activity.overridePendingTransition(0,0);
+                                applyTransition();
                             }
                             return true;
                     }

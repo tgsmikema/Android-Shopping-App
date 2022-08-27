@@ -2,9 +2,10 @@ package com.example.project_1_java_new_team42.Models;
 
 import com.google.firebase.firestore.Exclude;
 
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class Item implements IItem{
+public abstract class Item implements IItem, Serializable {
 
     protected String id;
     protected String name;

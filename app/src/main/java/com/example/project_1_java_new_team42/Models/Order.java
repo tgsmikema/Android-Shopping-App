@@ -1,10 +1,11 @@
 package com.example.project_1_java_new_team42.Models;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-public class Order {
+public class Order implements IOrder, Serializable {
 
     private String orderId;
     private String placedDateAndTime;

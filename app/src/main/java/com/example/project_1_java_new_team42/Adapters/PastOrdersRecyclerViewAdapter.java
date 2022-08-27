@@ -18,6 +18,7 @@ import com.example.project_1_java_new_team42.R;
 import com.google.android.material.card.MaterialCardView;
 
 public class PastOrdersRecyclerViewAdapter extends GenericRecyclerViewAdapter<Order, PastOrdersRecyclerViewAdapter.ViewHolder> {
+    public static final String INTENT_KEY_ORDER = "ORDER";
 
     public PastOrdersRecyclerViewAdapter(Context context) {
         super(context);
@@ -40,7 +41,7 @@ public class PastOrdersRecyclerViewAdapter extends GenericRecyclerViewAdapter<Or
 
         private void navigateToPastOrderItemsActivity(Order order) {
             Intent intent = new Intent(context, PastOrderItemsActivity.class);
-            intent.putExtra(MainActivity.INTENT_KEY_ORDER_ID,order.getOrderId());
+            intent.putExtra(INTENT_KEY_ORDER, order);
             context.startActivity(intent);
         }
 
