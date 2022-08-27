@@ -1,11 +1,9 @@
 package com.example.project_1_java_new_team42.Models;
 
-import com.google.firebase.firestore.Exclude;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cart {
+public class Cart implements ICart {
     private List<ItemWithQuantity> items;
 
     private int totalPrice;
