@@ -16,7 +16,9 @@ import com.example.project_1_java_new_team42.Adapters.CategoriesRecyclerViewAdap
 import com.example.project_1_java_new_team42.Adapters.ItemsRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.CategoryDataFetcher;
+import com.example.project_1_java_new_team42.Data.Fetchers.ICategoryDataFetcher;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
+import com.example.project_1_java_new_team42.Data.Fetchers.ITopItemsDataFetcher;
 import com.example.project_1_java_new_team42.Data.Fetchers.TopItemsDataFetcher;
 import com.example.project_1_java_new_team42.Data.Providers.ItemsDataProvider;
 import com.example.project_1_java_new_team42.Models.Category;
@@ -138,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchHomePageData() {
-        CategoryDataFetcher categoriesDataFetcher = new CategoryDataFetcher();
-        TopItemsDataFetcher topItemsDataFetcher = new TopItemsDataFetcher();
+        ICategoryDataFetcher categoriesDataFetcher = new CategoryDataFetcher();
+        ITopItemsDataFetcher topItemsDataFetcher = new TopItemsDataFetcher();
         categoriesDataFetcher.readData(new CategoriesFetchHandler());
         topItemsDataFetcher.readData(new TopItemsFetchHandler());
     }

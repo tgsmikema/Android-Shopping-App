@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.project_1_java_new_team42.Adapters.ItemsRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
+import com.example.project_1_java_new_team42.Data.Fetchers.ISearchItemsDataFetcher;
 import com.example.project_1_java_new_team42.Data.Fetchers.SearchItemsDataFetcher;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.R;
@@ -32,7 +33,7 @@ import java.util.List;
 public class SearchResultsActivity extends AppCompatActivity {
     private static final String TAG = "SearchResultsActivity";
 
-    private final SearchItemsDataFetcher itemsDataFetcher = new SearchItemsDataFetcher();
+    private final ISearchItemsDataFetcher itemsDataFetcher = new SearchItemsDataFetcher();
     private ItemsRecyclerViewAdapter itemsAdapter;
     private ItemsRecyclerView itemsRecyclerView;
     private ShimmerFrameLayout itemsShimmer;

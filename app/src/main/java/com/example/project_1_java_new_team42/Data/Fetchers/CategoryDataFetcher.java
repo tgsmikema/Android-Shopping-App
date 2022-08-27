@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * This class is responsible for Retrieving the name of Categories and image path.
  */
-public class CategoryDataFetcher {
+public class CategoryDataFetcher implements ICategoryDataFetcher{
 
     public void readData(IFetchHandler<List<Category>> iFetchHandler) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();

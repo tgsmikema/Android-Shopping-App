@@ -18,7 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
  * This class is used for when Submiting an ORDER, and post the order to database.
  * REFER to methods description for more details.
  */
-public class OrderDataSender {
+public class OrderDataSender implements IOrderDataSender{
 
     /**
      * This method is used to write the Submitted ORDER to the database.
@@ -84,7 +84,7 @@ public class OrderDataSender {
     }
 
     private void emptyCart(){
-        CartDataSender cartDataSender = new CartDataSender();
+        ICartDataSender cartDataSender = new CartDataSender();
 
         cartDataSender.deleteAllCartItems(new ISendHandler() {
             @Override

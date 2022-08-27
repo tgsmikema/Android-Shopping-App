@@ -18,6 +18,7 @@ import com.example.project_1_java_new_team42.Adapters.ImageSliderAdapter;
 import com.example.project_1_java_new_team42.Adapters.ItemsRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
+import com.example.project_1_java_new_team42.Data.Senders.ICartDataSender;
 import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
 import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.Item;
@@ -47,7 +48,7 @@ public class DetailsActivity extends AppCompatActivity {
     protected NavigationAdapter navigationAdapter;
 
     // Database Interaction Classes
-    protected CartDataSender cartDataSender = new CartDataSender();
+    protected ICartDataSender cartDataSender = new CartDataSender();
 
     // On Change Listener Watcher
     protected TextWatcherImpl textWatcherImpl = new TextWatcherImpl();
