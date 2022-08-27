@@ -44,6 +44,8 @@ public class CategoryItemsActivity extends AppCompatActivity {
            itemsRecyclerView.getRecyclerView().setVisibility(View.VISIBLE);
            itemsShimmer.setVisibility(View.INVISIBLE);
            Log.i(TAG, "Fetched category  successfully");
+
+           startPostponedEnterTransition();
         }
 
         @Override
@@ -75,14 +77,14 @@ public class CategoryItemsActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                supportFinishAfterTransition();
             }
         });
     }
 
     private final View.OnClickListener buttonListener = new View.OnClickListener() {
         public void onClick(View view) {
-            finish();
+            supportFinishAfterTransition();
         }
     };
 
@@ -102,6 +104,8 @@ public class CategoryItemsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_items);
+
+        postponeEnterTransition();
 
         category = constructCategoryFromIntent();
         setCategoryViews(category);

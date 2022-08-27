@@ -16,6 +16,8 @@
         <item name="textAppearanceHeadline2">@style/Team42.Headline2</item>
         <item name="textAppearanceHeadline3">@style/Team42.Headline3</item>
         <item name="textAppearanceBody1">@style/Team42.Body1</item>
+
+        <item name="android:windowContentTransitions">true</item>
     </style>
     <style name="Theme.Team42.Dialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="materialAlertDialogTitleTextStyle">@style/Team42.DialogTitle</item>
