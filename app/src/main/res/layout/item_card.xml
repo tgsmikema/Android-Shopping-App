@@ -29,8 +29,9 @@
             <ImageView
                 android:layout_marginVertical="10dp"
                 android:id="@+id/image_itemcard"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:adjustViewBounds="true"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:scaleType="centerInside"
                 app:cornerRadius="8dp"
                 tools:contentDescription="Apple Macbook Air 2020"
