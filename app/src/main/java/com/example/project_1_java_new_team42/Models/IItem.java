@@ -20,8 +20,8 @@ public interface IItem {
 
     boolean getIsKeyboard();
 
-    boolean getIsSSD();
-
     boolean getIsTouchScreen();
+
+    boolean getIsSSD();
 
 }

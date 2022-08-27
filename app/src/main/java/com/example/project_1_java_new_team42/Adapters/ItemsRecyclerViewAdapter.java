@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.media.Image;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -28,8 +27,8 @@ import com.google.android.material.chip.Chip;
 
 public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, ItemsRecyclerViewAdapter.ViewHolder> {
     public static final String INTENT_KEY_ITEM_ID_TO_FETCH = "ITEM_ID_TO_FETCH";
-    public static final String DESKTOP_ACCESSORY_ICON_PATH = "ic_touch_screen";
-    public static final String LAPTOP_ACCESSORY_ICON_PATH = "ic_ssd";
+    public static final String DESKTOP_ACCESSORY_ICON_PATH = "ic_ssd";
+    public static final String LAPTOP_ACCESSORY_ICON_PATH = "ic_touch_screen";
     public static final String TABLET_ACCESSORY_ICON_PATH = "ic_keyboard";
 
     protected String searchString;
@@ -145,7 +144,7 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
     // Dependency Injection
 
     public void populateDesktopAccessory (ViewHolder holder, IItem item){
-        if (item.getIsTouchScreen() == true){
+        if (item.getIsSSD() == true){
             holder.accessoryView.setVisibility(View.VISIBLE);
             int imageResourceId = ItemUtil.getImageDrawableId(context, DESKTOP_ACCESSORY_ICON_PATH);
             holder.accessoryView.setImageResource(imageResourceId);
@@ -153,7 +152,7 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
     }
 
     public void populateLaptopAccessory (ViewHolder holder, IItem item){
-        if (item.getIsSSD() == true){
+        if (item.getIsTouchScreen() == true){
             holder.accessoryView.setVisibility(View.VISIBLE);
             int imageResourceId = ItemUtil.getImageDrawableId(context, LAPTOP_ACCESSORY_ICON_PATH);
             holder.accessoryView.setImageResource(imageResourceId);

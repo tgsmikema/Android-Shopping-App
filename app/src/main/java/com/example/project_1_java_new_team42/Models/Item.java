@@ -64,12 +64,12 @@ public abstract class Item implements IItem{
     }
 
     @Exclude
-    public boolean getIsSSD(){
+    public boolean getIsTouchScreen(){
         throw new RuntimeException();
     }
 
     @Exclude
-    public boolean getIsTouchScreen(){
+    public boolean getIsSSD(){
         throw new RuntimeException();
     }
 

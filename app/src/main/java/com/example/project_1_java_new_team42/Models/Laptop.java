@@ -4,10 +4,10 @@ import java.util.List;
 
 public class Laptop extends Item{
 
-    protected boolean isSSD;
+    protected boolean isTouchScreen;
 
-    public boolean getIsSSD() {
-        return isSSD;
+    public boolean getIsTouchScreen() {
+        return isTouchScreen;
     }
 
     public Laptop(){
@@ -15,6 +15,6 @@ public class Laptop extends Item{
     }
     public Laptop(String id, String name, List<String> imagePaths, String category, int price, int totalSold, String description, boolean isSSD) {
         super(id, name, imagePaths, category, price, totalSold, description);
-        this.isSSD = isSSD;
+        this.isTouchScreen = isSSD;
     }
 }
