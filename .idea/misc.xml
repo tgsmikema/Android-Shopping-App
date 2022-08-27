@@ -73,6 +73,9 @@
         <entry key="app/src/main/res/drawable/baseline_search_black_24dp.xml" value="0.3815" />
         <entry key="app/src/main/res/drawable/chevron_left.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable/ic_inactive_dot.xml" value="0.1435" />
+        <entry key="app/src/main/res/drawable/ic_keyboard.xml" value="0.16" />
+        <entry key="app/src/main/res/drawable/ic_search.xml" value="0.16" />
+        <entry key="app/src/main/res/drawable/ic_ssd.xml" value="0.16" />
         <entry key="app/src/main/res/drawable/search.xml" value="0.3815" />
         <entry key="app/src/main/res/font-v26/inter.xml" value="0.33796296296296297" />
         <entry key="app/src/main/res/font/.xml" value="0.2712962962962963" />

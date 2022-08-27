@@ -82,8 +82,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_ssd"
-                    android:visibility="invisible"/>
+                    tools:src="@drawable/ic_touch" />
 
             </RelativeLayout>
 

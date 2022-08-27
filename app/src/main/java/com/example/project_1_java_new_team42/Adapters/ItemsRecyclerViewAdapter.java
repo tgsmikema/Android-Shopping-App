@@ -29,7 +29,7 @@ import com.google.android.material.chip.Chip;
 public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, ItemsRecyclerViewAdapter.ViewHolder> {
     public static final String INTENT_KEY_ITEM = "ITEM";
     public static final String DESKTOP_ACCESSORY_ICON_PATH = "ic_ssd";
-    public static final String LAPTOP_ACCESSORY_ICON_PATH = "ic_touch_screen";
+    public static final String LAPTOP_ACCESSORY_ICON_PATH = "ic_touch";
     public static final String TABLET_ACCESSORY_ICON_PATH = "ic_keyboard";
 
     protected String searchString;
@@ -129,40 +129,40 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
         holder.categoryChip.setText(chipData.getText());
 
         // Set Item accessory icon via Dependency injection.
-        if (item.getCategory().equals(Category.DESKTOP)){
-            populateDesktopAccessory(holder, item);
-        }
-
-        if (item.getCategory().equals(Category.LAPTOP)){
-            populateLaptopAccessory(holder, item);
-        }
-
-        if (item.getCategory().equals(Category.TABLET)){
-            populateTabletAccessory(holder, item);
-        }
+        populateAccessory(holder, item);
     }
 
     // Dependency Injection
+    private void populateAccessory(ViewHolder holder, IItem item) {
+        switch (item.getCategory()) {
+            case Category.DESKTOP:
+                populateDesktopAccessory(holder, item);
+                break;
+            case Category.LAPTOP:
+                populateLaptopAccessory(holder, item);
+                break;
+            case Category.TABLET:
+                populateTabletAccessory(holder, item);
+                break;
+        }
+    }
 
-    public void populateDesktopAccessory (ViewHolder holder, IItem item){
+    private void populateDesktopAccessory (ViewHolder holder, IItem item){
         if (item.getIsSSD()){
-            holder.accessoryView.setVisibility(View.VISIBLE);
             int imageResourceId = ItemUtil.getImageDrawableId(context, DESKTOP_ACCESSORY_ICON_PATH);
             holder.accessoryView.setImageResource(imageResourceId);
         }
     }
 
-    public void populateLaptopAccessory (ViewHolder holder, IItem item){
+    private void populateLaptopAccessory (ViewHolder holder, IItem item){
         if (item.getIsTouchScreen()){
-            holder.accessoryView.setVisibility(View.VISIBLE);
             int imageResourceId = ItemUtil.getImageDrawableId(context, LAPTOP_ACCESSORY_ICON_PATH);
             holder.accessoryView.setImageResource(imageResourceId);
         }
     }
 
-    public void populateTabletAccessory (ViewHolder holder, IItem item){
+    private void populateTabletAccessory (ViewHolder holder, IItem item){
         if (item.getIsKeyboard()){
-            holder.accessoryView.setVisibility(View.VISIBLE);
             int imageResourceId = ItemUtil.getImageDrawableId(context, TABLET_ACCESSORY_ICON_PATH);
             holder.accessoryView.setImageResource(imageResourceId);
         }
