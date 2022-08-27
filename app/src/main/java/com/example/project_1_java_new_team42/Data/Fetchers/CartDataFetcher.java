@@ -13,7 +13,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 /**
  * This class is used for getting all current items inside the shopping cart.
  */
-public class CartDataFetcher {
+public class CartDataFetcher implements ICartDataFetcher{
 
     public void readData(IFetchHandler<Cart> dataFetchHandler) {
 

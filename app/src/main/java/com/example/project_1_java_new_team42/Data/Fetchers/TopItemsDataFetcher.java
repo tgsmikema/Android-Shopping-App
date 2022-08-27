@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * This class is used for retrieving a List of TOP ITEMS.
  */
-public class TopItemsDataFetcher extends AssignCategory {
+public class TopItemsDataFetcher extends AssignCategory implements ITopItemsDataFetcher{
 
     final private int NO_OF_TOP_ITEMS_TO_FETCH = 6;
 

@@ -22,7 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
  * 3) deleteAllCartItems
  *
  */
-public class CartDataSender {
+public class CartDataSender implements ICartDataSender{
 
     /**
      * this method adds an `ItemWithQuantity` to the CART database.
