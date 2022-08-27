@@ -144,7 +144,7 @@ public class ItemsDataProvider {
         List<IItem> itemList = getItems();
         System.out.println(itemList.get(0).getDescription() + "----------------------------------------------------------");
         for (IItem aItem : itemList) {
-            db.collection("itemstesting").document(aItem.getId()).set(aItem).addOnSuccessListener(new OnSuccessListener<Void>() {
+            db.collection("items").document(aItem.getId()).set(aItem).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
                     Log.d("Items Collection Add", "item " + aItem.getId() + " added.");

@@ -24,7 +24,7 @@ public class SearchItemsDataFetcher extends AssignCategory {
     public void readData(String name , IFetchHandler<List<IItem>> dataFetchHandler) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("itemstesting").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
