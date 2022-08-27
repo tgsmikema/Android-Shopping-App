@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.project_1_java_new_team42.Activities.CartActivity;
 import com.example.project_1_java_new_team42.Activities.DetailsActivity;
 import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
+import com.example.project_1_java_new_team42.Data.Senders.ICartDataSender;
 import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
@@ -40,7 +41,7 @@ public class CartRecyclerViewAdapter extends GenericRecyclerViewAdapter<ItemWith
     private int itemPrice;
     private int itemsTotalPrice;
 
-    protected CartDataSender cartDataSender = new CartDataSender();
+    protected ICartDataSender cartDataSender = new CartDataSender();
     private final CartDataSendHandler cartDataSenderHandler = new CartDataSendHandler();
 
     public static boolean isAddedToCart = false;

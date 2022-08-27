@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Adapters.PastOrderItemsRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
+import com.example.project_1_java_new_team42.Data.Fetchers.IPastOrderItemsDataFetcher;
 import com.example.project_1_java_new_team42.Data.Fetchers.PastOrderItemsDataFetcher;
 import com.example.project_1_java_new_team42.Models.Order;
 import com.example.project_1_java_new_team42.R;
@@ -32,7 +33,7 @@ public class PastOrderItemsActivity extends AppCompatActivity {
 
     protected PastOrderItemsRecyclerViewAdapter pastOrderItemsRecyclerViewAdapter;
     // initialise the DB fetcher class
-    protected PastOrderItemsDataFetcher pastOrderItemsDataFetcher = new PastOrderItemsDataFetcher();
+    protected IPastOrderItemsDataFetcher pastOrderItemsDataFetcher = new PastOrderItemsDataFetcher();
 
     private class ViewHolder {
 

@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.project_1_java_new_team42.Adapters.ItemsRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.CategoryItemsDataFetcher;
+import com.example.project_1_java_new_team42.Data.Fetchers.ICategoryItemsDataFetcher;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.IItem;
@@ -30,7 +31,7 @@ import java.util.List;
 public class CategoryItemsActivity extends AppCompatActivity {
     private static final String TAG = "CategoryItemsActivity";
 
-    private final CategoryItemsDataFetcher itemsFetcher = new CategoryItemsDataFetcher();
+    private final ICategoryItemsDataFetcher itemsFetcher = new CategoryItemsDataFetcher();
     private ItemsRecyclerViewAdapter itemsAdapter;
     private ItemsRecyclerView itemsRecyclerView;
     private ShimmerFrameLayout itemsShimmer;
