@@ -71,11 +71,15 @@
     <style name="Team42.SearchBar" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
         <item name="android:fontFamily">@font/inter</item>
         <item name="android:hint">@string/search_hint</item>
-        <item name="boxCornerRadiusTopEnd">4dp</item>
-        <item name="boxCornerRadiusTopStart">4dp</item>
         <item name="startIconContentDescription">@string/search_icon_description</item>
         <item name="startIconDrawable">@drawable/ic_search</item>
         <item name="endIconMode">clear_text</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/card_corner_radius</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/card_corner_radius</item>
+        <item name="boxCornerRadiusTopStart">@dimen/card_corner_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/card_corner_radius</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
     </style>
     <style name="Team42.BackButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:layout_width">48dp</item>
