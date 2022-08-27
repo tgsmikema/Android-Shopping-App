@@ -1,9 +1,11 @@
 package com.example.project_1_java_new_team42.Data.Senders;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.project_1_java_new_team42.Activities.DetailsActivity;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.Models.Order;
 import com.google.android.gms.tasks.OnFailureListener;

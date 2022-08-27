@@ -25,4 +25,15 @@
     <string name="button_increment">Increment</string>
     <string name="order_date">Order Date</string>
     <string name="text_total">Total</string>
+    <string name="text_cart_empty">Cart Is Empty!</string>
+    <string name="text_cart_place_order">Place Order</string>
+    <string name="text_added_to_cart">We\'ve added your item!</string>
+    <string name="text_added_to_cart_body">Proceed to checkout or head back and continue shopping.</string>
+    <string name="dialog_btn_checkout">Checkout</string>
+    <string name="dialog_btn_back">Back</string>
+    <string name="button_go_to_orders">View My Past Orders</string>
+    <string name="button_go_home">Home</string>
+    <string name="text_order_placed">Your Order Has Been Placed</string>
+    <string name="text_thank_for_shopping">Thank you for shopping with us!</string>
+    <string name="initial_check_mark">animated_filled_check_mark</string>
 </resources>

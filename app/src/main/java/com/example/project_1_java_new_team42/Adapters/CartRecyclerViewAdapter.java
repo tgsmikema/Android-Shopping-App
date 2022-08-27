@@ -3,48 +3,54 @@ package com.example.project_1_java_new_team42.Adapters;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1_java_new_team42.Activities.CartActivity;
+import com.example.project_1_java_new_team42.Activities.DetailsActivity;
 import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
 import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
-import com.example.project_1_java_new_team42.Models.Cart;
-import com.example.project_1_java_new_team42.Models.IItem;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
+import com.example.project_1_java_new_team42.Util.ItemUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerViewAdapter.ViewHolder> {
-    private List<ItemWithQuantity> itemsWithQuantity = new ArrayList<>();
-    private LayoutInflater layoutInflater;
-    private Context context;
+public class CartRecyclerViewAdapter extends GenericRecyclerViewAdapter<ItemWithQuantity, CartRecyclerViewAdapter.ViewHolder> {
+
+    private static class CartDataSendHandler implements ISendHandler {
+
+        @Override
+        public void onSendSuccess(boolean isSuccess) {
+            if (!isAddedToCart) {
+                isAddedToCart = true;
+            }
+        }
+    }
 
     private int itemQuantity;
     private int itemPrice;
     private int itemsTotalPrice;
 
     protected CartDataSender cartDataSender = new CartDataSender();
+    private final CartDataSendHandler cartDataSenderHandler = new CartDataSendHandler();
+
     public static boolean isAddedToCart = false;
 
     public CartRecyclerViewAdapter(Context context) {
-        this.context = context;
-        this.layoutInflater = LayoutInflater.from(context);
+        super(context);
     }
 
-    public void setData(Cart cartData) {
-        this.itemsWithQuantity = cartData.getItems();
-        this.itemsTotalPrice = cartData.getTotalPrice();
+    public void setItemsTotalPrice(int itemsTotalPrice) {
+        this.itemsTotalPrice = itemsTotalPrice;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -76,7 +82,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
             decrementButton.setOnClickListener(this);
             deleteButton.setOnClickListener(this);
 
-            quantityTextView.addTextChangedListener(quantityTextWatcher);
+            addQuantityButtonWatcher(quantityTextView);
         }
 
         @Override
@@ -89,7 +95,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
 
                     // Set text views in RecyclerView
                     quantityTextView.setText(String.valueOf(itemQuantity));
-                    price = "$" + (itemQuantity * itemPrice);
+                    price = ItemUtil.addDollarSignToPrice(itemPrice * itemQuantity);
                     cartItemPriceTextView.setText(price);
                     break;
 
@@ -99,7 +105,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
 
                     // Set text views in RecyclerView
                     quantityTextView.setText(String.valueOf(itemQuantity));
-                    price = "$" + (itemQuantity * itemPrice);
+                    price = ItemUtil.addDollarSignToPrice(itemPrice * itemQuantity);
                     cartItemPriceTextView.setText(price);
                     break;
 
@@ -116,113 +122,104 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
             ((CartActivity) context).updateTotalPrice(itemsTotalPrice);
         }
 
-        private TextWatcher quantityTextWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+        private void addQuantityButtonWatcher(TextView textView) {
+            textView.addTextChangedListener( new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String quantityNumber = quantityTextView.getText().toString().trim();
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    String quantityNumber = quantityTextView.getText().toString().trim();
 
-                if (quantityNumber.equals("1")) {
-                    decrementButton.setEnabled(false);
-                } else if (quantityNumber.equals("9")) {
-                    incrementButton.setEnabled(false);
-                } else {
-                    incrementButton.setEnabled(true);
-                    decrementButton.setEnabled(true);
+                    if (quantityNumber.equals(Integer.toString(ItemWithQuantity.MIN_QUANTITY))) {
+                        decrementButton.setEnabled(false);
+                    } else if (quantityNumber.equals(Integer.toString(ItemWithQuantity.MAX_QUANTITY))) {
+                        incrementButton.setEnabled(false);
+                    } else {
+                        incrementButton.setEnabled(true);
+                        decrementButton.setEnabled(true);
+                    }
                 }
-            }
-        };
+            });
+        }
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.cart_item_card, parent, false);
-        ViewHolder holder = new ViewHolder(view, new MyClickListener() {
+
+        return new ViewHolder(view, new MyClickListener() {
             @Override
-            public void onIncrement(int p) {
-                // Implement functionality for decrement button
-                itemQuantity = itemsWithQuantity.get(p).getQuantity();
+            public void onIncrement(int pos) {
+                ItemWithQuantity item = items.get(pos);
+
+                itemQuantity = item.getQuantity();
                 itemQuantity++;
 
-                itemPrice = itemsWithQuantity.get(p).getPrice();
+                itemPrice = item.getPrice();
                 itemsTotalPrice += itemPrice;
 
-                ItemWithQuantity item = new ItemWithQuantity(itemsWithQuantity.get(p), itemQuantity);
+                ItemWithQuantity updatedItem = new ItemWithQuantity(item, itemQuantity);
 
-                cartDataSender.addItemWithQuantityToCart(item, new CartDataSendHandler());
-                itemsWithQuantity.set(p, item);
+                cartDataSender.addItemWithQuantityToCart(updatedItem, cartDataSenderHandler);
+                items.set(pos, updatedItem);
             }
 
             @Override
-            public void onDecrement(int p) {
-                // Implement functionality for decrement button
-                itemQuantity = itemsWithQuantity.get(p).getQuantity();
+            public void onDecrement(int pos) {
+                ItemWithQuantity item = items.get(pos);
+
+                itemQuantity = items.get(pos).getQuantity();
                 itemQuantity--;
 
-                itemPrice = itemsWithQuantity.get(p).getPrice();
+                itemPrice = items.get(pos).getPrice();
                 itemsTotalPrice -= itemPrice;
 
-                ItemWithQuantity item = new ItemWithQuantity(itemsWithQuantity.get(p), itemQuantity);
+                ItemWithQuantity updatedItem = new ItemWithQuantity(item, itemQuantity);
 
-                cartDataSender.addItemWithQuantityToCart(item, new CartDataSendHandler());
-                itemsWithQuantity.set(p, item);
+                cartDataSender.addItemWithQuantityToCart(updatedItem, cartDataSenderHandler);
+                items.set(pos, updatedItem);
             }
 
             @Override
-            public void onDeletion(int p) {
-                // Implement functionality for delete button
-                itemQuantity = itemsWithQuantity.get(p).getQuantity();
-                itemPrice = itemsWithQuantity.get(p).getPrice();
+            public void onDeletion(int pos) {
+                ItemWithQuantity item = items.get(pos);
+
+                itemQuantity = item.getQuantity();
+                itemPrice = item.getPrice();
 
                 itemsTotalPrice -= (itemQuantity * itemPrice);
 
-                String itemId = itemsWithQuantity.get(p).getId();
-                cartDataSender.deleteSingleCartItem(itemId, new CartDataSendHandler());
+                cartDataSender.deleteSingleCartItem(item.getId(), cartDataSenderHandler);
 
-                itemsWithQuantity.remove(p);
-                notifyItemRemoved(p);
+                items.remove(pos);
+                notifyItemRemoved(pos);
             }
         });
-        return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ItemWithQuantity item = itemsWithQuantity.get(position);
-        int drawableId = context.getResources().getIdentifier(item.getImagePaths().get(0),"drawable", context.getPackageName());
+        ItemWithQuantity item = items.get(position);
+
+        int drawableId = ItemUtil.getImageDrawableId(context, item.getImagePaths().get(0));
         holder.cartItemImageView.setImageResource(drawableId);
         holder.cartItemNameTextView.setText(item.getName());
-        String price = "$" + item.getPrice() * item.getQuantity();
+
+        String price = ItemUtil.addDollarSignToPrice(item.getPrice() * item.getQuantity());
         holder.cartItemPriceTextView.setText(price);
-        String quantity = "" + item.getQuantity();
+
+        String quantity = Integer.toString(item.getQuantity());
         holder.cartItemQuantityTextView.setText(quantity);
     }
 
-    @Override
-    public int getItemCount() {
-        return itemsWithQuantity.size();
-    }
-
     public interface MyClickListener {
-        void onIncrement(int p);
-        void onDecrement(int p);
-        void onDeletion(int p);
-    }
-
-    // Implementation of CartDataSendHandler
-    private class CartDataSendHandler implements ISendHandler {
-
-        @Override
-        public void onSendSuccess(boolean isSuccess) {
-            if (!isAddedToCart) {
-                isAddedToCart = true;
-            }
-        }
+        void onIncrement(int pos);
+        void onDecrement(int pos);
+        void onDeletion(int pos);
     }
 }

@@ -9,12 +9,12 @@ SE306 Project 1 - Team 42
 - [x] Bottom Navigation Bar UI
 - [x] Top selling items
 - [x] Categories
-- [ ] Navigation between pages
-- [ ] Search bar functionality
-- [ ] Searched items page
-- [ ] Category items page
+- [x] Navigation between pages
+- [x] Search bar functionality
+- [x] Searched items page
+- [x] Category items page
 - [x] Item details page
-- [ ] Cart
-- [ ] Orders
-- [ ] Order Details Page
-- [ ] Orientation Responsive
+- [x] Cart
+- [x] Orders
+- [x] Order Details Page
+- [x] Orientation Responsive

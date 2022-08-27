@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.Models.Order;
 import com.example.project_1_java_new_team42.R;
+import com.example.project_1_java_new_team42.Util.ItemUtil;
 import com.google.android.material.card.MaterialCardView;
 
 // ItemWithQuantity Instead of Order Class
@@ -51,7 +52,7 @@ public class PastOrderItemsRecyclerViewAdapter extends GenericRecyclerViewAdapte
     public void onBindViewHolder(@NonNull PastOrderItemsRecyclerViewAdapter.ViewHolder holder, int position) {
         ItemWithQuantity itemWithQuantity = items.get(position);
 
-        int drawableId = context.getResources().getIdentifier(itemWithQuantity.getImagePaths().get(0),"drawable", context.getPackageName());
+        int drawableId = ItemUtil.getImageDrawableId(context, itemWithQuantity.getImagePaths().get(0));
         holder.orderItemImage.setImageResource(drawableId);
 
         String itemName = itemWithQuantity.getName();
@@ -60,7 +61,7 @@ public class PastOrderItemsRecyclerViewAdapter extends GenericRecyclerViewAdapte
         String quantity = "Qty: " + itemWithQuantity.getQuantity();
         holder.orderItemQuantity.setText(quantity);
 
-        String totalPrice = "$" + String.valueOf(itemWithQuantity.getQuantity() * itemWithQuantity.getPrice());
+        String totalPrice = ItemUtil.addDollarSignToPrice(itemWithQuantity.getQuantity() * itemWithQuantity.getPrice());
         holder.orderItemTotalPrice.setText(totalPrice);
     }
 

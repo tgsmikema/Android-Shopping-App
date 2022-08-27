@@ -15,6 +15,7 @@ import com.example.project_1_java_new_team42.Activities.CategoryItemsActivity;
 import com.example.project_1_java_new_team42.Activities.MainActivity;
 import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.R;
+import com.example.project_1_java_new_team42.Util.ItemUtil;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class CategoriesRecyclerViewAdapter extends GenericRecyclerViewAdapter<Ca
 
         holder.categoryNameTextView.setText(category.getCategoryName());
 
-        int drawableId = context.getResources().getIdentifier(category.getImageURI(), "drawable", context.getPackageName());
+        int drawableId = ItemUtil.getImageDrawableId(context, category.getImageURI());
         holder.categoryImageView.setImageResource(drawableId);
     }
 

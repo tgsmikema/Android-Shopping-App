@@ -1,11 +1,10 @@
-package com.example.project_1_java_new_team42.util;
+package com.example.project_1_java_new_team42.Util;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 
 import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.R;
-import com.google.android.material.chip.Chip;
 
 /**
  * Utility class to help with the UI of the category chips.
