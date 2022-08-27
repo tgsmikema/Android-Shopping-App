@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * This class is to retrieve a List of ITEMS given a search string is part of the ITEM's name.
  */
-public class SearchItemsDataFetcher extends AssignCategory {
+public class SearchItemsDataFetcher extends AssignCategory implements ISearchItemsDataFetcher{
     private boolean itemNameContainsSubstring(IItem item, String searchString) {
         return item.getName().toLowerCase().contains(searchString.toLowerCase());
     }

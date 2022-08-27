@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Adapters.PastOrdersRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
+import com.example.project_1_java_new_team42.Data.Fetchers.IPastOrdersDataFetcher;
 import com.example.project_1_java_new_team42.Data.Fetchers.PastOrdersDataFetcher;
 import com.example.project_1_java_new_team42.Models.Order;
 import com.example.project_1_java_new_team42.R;
@@ -43,7 +44,7 @@ public class PastOrdersActivity extends AppCompatActivity {
 
     ViewHolder vh;
 
-    protected PastOrdersDataFetcher pastOrdersDataFetcher = new PastOrdersDataFetcher();
+    protected IPastOrdersDataFetcher pastOrdersDataFetcher = new PastOrdersDataFetcher();
     protected PastOrdersRecyclerViewAdapter pastOrdersRecyclerViewAdapter;
 
     private class pastOrdersFetchHandler implements IFetchHandler<List<Order>> {
