@@ -27,6 +27,9 @@ import com.google.android.material.chip.Chip;
 
 public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, ItemsRecyclerViewAdapter.ViewHolder> {
     public static final String INTENT_KEY_ITEM_ID_TO_FETCH = "ITEM_ID_TO_FETCH";
+    public static final String DESKTOP_ACCESSORY_ICON_PATH = "ic_ssd";
+    public static final String LAPTOP_ACCESSORY_ICON_PATH = "ic_touch_screen";
+    public static final String TABLET_ACCESSORY_ICON_PATH = "ic_keyboard";
 
     protected String searchString;
     protected Category category;
@@ -50,6 +53,8 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
         TextView priceTextView;
         Chip categoryChip;
 
+        ImageView accessoryView;
+
         public ViewHolder(View itemView) {
             super(itemView);
 
@@ -58,6 +63,8 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
             priceTextView = itemView.findViewById(R.id.text_itemcard_price);
             cardView = itemView.findViewById(R.id.card_item);
             categoryChip = itemView.findViewById(R.id.chip_itemcard_category);
+
+            accessoryView = itemView.findViewById(R.id.image_itemcard_accessory);
 
             initializeCardView(cardView);
             initializeChip(categoryChip);
@@ -119,5 +126,44 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
         holder.setChipColors(chipData.getFgColor(), chipData.getBgColor());
         holder.categoryChip.setChipIcon(ContextCompat.getDrawable(context, chipData.getIcon()));
         holder.categoryChip.setText(chipData.getText());
+
+        // Set Item accessory icon via Dependency injection.
+        if (item.getCategory().equals(Category.DESKTOP)){
+            populateDesktopAccessory(holder, item);
+        }
+
+        if (item.getCategory().equals(Category.LAPTOP)){
+            populateLaptopAccessory(holder, item);
+        }
+
+        if (item.getCategory().equals(Category.TABLET)){
+            populateTabletAccessory(holder, item);
+        }
+    }
+
+    // Dependency Injection
+
+    public void populateDesktopAccessory (ViewHolder holder, IItem item){
+        if (item.getIsSSD() == true){
+            holder.accessoryView.setVisibility(View.VISIBLE);
+            int imageResourceId = ItemUtil.getImageDrawableId(context, DESKTOP_ACCESSORY_ICON_PATH);
+            holder.accessoryView.setImageResource(imageResourceId);
+        }
+    }
+
+    public void populateLaptopAccessory (ViewHolder holder, IItem item){
+        if (item.getIsTouchScreen() == true){
+            holder.accessoryView.setVisibility(View.VISIBLE);
+            int imageResourceId = ItemUtil.getImageDrawableId(context, LAPTOP_ACCESSORY_ICON_PATH);
+            holder.accessoryView.setImageResource(imageResourceId);
+        }
+    }
+
+    public void populateTabletAccessory (ViewHolder holder, IItem item){
+        if (item.getIsKeyboard() == true){
+            holder.accessoryView.setVisibility(View.VISIBLE);
+            int imageResourceId = ItemUtil.getImageDrawableId(context, TABLET_ACCESSORY_ICON_PATH);
+            holder.accessoryView.setImageResource(imageResourceId);
+        }
     }
 }
