@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * This class is used to retrieve ALL -- PAST ORDERS.
  */
-public class PastOrdersDataFetcher {
+public class PastOrdersDataFetcher implements IPastOrdersDataFetcher{
 
     public void readData(IFetchHandler<List<Order>> dataFetchHandler) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();

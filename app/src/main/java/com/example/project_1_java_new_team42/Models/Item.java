@@ -1,5 +1,7 @@
 package com.example.project_1_java_new_team42.Models;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.util.List;
 
 public abstract class Item implements IItem{
@@ -55,5 +57,21 @@ public abstract class Item implements IItem{
     public String getDescription(){
         return description;
     }
+
+    @Exclude
+    public boolean getIsKeyboard(){
+        throw new RuntimeException();
+    }
+
+    @Exclude
+    public boolean getIsTouchScreen(){
+        throw new RuntimeException();
+    }
+
+    @Exclude
+    public boolean getIsSSD(){
+        throw new RuntimeException();
+    }
+
 
 }

@@ -18,7 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.project_1_java_new_team42.Adapters.CartRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.Data.Fetchers.CartDataFetcher;
+import com.example.project_1_java_new_team42.Data.Fetchers.ICartDataFetcher;
 import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
+import com.example.project_1_java_new_team42.Data.Senders.IOrderDataSender;
 import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
 import com.example.project_1_java_new_team42.Data.Senders.OrderDataSender;
 import com.example.project_1_java_new_team42.Models.Cart;
@@ -35,8 +37,8 @@ public class CartActivity extends AppCompatActivity {
     protected CartRecyclerViewAdapter cartItemsAdapter;
     protected CircularProgressIndicator cartItemsSpinner;
 
-    protected CartDataFetcher cartDataFetcher = new CartDataFetcher();
-    protected OrderDataSender orderDataSender = new OrderDataSender();
+    protected ICartDataFetcher cartDataFetcher = new CartDataFetcher();
+    protected IOrderDataSender orderDataSender = new OrderDataSender();
 
     private Cart cartData;
 
