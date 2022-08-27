@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.project_1_java_new_team42.Activities.DetailsActivity;
 import com.example.project_1_java_new_team42.Models.Category;
 import com.example.project_1_java_new_team42.Models.IItem;
+import com.example.project_1_java_new_team42.Models.Item;
 import com.example.project_1_java_new_team42.R;
 import com.example.project_1_java_new_team42.Util.CategoryChipUtil;
 import com.example.project_1_java_new_team42.Util.CategoryChipUtil.CategoryChipData;
@@ -26,7 +27,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 
 public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, ItemsRecyclerViewAdapter.ViewHolder> {
-    public static final String INTENT_KEY_ITEM_ID_TO_FETCH = "ITEM_ID_TO_FETCH";
+    public static final String INTENT_KEY_ITEM = "ITEM";
     public static final String DESKTOP_ACCESSORY_ICON_PATH = "ic_ssd";
     public static final String LAPTOP_ACCESSORY_ICON_PATH = "ic_touch_screen";
     public static final String TABLET_ACCESSORY_ICON_PATH = "ic_keyboard";
@@ -88,15 +89,16 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
             categoryChip.setTextColor(ColorStateList.valueOf(res.getColor(foreground)));
         }
 
-        private void navigateToDetailsActivity(IItem selectedItem){
+        private void navigateToDetailsActivity(Item selectedItem){
             Intent intent = new Intent(context, DetailsActivity.class);
-            intent.putExtra(INTENT_KEY_ITEM_ID_TO_FETCH, selectedItem.getId());
+            intent.putExtra(INTENT_KEY_ITEM, selectedItem);
+//            ((Activity) context).overridePendingTransition(R.anim.scale_simple, R.anim.scale_back_simple);
             context.startActivity(intent);
         }
 
         @Override
         public void onClick(View view) {
-            navigateToDetailsActivity(items.get(getAdapterPosition()));
+            navigateToDetailsActivity((Item) items.get(getAdapterPosition()));
         }
     }
 
@@ -144,7 +146,7 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
     // Dependency Injection
 
     public void populateDesktopAccessory (ViewHolder holder, IItem item){
-        if (item.getIsSSD() == true){
+        if (item.getIsSSD()){
             holder.accessoryView.setVisibility(View.VISIBLE);
             int imageResourceId = ItemUtil.getImageDrawableId(context, DESKTOP_ACCESSORY_ICON_PATH);
             holder.accessoryView.setImageResource(imageResourceId);
@@ -152,7 +154,7 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
     }
 
     public void populateLaptopAccessory (ViewHolder holder, IItem item){
-        if (item.getIsTouchScreen() == true){
+        if (item.getIsTouchScreen()){
             holder.accessoryView.setVisibility(View.VISIBLE);
             int imageResourceId = ItemUtil.getImageDrawableId(context, LAPTOP_ACCESSORY_ICON_PATH);
             holder.accessoryView.setImageResource(imageResourceId);
@@ -160,7 +162,7 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
     }
 
     public void populateTabletAccessory (ViewHolder holder, IItem item){
-        if (item.getIsKeyboard() == true){
+        if (item.getIsKeyboard()){
             holder.accessoryView.setVisibility(View.VISIBLE);
             int imageResourceId = ItemUtil.getImageDrawableId(context, TABLET_ACCESSORY_ICON_PATH);
             holder.accessoryView.setImageResource(imageResourceId);

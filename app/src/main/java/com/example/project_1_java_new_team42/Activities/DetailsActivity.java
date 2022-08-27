@@ -9,30 +9,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.project_1_java_new_team42.Adapters.ImageSliderAdapter;
 import com.example.project_1_java_new_team42.Adapters.ItemsRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
-import com.example.project_1_java_new_team42.Data.Fetchers.IFetchHandler;
-import com.example.project_1_java_new_team42.Data.Fetchers.ItemDetailsDataFetcher;
 import com.example.project_1_java_new_team42.Data.Senders.CartDataSender;
 import com.example.project_1_java_new_team42.Data.Senders.ISendHandler;
-import com.example.project_1_java_new_team42.Models.Cart;
 import com.example.project_1_java_new_team42.Models.IItem;
+import com.example.project_1_java_new_team42.Models.Item;
 import com.example.project_1_java_new_team42.Models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
 import com.example.project_1_java_new_team42.Util.ItemUtil;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.progressindicator.CircularProgressIndicator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -45,12 +41,12 @@ public class DetailsActivity extends AppCompatActivity {
     public static IItem item;
 
     ViewHolder vh;
+
     // Adapters
     protected ImageSliderAdapter imageSliderAdapter;
     protected NavigationAdapter navigationAdapter;
 
     // Database Interaction Classes
-    protected ItemDetailsDataFetcher itemDetailsDataFetcher = new ItemDetailsDataFetcher();
     protected CartDataSender cartDataSender = new CartDataSender();
 
     // On Change Listener Watcher
@@ -60,7 +56,6 @@ public class DetailsActivity extends AppCompatActivity {
     private class ViewHolder {
 
         ViewPager imageSlider;
-        CircularProgressIndicator imageSpinner;
         LinearLayout imageSliderDotPanel;
 
         TextView itemName, itemDetail, itemPrice, itemTotalPrice, quantityText, quantity;
@@ -68,10 +63,8 @@ public class DetailsActivity extends AppCompatActivity {
 
         NavigationBarView bottomNavBar;
 
-
         public ViewHolder() {
             imageSlider = findViewById(R.id.image_slide_details);
-            imageSpinner = findViewById(R.id.progress_images);
             imageSliderDotPanel = findViewById(R.id.image_slider_dots);
 
             // TextViews
@@ -121,33 +114,6 @@ public class DetailsActivity extends AppCompatActivity {
         }
     }
 
-    // Implementation of ItemDetailsFetchHandler.
-    private class ItemDetailsFetchHandler implements IFetchHandler<List<IItem>> {
-        @Override
-        public void onFetchComplete(List<IItem> data) {
-            item = data.get(0);
-
-            // pass data from DB to image slider adapter to populate.
-            imageSliderAdapter.setData(data);
-            vh.imageSlider.setAdapter(imageSliderAdapter);
-
-            // remove the display of the waiting icon from the screen
-            vh.imageSpinner.setVisibility(View.GONE);
-
-            // display the image slider dots
-            initializeImageSliderDots();
-            setItemDetailViews(item);
-
-            vh.quantity.addTextChangedListener(textWatcherImpl);
-
-        }
-        @Override
-        public void onFetchFail() {
-            System.out.println("Failed to fetch top items");
-            Toast.makeText(getApplicationContext(), "Failed to fetch item details", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     // Implementation of TextWatcher for On Change Listener
     private class TextWatcherImpl implements TextWatcher {
         @Override
@@ -189,7 +155,6 @@ public class DetailsActivity extends AppCompatActivity {
                     quantity--;
                     vh.quantity.setText(String.valueOf(quantity));
                 }
-
             }
         });
     }
@@ -206,7 +171,7 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-    protected void initializeAddToCartButton() {
+    protected void initializeAddToCartButton(IItem item) {
         vh.addCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -292,9 +257,13 @@ public class DetailsActivity extends AppCompatActivity {
         vh = new ViewHolder();
         initializeImageSlider();
 
+        Intent intent = getIntent();
+        Item selectedItem = (Item) intent.getSerializableExtra(ItemsRecyclerViewAdapter.INTENT_KEY_ITEM);
+        setItemDetailViews(selectedItem);
+
         initializeDecreaseQtyButton();
         initializeIncreaseQtyButton();
-        initializeAddToCartButton();
+        initializeAddToCartButton(selectedItem);
         initializeBackButton();
 
         // Highlight the Selected Navigation ICON
@@ -303,8 +272,13 @@ public class DetailsActivity extends AppCompatActivity {
         navigationAdapter = new NavigationAdapter(this);
         vh.bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
 
-        Intent intent = getIntent();
-        String selectedItemId = intent.getStringExtra(ItemsRecyclerViewAdapter.INTENT_KEY_ITEM_ID_TO_FETCH);
-        itemDetailsDataFetcher.readData(selectedItemId, new ItemDetailsFetchHandler());
+        // Populate image slider and its dots
+        List<IItem> items = new ArrayList<>();
+        items.add(selectedItem);
+        imageSliderAdapter.setData(items);
+        vh.imageSlider.setAdapter(imageSliderAdapter);
+        initializeImageSliderDots();
+
+        vh.quantity.addTextChangedListener(textWatcherImpl);
     }
 }
