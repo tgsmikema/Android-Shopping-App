@@ -7,6 +7,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_category"
+        android:transitionName="category_image_transition"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:layout_marginBottom="20dp"

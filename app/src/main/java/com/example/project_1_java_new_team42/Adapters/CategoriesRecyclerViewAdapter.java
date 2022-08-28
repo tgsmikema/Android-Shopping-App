@@ -1,5 +1,6 @@
 package com.example.project_1_java_new_team42.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1_java_new_team42.Activities.CategoryItemsActivity;
@@ -20,6 +23,7 @@ import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CategoriesRecyclerViewAdapter extends GenericRecyclerViewAdapter<Category, CategoriesRecyclerViewAdapter.ViewHolder> {
 
@@ -48,7 +52,9 @@ public class CategoriesRecyclerViewAdapter extends GenericRecyclerViewAdapter<Ca
             Intent intent = new Intent(context, CategoryItemsActivity.class);
             intent.putExtra(MainActivity.INTENT_KEY_CATEGORY_NAME, category.getCategoryName());
             intent.putExtra(MainActivity.INTENT_KEY_CATEGORY_IMAGE_URI, category.getImageURI());
-            context.startActivity(intent);
+
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)context, categoryCardView, Objects.requireNonNull(ViewCompat.getTransitionName(categoryCardView)));
+            context.startActivity(intent, options.toBundle());
         }
 
         @Override

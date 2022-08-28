@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.project_1_java_new_team42.Adapters.CartRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.Adapters.NavigationAdapter;
@@ -27,6 +29,7 @@ import com.example.project_1_java_new_team42.Models.Cart;
 import com.example.project_1_java_new_team42.Models.Order;
 import com.example.project_1_java_new_team42.R;
 import com.example.project_1_java_new_team42.Util.ItemUtil;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
@@ -35,7 +38,6 @@ public class CartActivity extends AppCompatActivity {
 
     protected RecyclerView cartRecyclerView;
     protected CartRecyclerViewAdapter cartItemsAdapter;
-    protected CircularProgressIndicator cartItemsSpinner;
 
     protected ICartDataFetcher cartDataFetcher = new CartDataFetcher();
     protected IOrderDataSender orderDataSender = new OrderDataSender();
@@ -43,10 +45,22 @@ public class CartActivity extends AppCompatActivity {
     private Cart cartData;
 
     protected NavigationAdapter navigationAdapter;
+    ViewHolder vh;
 
-    TextView totalPriceTextView;
-    ImageView emptyCartImage;
-    Button placeOrderButton;
+    private class ViewHolder {
+
+        TextView totalPriceTextView;
+        ImageView emptyCartImage;
+        Button placeOrderButton;
+        CircularProgressIndicator cartItemsSpinner;
+
+        public ViewHolder() {
+            totalPriceTextView = findViewById(R.id.cart_total_price);
+            emptyCartImage = findViewById(R.id.cart_empty_image);
+            placeOrderButton = findViewById(R.id.place_order_button);
+            cartItemsSpinner = findViewById(R.id.progress_cart_items);
+        }
+    }
 
     private class CartFetchHandler implements IFetchHandler<Cart> {
         @Override
@@ -56,19 +70,16 @@ public class CartActivity extends AppCompatActivity {
             cartItemsAdapter.addItems(data.getItems());
             cartItemsAdapter.setItemsTotalPrice(data.getTotalPrice());
 
-            cartItemsSpinner.setVisibility(View.GONE);
+            vh.cartItemsSpinner.setVisibility(View.GONE);
 
             Log.i(TAG, "Fetched cart items successfully");
 
-            totalPriceTextView = findViewById(R.id.cart_total_price);
             String totalPrice = ItemUtil.addDollarSignToPrice(data.getTotalPrice());
-            totalPriceTextView.setText(totalPrice);
-
-            emptyCartImage = findViewById(R.id.cart_empty_image);
+            vh.totalPriceTextView.setText(totalPrice);
 
             if (data.getItems().isEmpty()){
                 disableSubmitButton();
-                emptyCartImage.setVisibility(View.VISIBLE);
+                vh.emptyCartImage.setVisibility(View.VISIBLE);
             }
 
             cartRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
@@ -81,7 +92,7 @@ public class CartActivity extends AppCompatActivity {
                 public void onChildViewDetachedFromWindow(@NonNull View view) {
                     if (cartItemsAdapter.getItemCount() <= 0){
                         disableSubmitButton();
-                        emptyCartImage.setVisibility(View.VISIBLE);
+                        vh.emptyCartImage.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -96,22 +107,21 @@ public class CartActivity extends AppCompatActivity {
 
 
     private void disableSubmitButton() {
-        placeOrderButton.setText(R.string.text_cart_empty);
-        placeOrderButton.setBackgroundColor(getResources().getColor(R.color.button_unavailable));
-        placeOrderButton.setTextColor(Color.BLACK);
-        placeOrderButton.setEnabled(false);
+        vh.placeOrderButton.setText(R.string.text_cart_empty);
+        vh.placeOrderButton.setBackgroundColor(getResources().getColor(R.color.button_unavailable));
+        vh.placeOrderButton.setTextColor(Color.BLACK);
+        vh.placeOrderButton.setEnabled(false);
     }
 
     private void enableSubmitButton(){
-        placeOrderButton.setText(R.string.text_cart_place_order);
-        placeOrderButton.setBackgroundColor(getResources().getColor(R.color.brand_black));
-        placeOrderButton.setTextColor(Color.WHITE);
-        placeOrderButton.setEnabled(true);
+        vh.placeOrderButton.setText(R.string.text_cart_place_order);
+        vh.placeOrderButton.setBackgroundColor(getResources().getColor(R.color.brand_black));
+        vh.placeOrderButton.setTextColor(Color.WHITE);
+        vh.placeOrderButton.setEnabled(true);
     }
 
     private void initializePlaceOrderButton() {
-        placeOrderButton = findViewById(R.id.place_order_button);
-        placeOrderButton.setOnClickListener(new View.OnClickListener() {
+        vh.placeOrderButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Order newOrder = new Order(cartData.getItems());
                 orderDataSender.writeCartOrderToFirestore(newOrder, new OrderDataSendHandler());
@@ -132,8 +142,7 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        cartItemsSpinner = findViewById(R.id.progress_cart_items);
-
+        vh = new ViewHolder();
         initializePlaceOrderButton();
 
         initializeCartRecyclerView();
@@ -150,7 +159,7 @@ public class CartActivity extends AppCompatActivity {
 
     public void updateTotalPrice(int totalPrice) {
         String price = ItemUtil.addDollarSignToPrice(totalPrice);
-        totalPriceTextView.setText(price);
+        vh.totalPriceTextView.setText(price);
     }
 
     private class OrderDataSendHandler implements ISendHandler {
