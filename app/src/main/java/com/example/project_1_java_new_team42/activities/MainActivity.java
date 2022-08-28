@@ -38,36 +38,75 @@ public class MainActivity extends AppCompatActivity {
     public static final String INTENT_KEY_SEARCH = "SEARCH";
     public static final String INTENT_KEY_CATEGORY_NAME = "CATEGORY_NAME";
     public static final String INTENT_KEY_CATEGORY_IMAGE_URI = "CATEGORY_IMAGE_URI";
-    public static final String INTENT_KEY_ACTIVITY_NAME = "ACTIVITY_NAME";
-    public static final String INTENT_VALUE_MAIN_ACTIVITY = "Activities.MainActivity";
-    public static final String INTENT_VALUE_SEARCH_RESULTS_ACTIVITY = "Activities.SearchResultsActivity";
-    public static final String INTENT_VALUE_CATEGORY_ITEMS_ACTIVITY = "Activities.CategoryItemsActivity";
-    public static final String INTENT_KEY_ITEM_ID = "ITEM_ID";
-    public static final String INTENT_KEY_ORDER_ID = "ORDER_ID";
 
-    private ShimmerFrameLayout categoriesShimmerLayout;
-    private RecyclerView categoriesRecyclerView;
+    private ViewHolder viewHolder;
+
     private CategoriesRecyclerViewAdapter categoriesAdapter;
-
-    private ShimmerFrameLayout topItemsShimmerLayout;
-    private ItemsRecyclerView topItemsRecyclerView;
     private ItemsRecyclerViewAdapter topItemsAdapter;
 
-    protected NavigationAdapter navigationAdapter;
+    private class ViewHolder {
+        ShimmerFrameLayout categoriesShimmerLayout;
+        ShimmerFrameLayout topItemsShimmerLayout;
+        RecyclerView categoriesRecyclerView;
+        ItemsRecyclerView topItemsRecyclerView;
+        TextInputLayout searchTextInputLayout;
+        NavigationBarView bottomNavBar;
+
+        public ViewHolder() {
+            initializeSearchBar();
+            initializeTopItemViews();
+            initializeCategoryCardViews();
+            initializeBottomBarViews();
+        }
+
+        private void initializeSearchBar() {
+            searchTextInputLayout = findViewById(R.id.text_input_layout_search_results);
+            Search search = new Search(searchTextInputLayout.getEditText());
+            search.setDisableSearchIfEmpty(true);
+            search.setClearQueryOnSearch(true);
+
+            search.setOnSearchActionListener(new Search.OnSearchActionListener() {
+                @Override
+                public void onSearch(EditText view, String searchQuery) {
+                    navigateToSearchResults(searchQuery);
+                }
+            });
+        }
+
+        private void initializeTopItemViews() {
+            topItemsShimmerLayout = findViewById(R.id.shimmer_top_items);
+            topItemsRecyclerView = new ItemsRecyclerView(MainActivity.this, findViewById(R.id.recycler_view_top_items), RecyclerViewLayoutType.HORIZONTAL);
+            topItemsAdapter = topItemsRecyclerView.getAdapter();
+        }
+
+        private void initializeCategoryCardViews() {
+            categoriesShimmerLayout = findViewById(R.id.shimmer_categories);
+            categoriesAdapter = new CategoriesRecyclerViewAdapter(MainActivity.this);
+            categoriesRecyclerView = findViewById(R.id.recycler_view_category_cards);
+            categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+            categoriesRecyclerView.setAdapter(categoriesAdapter);
+        }
+
+        private void initializeBottomBarViews() {
+            bottomNavBar = findViewById(R.id.bottom_navigation);
+            bottomNavBar.setSelectedItemId(R.id.activity_home);
+            bottomNavBar.setOnItemSelectedListener(new NavigationAdapter(MainActivity.this).navigationListener);
+        }
+    }
 
     private class CategoriesFetchHandler implements IFetchHandler<List<Category>> {
         @Override
         public void onFetchComplete(List<Category> data) {
             categoriesAdapter.addItems(data);
-            categoriesShimmerLayout.setVisibility(View.INVISIBLE);
-            categoriesRecyclerView.setVisibility(View.VISIBLE);
+            viewHolder.categoriesShimmerLayout.setVisibility(View.INVISIBLE);
+            viewHolder.categoriesRecyclerView.setVisibility(View.VISIBLE);
             Log.i(TAG, "Fetched categories successfully");
         }
 
         @Override
         public void onFetchFail() {
             System.out.println("Failed to fetch categories");
-            categoriesShimmerLayout.hideShimmer();
+            viewHolder.categoriesShimmerLayout.hideShimmer();
             Toast.makeText(getApplicationContext(), "Failed to fetch categories", Toast.LENGTH_SHORT).show();
         }
     }
@@ -76,37 +115,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onFetchComplete(List<IItem> data) {
             topItemsAdapter.addItems(data);
-            topItemsShimmerLayout.setVisibility(View.INVISIBLE);
-            topItemsRecyclerView.getRecyclerView().setVisibility(View.VISIBLE);
+            viewHolder.topItemsShimmerLayout.setVisibility(View.INVISIBLE);
+            viewHolder.topItemsRecyclerView.getRecyclerView().setVisibility(View.VISIBLE);
             Log.i(TAG, "Fetched top items successfully");
         }
 
         @Override
         public void onFetchFail() {
             System.out.println("Failed to fetch top items");
-            topItemsShimmerLayout.hideShimmer();
+            viewHolder.topItemsShimmerLayout.hideShimmer();
             Toast.makeText(getApplicationContext(), "Failed to fetch top items", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    /**
-     * Initialize the recycler views which will be called when the activity is created in `onCreate`.
-     * This has to be done in the main UI thread otherwise will get warning that no adapter is
-     * attached to the recycler view.
-     */
-    protected void initializeCategoriesRecyclerView() {
-        categoriesRecyclerView = findViewById(R.id.recycler_view_category_cards);
-        categoriesRecyclerView.setVisibility(View.INVISIBLE);
-        categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        categoriesAdapter = new CategoriesRecyclerViewAdapter(this);
-        categoriesRecyclerView.setAdapter(categoriesAdapter);
-    }
-
-    protected void initializeTopItemsRecyclerView() {
-        RecyclerView rv = findViewById(R.id.recycler_view_top_items);
-        rv.setVisibility(View.INVISIBLE);
-        topItemsRecyclerView = new ItemsRecyclerView(this, rv, RecyclerViewLayoutType.HORIZONTAL);
-        topItemsAdapter = topItemsRecyclerView.getAdapter();
     }
 
     private void navigateToSearchResults(String searchQuery) {
@@ -115,27 +134,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /* Search functionality */
-    protected void initializeSearch() {
-        TextInputLayout searchTextInputLayout = findViewById(R.id.text_input_layout_search_results);
-        Search search = new Search(searchTextInputLayout.getEditText());
-        search.setDisableSearchIfEmpty(true);
-        search.setClearQueryOnSearch(true);
-
-        search.setOnSearchActionListener(new Search.OnSearchActionListener() {
-            @Override
-            public void onSearch(EditText view, String searchQuery) {
-                navigateToSearchResults(searchQuery);
-            }
-        });
-    }
-
     private void showLoadingStates() {
-        topItemsShimmerLayout = findViewById(R.id.shimmer_top_items);
-        topItemsShimmerLayout.startShimmer();
-
-        categoriesShimmerLayout = findViewById(R.id.shimmer_categories);
-        categoriesShimmerLayout.startShimmer();
+        viewHolder.topItemsShimmerLayout.startShimmer();
+        viewHolder.categoriesShimmerLayout.startShimmer();
     }
 
     private void fetchHomePageData() {
@@ -157,19 +158,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initializeCategoriesRecyclerView();
-        initializeTopItemsRecyclerView();
-        initializeSearch();
+        viewHolder = new ViewHolder();
 
         showLoadingStates();
         fetchHomePageData();
-
-        //TODO(Refactor) put this inside ViewHolder
-        NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation);
-
-        bottomNavBar.setSelectedItemId(R.id.activity_home);
-        navigationAdapter = new NavigationAdapter(this);
-        bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
     }
 }
 

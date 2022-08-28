@@ -41,15 +41,14 @@ public class CartActivity extends AppCompatActivity {
 
     private Cart cartData;
 
-    protected NavigationAdapter navigationAdapter;
-    ViewHolder vh;
+    private ViewHolder viewHolder;
 
     private class ViewHolder {
-
         TextView totalPriceTextView;
         ImageView emptyCartImage;
         Button placeOrderButton;
         CircularProgressIndicator cartItemsSpinner;
+        NavigationBarView bottomNavBar;
 
         public ViewHolder() {
             totalPriceTextView = findViewById(R.id.cart_total_price);
@@ -67,16 +66,16 @@ public class CartActivity extends AppCompatActivity {
             cartItemsAdapter.addItems(data.getItems());
             cartItemsAdapter.setItemsTotalPrice(data.getTotalPrice());
 
-            vh.cartItemsSpinner.setVisibility(View.GONE);
+            viewHolder.cartItemsSpinner.setVisibility(View.GONE);
 
             Log.i(TAG, "Fetched cart items successfully");
 
             String totalPrice = ItemUtil.addDollarSignToPrice(data.getTotalPrice());
-            vh.totalPriceTextView.setText(totalPrice);
+            viewHolder.totalPriceTextView.setText(totalPrice);
 
             if (data.getItems().isEmpty()){
                 disableSubmitButton();
-                vh.emptyCartImage.setVisibility(View.VISIBLE);
+                viewHolder.emptyCartImage.setVisibility(View.VISIBLE);
             }
 
             cartRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
@@ -89,7 +88,7 @@ public class CartActivity extends AppCompatActivity {
                 public void onChildViewDetachedFromWindow(@NonNull View view) {
                     if (cartItemsAdapter.getItemCount() <= 0){
                         disableSubmitButton();
-                        vh.emptyCartImage.setVisibility(View.VISIBLE);
+                        viewHolder.emptyCartImage.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -104,21 +103,21 @@ public class CartActivity extends AppCompatActivity {
 
 
     private void disableSubmitButton() {
-        vh.placeOrderButton.setText(R.string.text_cart_empty);
-        vh.placeOrderButton.setBackgroundColor(getResources().getColor(R.color.button_unavailable));
-        vh.placeOrderButton.setTextColor(Color.BLACK);
-        vh.placeOrderButton.setEnabled(false);
+        viewHolder.placeOrderButton.setText(R.string.text_cart_empty);
+        viewHolder.placeOrderButton.setBackgroundColor(getResources().getColor(R.color.button_unavailable));
+        viewHolder.placeOrderButton.setTextColor(Color.BLACK);
+        viewHolder.placeOrderButton.setEnabled(false);
     }
 
     private void enableSubmitButton(){
-        vh.placeOrderButton.setText(R.string.text_cart_place_order);
-        vh.placeOrderButton.setBackgroundColor(getResources().getColor(R.color.brand_black));
-        vh.placeOrderButton.setTextColor(Color.WHITE);
-        vh.placeOrderButton.setEnabled(true);
+        viewHolder.placeOrderButton.setText(R.string.text_cart_place_order);
+        viewHolder.placeOrderButton.setBackgroundColor(getResources().getColor(R.color.brand_black));
+        viewHolder.placeOrderButton.setTextColor(Color.WHITE);
+        viewHolder.placeOrderButton.setEnabled(true);
     }
 
     private void initializePlaceOrderButton() {
-        vh.placeOrderButton.setOnClickListener(new View.OnClickListener() {
+        viewHolder.placeOrderButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Order newOrder = new Order(cartData.getItems());
                 orderDataSender.writeCartOrderToFirestore(newOrder, new OrderDataSendHandler());
@@ -139,24 +138,20 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        vh = new ViewHolder();
+        viewHolder = new ViewHolder();
         initializePlaceOrderButton();
 
         initializeCartRecyclerView();
         cartDataFetcher.readData(new CartFetchHandler());
 
-        NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation_cart);
-
-        // Highlight the Selected Navigation ICON
-        bottomNavBar.setSelectedItemId(R.id.activity_cart);
-        // Add the Bottom Bar Navigation Logic
-        navigationAdapter = new NavigationAdapter(this);
-        bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
+        viewHolder.bottomNavBar = findViewById(R.id.bottom_navigation_cart);
+        viewHolder.bottomNavBar.setSelectedItemId(R.id.activity_cart);
+        viewHolder.bottomNavBar.setOnItemSelectedListener(new NavigationAdapter(this).navigationListener);
     }
 
     public void updateTotalPrice(int totalPrice) {
         String price = ItemUtil.addDollarSignToPrice(totalPrice);
-        vh.totalPriceTextView.setText(price);
+        viewHolder.totalPriceTextView.setText(price);
     }
 
     private class OrderDataSendHandler implements ISendHandler {
