@@ -22,33 +22,49 @@ import java.util.List;
 
 public class PastOrdersActivity extends AppCompatActivity {
 
-    protected NavigationAdapter navigationAdapter;
+    private ViewHolder viewHolder;
+
+    private PastOrdersRecyclerViewAdapter pastOrdersRecyclerViewAdapter;
+
+    private final IPastOrdersDataFetcher pastOrdersDataFetcher = new PastOrdersDataFetcher();
 
     private class ViewHolder {
         RecyclerView pastOrdersRecyclerView;
         CircularProgressIndicator pastOrdersSpinner;
-        //Bottom Nav Bar
         NavigationBarView bottomNavBar;
 
         public ViewHolder() {
-            pastOrdersRecyclerView = findViewById(R.id.recycler_view_past_orders);
             pastOrdersSpinner = findViewById(R.id.progress_past_orders);
-            // Bottom Nav Bar
+            initializePastOrdersRecyclerView();
+            initializeBottomBarViews();
+        }
+
+        private LinearLayoutManager createLinearLayoutManager() {
+            LinearLayoutManager llm = new LinearLayoutManager(PastOrdersActivity.this);
+            llm.setReverseLayout(true);
+            llm.setStackFromEnd(true);
+            return llm;
+        }
+
+        private void initializePastOrdersRecyclerView() {
+            pastOrdersRecyclerView = findViewById(R.id.recycler_view_past_orders);
+            pastOrdersRecyclerViewAdapter = new PastOrdersRecyclerViewAdapter(PastOrdersActivity.this);
+            pastOrdersRecyclerView.setLayoutManager(createLinearLayoutManager());
+            pastOrdersRecyclerView.setAdapter(pastOrdersRecyclerViewAdapter);
+        }
+
+        private void initializeBottomBarViews() {
             bottomNavBar = findViewById(R.id.bottom_navigation_past_orders);
+            bottomNavBar.setSelectedItemId(R.id.activity_orders);
+            bottomNavBar.setOnItemSelectedListener(new NavigationAdapter(PastOrdersActivity.this).navigationListener);
         }
     }
 
-    ViewHolder vh;
-
-    protected IPastOrdersDataFetcher pastOrdersDataFetcher = new PastOrdersDataFetcher();
-    protected PastOrdersRecyclerViewAdapter pastOrdersRecyclerViewAdapter;
-
     private class pastOrdersFetchHandler implements IFetchHandler<List<Order>> {
-
         @Override
         public void onFetchComplete(List<Order> data) {
             pastOrdersRecyclerViewAdapter.addItems(data);
-            vh.pastOrdersSpinner.setVisibility(View.GONE);
+            viewHolder.pastOrdersSpinner.setVisibility(View.GONE);
 
         }
 
@@ -59,29 +75,13 @@ public class PastOrdersActivity extends AppCompatActivity {
         }
     }
 
-    protected void initializePastOrdersRecyclerView() {
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setReverseLayout(true);
-        llm.setStackFromEnd(true);
-        vh.pastOrdersRecyclerView.setLayoutManager(llm);
-        pastOrdersRecyclerViewAdapter = new PastOrdersRecyclerViewAdapter(this);
-        vh.pastOrdersRecyclerView.setAdapter(pastOrdersRecyclerViewAdapter);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_past_orders);
 
-        vh = new ViewHolder();
-        initializePastOrdersRecyclerView();
+        viewHolder = new ViewHolder();
 
         pastOrdersDataFetcher.readData(new pastOrdersFetchHandler());
-
-        // Highlight the Selected Navigation ICON
-        vh.bottomNavBar.setSelectedItemId(R.id.activity_orders);
-        // Initialise the Bottom Bar Navigation Logic
-        navigationAdapter = new NavigationAdapter(this);
-        vh.bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
     }
 }
