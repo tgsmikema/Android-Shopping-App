@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Team42"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -24,30 +24,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.PastOrdersActivity"
-            android:parentActivityName=".Activities.MainActivity"
+            android:name=".activities.PastOrdersActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.PastOrderItemsActivity"
-            android:parentActivityName=".Activities.MainActivity"
+            android:name=".activities.PastOrderItemsActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.DetailsActivity"
-            android:parentActivityName=".Activities.MainActivity"
+            android:name=".activities.DetailsActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.SearchResultsActivity"
-            android:parentActivityName=".Activities.MainActivity"
+            android:name=".activities.SearchResultsActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Activities.CategoryItemsActivity"
-            android:parentActivityName=".Activities.MainActivity" />
+            android:name=".activities.CategoryItemsActivity"
+            android:parentActivityName=".activities.MainActivity" />
         <activity
-            android:name=".Activities.CartActivity"
-            android:parentActivityName=".Activities.MainActivity" />
+            android:name=".activities.CartActivity"
+            android:parentActivityName=".activities.MainActivity" />
         <activity
-            android:name=".Activities.SuccessfulOrderActivity"
-            android:parentActivityName=".Activities.CartActivity" />
+            android:name=".activities.SuccessfulOrderActivity"
+            android:parentActivityName=".activities.CartActivity" />
     </application>
 
 </manifest>

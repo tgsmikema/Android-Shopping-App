@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.PastOrderItemsActivity">
+    tools:context=".activities.PastOrderItemsActivity">
 
     <Button
         android:id="@+id/button_back_past_order_items"
