@@ -21,7 +21,7 @@ import com.google.android.material.textview.MaterialTextView;
 
 public class PastOrderItemsActivity extends AppCompatActivity {
 
-    ViewHolder vh;
+    ViewHolder viewHolder;
 
     protected NavigationAdapter navigationAdapter;
 
@@ -52,16 +52,16 @@ public class PastOrderItemsActivity extends AppCompatActivity {
 
         public void setOrderViews(Order order) {
             String orderNum = "#" + order.getOrderId();
-            vh.orderNumber.setText(orderNum);
-            vh.orderDate.setText(order.getPlacedDateAndTime());
+            viewHolder.orderNumber.setText(orderNum);
+            viewHolder.orderDate.setText(order.getPlacedDateAndTime());
 
             String totalPriceOfOrder = ItemUtil.addDollarSignToPrice(order.getTotalCost());
-            vh.orderTotalPrice.setText(totalPriceOfOrder);
+            viewHolder.orderTotalPrice.setText(totalPriceOfOrder);
         }
     }
 
     private void initializeBackButton() {
-        vh.backButton.setOnClickListener(new View.OnClickListener() {
+        viewHolder.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -70,9 +70,17 @@ public class PastOrderItemsActivity extends AppCompatActivity {
     }
 
     protected void initializePastOrderItemsRecyclerView() {
-        vh.pastOrderItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
+        viewHolder.pastOrderItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
         pastOrderItemsRecyclerViewAdapter = new PastOrderItemsRecyclerViewAdapter(this);
-        vh.pastOrderItemsRecyclerView.setAdapter(pastOrderItemsRecyclerViewAdapter);
+        viewHolder.pastOrderItemsRecyclerView.setAdapter(pastOrderItemsRecyclerViewAdapter);
+    }
+
+    protected void initializeBottomBarViews(){
+        // Highlight the Selected Navigation ICON
+        viewHolder.bottomNavBar.setSelectedItemId(R.id.activity_orders);
+        // Initialise the Bottom Bar Navigation Logic
+        navigationAdapter = new NavigationAdapter(this);
+        viewHolder.bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
     }
 
     @Override
@@ -80,22 +88,15 @@ public class PastOrderItemsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_past_order_items);
 
-        vh = new ViewHolder();
+        viewHolder = new ViewHolder();
         initializePastOrderItemsRecyclerView();
 
         Intent intent = getIntent();
         Order order = (Order) intent.getSerializableExtra(PastOrdersRecyclerViewAdapter.INTENT_KEY_ORDER);
-
         pastOrderItemsRecyclerViewAdapter.addItems(order.getOrderItems());
+        viewHolder.setOrderViews(order);
 
-        vh.setOrderViews(order);
-
-        // Highlight the Selected Navigation ICON
-        vh.bottomNavBar.setSelectedItemId(R.id.activity_orders);
-        // Initialise the Bottom Bar Navigation Logic
-        navigationAdapter = new NavigationAdapter(this);
-        vh.bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
-
+        initializeBottomBarViews();
         initializeBackButton();
     }
 
