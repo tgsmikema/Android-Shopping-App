@@ -1,11 +1,13 @@
 package com.example.project_1_java_new_team42.activities;
 
+import androidx.annotation.ColorRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,9 +19,13 @@ import android.widget.TextView;
 import com.example.project_1_java_new_team42.adapters.ImageSliderAdapter;
 import com.example.project_1_java_new_team42.adapters.ItemsRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.adapters.NavigationAdapter;
-import com.example.project_1_java_new_team42.data.Senders.CartDataSender;
-import com.example.project_1_java_new_team42.data.Senders.ICartDataSender;
-import com.example.project_1_java_new_team42.data.Senders.ISendHandler;
+import com.example.project_1_java_new_team42.data.fetchers.CartDataFetcher;
+import com.example.project_1_java_new_team42.data.fetchers.ICartDataFetcher;
+import com.example.project_1_java_new_team42.data.fetchers.IFetchHandler;
+import com.example.project_1_java_new_team42.data.senders.CartDataSender;
+import com.example.project_1_java_new_team42.data.senders.ICartDataSender;
+import com.example.project_1_java_new_team42.data.senders.ISendHandler;
+import com.example.project_1_java_new_team42.models.Cart;
 import com.example.project_1_java_new_team42.models.IItem;
 import com.example.project_1_java_new_team42.models.Item;
 import com.example.project_1_java_new_team42.models.ItemWithQuantity;
@@ -36,11 +42,12 @@ public class DetailsActivity extends AppCompatActivity {
 
     private static final int DOT_HOR_MARGIN = 10;
     private static final int DOT_VER_MARGIN = 0;
+    private static final int INITIAL_QUANTITY = 1;
 
     // global variables
-    public static int quantity = 1;
+    public static int quantity;
 
-    ViewHolder vh;
+    ViewHolder viewHolder;
 
     // Adapters
     protected ImageSliderAdapter imageSliderAdapter;
@@ -48,6 +55,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     // Database Interaction Classes
     protected ICartDataSender cartDataSender = new CartDataSender();
+    protected ICartDataFetcher cartDataFetcher = new CartDataFetcher();
 
     // On Change Listener Watcher
     protected TextWatcherImpl textWatcherImpl;
@@ -57,10 +65,8 @@ public class DetailsActivity extends AppCompatActivity {
 
         ViewPager imageSlider;
         LinearLayout imageSliderDotPanel;
-
         TextView itemName, itemDetail, itemPrice, itemTotalPrice, quantityText, quantity;
         MaterialButton decreaseBtn, increaseBtn, backButton, addCartButton;
-
         NavigationBarView bottomNavBar;
 
         public ViewHolder() {
@@ -128,67 +134,101 @@ public class DetailsActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
         @Override
         public void afterTextChanged(Editable editable) {
-            int currentQuantity = Integer.parseInt(vh.quantity.getText().toString());
+            int currentQuantity = Integer.parseInt(viewHolder.quantity.getText().toString());
 
             // Disabling/enabling quantity buttons with respect to order limits.
             if (currentQuantity == ItemWithQuantity.MIN_QUANTITY) {
-                vh.decreaseBtn.setEnabled(false);
-                vh.increaseBtn.setEnabled(true);
+                viewHolder.decreaseBtn.setEnabled(false);
+                viewHolder.increaseBtn.setEnabled(true);
             } else if (currentQuantity > ItemWithQuantity.MIN_QUANTITY && currentQuantity < ItemWithQuantity.MAX_QUANTITY) {
-                vh.decreaseBtn.setEnabled(true);
-                vh.increaseBtn.setEnabled(true);
+                viewHolder.decreaseBtn.setEnabled(true);
+                viewHolder.increaseBtn.setEnabled(true);
             } else {
-                vh.decreaseBtn.setEnabled(true);
-                vh.increaseBtn.setEnabled(false);
+                viewHolder.decreaseBtn.setEnabled(true);
+                viewHolder.increaseBtn.setEnabled(false);
             }
 
             // Update Total Price
-            int calculatedPrice = item.getPrice() * Integer.parseInt(vh.quantity.getText().toString());
+            int calculatedPrice = item.getPrice() * Integer.parseInt(viewHolder.quantity.getText().toString());
             String totalPrice = "Total $" + calculatedPrice;
-            vh.itemTotalPrice.setText(totalPrice);
+            viewHolder.itemTotalPrice.setText(totalPrice);
         }
     }
 
     protected void initializeDecreaseQtyButton() {
         if (quantity == ItemWithQuantity.MIN_QUANTITY) {
-            vh.decreaseBtn.setEnabled(false);
+            viewHolder.decreaseBtn.setEnabled(false);
         }
-        vh.decreaseBtn.setOnClickListener(new View.OnClickListener() {
+        viewHolder.decreaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Decrease Quantity
                 if (quantity > ItemWithQuantity.MIN_QUANTITY) {
                     quantity--;
-                    vh.quantity.setText(String.valueOf(quantity));
+                    viewHolder.quantity.setText(String.valueOf(quantity));
                 }
             }
         });
     }
 
     protected void initializeIncreaseQtyButton() {
-        vh.increaseBtn.setOnClickListener(new View.OnClickListener() {
+        viewHolder.increaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (quantity < ItemWithQuantity.MAX_QUANTITY) {
                     quantity++;
-                    vh.quantity.setText(String.valueOf(quantity));
+                    viewHolder.quantity.setText(String.valueOf(quantity));
                 }
             }
         });
     }
 
+    private void disableAddToCartButton() {
+        viewHolder.addCartButton.setText(R.string.text_btn_add_to_cart_unavailable);
+        viewHolder.addCartButton.setBackgroundColor(getResources().getColor(R.color.button_unavailable));
+        viewHolder.addCartButton.setTextColor(Color.BLACK);
+        viewHolder.addCartButton.setEnabled(false);
+    }
+
+    private void enableAddToCartButton(){
+        viewHolder.addCartButton.setText(R.string.text_btn_add_to_cart);
+        viewHolder.addCartButton.setBackgroundColor(getResources().getColor(R.color.brand_black));
+        viewHolder.addCartButton.setTextColor(Color.WHITE);
+        viewHolder.addCartButton.setEnabled(true);
+    }
+
     protected void initializeAddToCartButton(IItem item) {
-        vh.addCartButton.setOnClickListener(new View.OnClickListener() {
+        cartDataFetcher.readData(new IFetchHandler<Cart>() {
             @Override
-            public void onClick(View v) {
-                ItemWithQuantity itemWithQuantity = new ItemWithQuantity(item, Integer.parseInt(vh.quantity.getText().toString()));
-                cartDataSender.addItemWithQuantityToCart(itemWithQuantity, new CartDataSendHandler());
+            public void onFetchComplete(Cart data) {
+                boolean isItemExistInCart = false;
+                // check if item is already in cart
+                for (ItemWithQuantity itemWithQuantity : data.getItems()){
+                    if(itemWithQuantity.getId().equals(item.getId())) {
+                        isItemExistInCart = true;
+                    }
+                }
+                if (isItemExistInCart) {
+                    viewHolder.addCartButton.setEnabled(false);
+                    disableAddToCartButton();
+                } else {
+                    enableAddToCartButton();
+                    viewHolder.addCartButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ItemWithQuantity itemWithQuantity = new ItemWithQuantity(item, Integer.parseInt(viewHolder.quantity.getText().toString()));
+                            cartDataSender.addItemWithQuantityToCart(itemWithQuantity, new CartDataSendHandler());
+                        }
+                    });
+                }
             }
+            @Override
+            public void onFetchFail() {}
         });
     }
 
     protected void initializeBackButton() {
-        vh.backButton.setOnClickListener(new View.OnClickListener() {
+        viewHolder.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -202,16 +242,16 @@ public class DetailsActivity extends AppCompatActivity {
 
     // Initialise all details of an item to be shown on this activity
     protected void setItemDetailViews(IItem item) {
-        vh.itemName.setText(item.getName());
-        vh.itemDetail.setText(item.getDescription());
+        viewHolder.itemName.setText(item.getName());
+        viewHolder.itemDetail.setText(item.getDescription());
 
         String price = ItemUtil.addDollarSignToPrice(item.getPrice());
-        vh.itemPrice.setText(price);
+        viewHolder.itemPrice.setText(price);
 
         String totalPrice = "Total " + ItemUtil.addDollarSignToPrice(item.getPrice());
-        vh.itemTotalPrice.setText(totalPrice);
+        viewHolder.itemTotalPrice.setText(totalPrice);
 
-        vh.quantity.setText(String.valueOf(quantity));
+        viewHolder.quantity.setText(String.valueOf(quantity));
     }
 
     // Initialise image slider dots configuration
@@ -226,12 +266,12 @@ public class DetailsActivity extends AppCompatActivity {
             dots[i].setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_inactive_dot));
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(DOT_HOR_MARGIN, DOT_VER_MARGIN, DOT_HOR_MARGIN, DOT_VER_MARGIN);
-            vh.imageSliderDotPanel.addView(dots[i], layoutParams);
+            viewHolder.imageSliderDotPanel.addView(dots[i], layoutParams);
         }
 
         dots[0].setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_active_dot));
 
-        vh.imageSlider.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewHolder.imageSlider.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
@@ -258,16 +298,14 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        quantity = 1;
+        quantity = INITIAL_QUANTITY;
 
-        vh = new ViewHolder();
+        viewHolder = new ViewHolder();
         initializeImageSlider();
 
         Intent intent = getIntent();
         Item selectedItem = (Item) intent.getSerializableExtra(ItemsRecyclerViewAdapter.INTENT_KEY_ITEM);
         setItemDetailViews(selectedItem);
-
-        this.textWatcherImpl = new TextWatcherImpl(selectedItem);
 
         initializeDecreaseQtyButton();
         initializeIncreaseQtyButton();
@@ -275,18 +313,19 @@ public class DetailsActivity extends AppCompatActivity {
         initializeBackButton();
 
         // Highlight the Selected Navigation ICON
-        vh.bottomNavBar.setSelectedItemId(R.id.activity_home);
+        viewHolder.bottomNavBar.setSelectedItemId(R.id.activity_home);
         // Initialise the Bottom Bar Navigation Logic
         navigationAdapter = new NavigationAdapter(this);
-        vh.bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
+        viewHolder.bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
 
         // Populate image slider and its dots
         List<IItem> items = new ArrayList<>();
         items.add(selectedItem);
         imageSliderAdapter.setData(items);
-        vh.imageSlider.setAdapter(imageSliderAdapter);
+        viewHolder.imageSlider.setAdapter(imageSliderAdapter);
         initializeImageSliderDots();
 
-        vh.quantity.addTextChangedListener(textWatcherImpl);
+        this.textWatcherImpl = new TextWatcherImpl(selectedItem);
+        viewHolder.quantity.addTextChangedListener(textWatcherImpl);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.project_1_java_new_team42.data.Senders;
+package com.example.project_1_java_new_team42.data.senders;
 
 import com.example.project_1_java_new_team42.models.Order;
 

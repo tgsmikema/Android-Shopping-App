@@ -10,9 +10,9 @@ import android.widget.Toast;
 
 import com.example.project_1_java_new_team42.adapters.NavigationAdapter;
 import com.example.project_1_java_new_team42.adapters.PastOrdersRecyclerViewAdapter;
-import com.example.project_1_java_new_team42.data.Fetchers.IFetchHandler;
-import com.example.project_1_java_new_team42.data.Fetchers.IPastOrdersDataFetcher;
-import com.example.project_1_java_new_team42.data.Fetchers.PastOrdersDataFetcher;
+import com.example.project_1_java_new_team42.data.fetchers.IFetchHandler;
+import com.example.project_1_java_new_team42.data.fetchers.IPastOrdersDataFetcher;
+import com.example.project_1_java_new_team42.data.fetchers.PastOrdersDataFetcher;
 import com.example.project_1_java_new_team42.models.Order;
 import com.example.project_1_java_new_team42.R;
 import com.google.android.material.navigation.NavigationBarView;
