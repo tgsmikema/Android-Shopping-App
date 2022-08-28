@@ -43,6 +43,10 @@ public abstract class GenericRecyclerViewAdapter<T, K extends RecyclerView.ViewH
         notifyItemRangeRemoved(0, size);
     }
 
+    public List<T> getItems() {
+        return items;
+    }
+
     @Override
     public int getItemCount() {
         return items.size();

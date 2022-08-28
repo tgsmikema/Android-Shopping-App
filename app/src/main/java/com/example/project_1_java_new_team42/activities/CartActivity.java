@@ -36,8 +36,6 @@ public class CartActivity extends AppCompatActivity {
     protected ICartDataFetcher cartDataFetcher = new CartDataFetcher();
     protected IOrderDataSender orderDataSender = new OrderDataSender();
 
-    private Cart cartData;
-
     private CartRecyclerViewAdapter cartItemsAdapter;
 
     private ViewHolder viewHolder;
@@ -71,7 +69,7 @@ public class CartActivity extends AppCompatActivity {
         private void initializePlaceOrderButton() {
             placeOrderButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    Order newOrder = new Order(cartData.getItems());
+                    Order newOrder = new Order(cartItemsAdapter.getItems());
                     orderDataSender.writeCartOrderToFirestore(newOrder, new OrderDataSendHandler());
                 }
             });
@@ -87,8 +85,6 @@ public class CartActivity extends AppCompatActivity {
     private class CartFetchHandler implements IFetchHandler<Cart> {
         @Override
         public void onFetchComplete(Cart data) {
-            cartData = data;
-
             cartItemsAdapter.addItems(data.getItems());
             cartItemsAdapter.setItemsTotalPrice(data.getTotalPrice());
 
