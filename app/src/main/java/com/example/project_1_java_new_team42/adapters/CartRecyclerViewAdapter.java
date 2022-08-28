@@ -14,9 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1_java_new_team42.activities.CartActivity;
-import com.example.project_1_java_new_team42.data.Senders.CartDataSender;
-import com.example.project_1_java_new_team42.data.Senders.ICartDataSender;
-import com.example.project_1_java_new_team42.data.Senders.ISendHandler;
+import com.example.project_1_java_new_team42.data.senders.CartDataSender;
+import com.example.project_1_java_new_team42.data.senders.ICartDataSender;
+import com.example.project_1_java_new_team42.data.senders.ISendHandler;
 import com.example.project_1_java_new_team42.models.ItemWithQuantity;
 import com.example.project_1_java_new_team42.R;
 import com.example.project_1_java_new_team42.util.ItemUtil;

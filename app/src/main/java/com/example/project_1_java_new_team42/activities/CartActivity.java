@@ -17,12 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1_java_new_team42.adapters.CartRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.adapters.NavigationAdapter;
-import com.example.project_1_java_new_team42.data.Fetchers.CartDataFetcher;
-import com.example.project_1_java_new_team42.data.Fetchers.ICartDataFetcher;
-import com.example.project_1_java_new_team42.data.Fetchers.IFetchHandler;
-import com.example.project_1_java_new_team42.data.Senders.IOrderDataSender;
-import com.example.project_1_java_new_team42.data.Senders.ISendHandler;
-import com.example.project_1_java_new_team42.data.Senders.OrderDataSender;
+import com.example.project_1_java_new_team42.data.fetchers.CartDataFetcher;
+import com.example.project_1_java_new_team42.data.fetchers.ICartDataFetcher;
+import com.example.project_1_java_new_team42.data.fetchers.IFetchHandler;
+import com.example.project_1_java_new_team42.data.senders.IOrderDataSender;
+import com.example.project_1_java_new_team42.data.senders.ISendHandler;
+import com.example.project_1_java_new_team42.data.senders.OrderDataSender;
 import com.example.project_1_java_new_team42.models.Cart;
 import com.example.project_1_java_new_team42.models.Order;
 import com.example.project_1_java_new_team42.R;

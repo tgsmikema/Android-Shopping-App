@@ -15,9 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_1_java_new_team42.adapters.ItemsRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.adapters.NavigationAdapter;
-import com.example.project_1_java_new_team42.data.Fetchers.IFetchHandler;
-import com.example.project_1_java_new_team42.data.Fetchers.ISearchItemsDataFetcher;
-import com.example.project_1_java_new_team42.data.Fetchers.SearchItemsDataFetcher;
+import com.example.project_1_java_new_team42.data.fetchers.IFetchHandler;
+import com.example.project_1_java_new_team42.data.fetchers.ISearchItemsDataFetcher;
+import com.example.project_1_java_new_team42.data.fetchers.SearchItemsDataFetcher;
 import com.example.project_1_java_new_team42.models.IItem;
 import com.example.project_1_java_new_team42.R;
 import com.example.project_1_java_new_team42.widgets.ItemsRecyclerView;
