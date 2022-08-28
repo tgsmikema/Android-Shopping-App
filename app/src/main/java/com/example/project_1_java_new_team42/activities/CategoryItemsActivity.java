@@ -33,17 +33,69 @@ public class CategoryItemsActivity extends AppCompatActivity {
 
     private final ICategoryItemsDataFetcher itemsFetcher = new CategoryItemsDataFetcher();
     private ItemsRecyclerViewAdapter itemsAdapter;
-    private ItemsRecyclerView itemsRecyclerView;
-    private ShimmerFrameLayout itemsShimmer;
 
     private Category category;
+
+    private ViewHolder viewHolder;
+
+    private class ViewHolder {
+        TextView headingTextView;
+        ImageView headingImageView;
+        ShimmerFrameLayout itemsShimmer;
+        ItemsRecyclerView itemsRecyclerView;
+        Button backButton;
+        NavigationBarView bottomNavBar;
+
+        public ViewHolder() {
+            initializeHeadingText();
+            initializeHeadingImage();
+            initializeBackButton();
+            itemsShimmer = findViewById(R.id.shimmer_search_items);
+            initializeItemsRecyclerView();
+            initializeBottomBarViews();
+        }
+
+
+        private void initializeHeadingText() {
+            headingTextView = findViewById(R.id.text_category_heading);
+            headingTextView.setText(category.getCategoryName());
+        }
+
+        private void initializeHeadingImage() {
+            headingImageView = findViewById(R.id.image_category_header);
+            int drawableId = ItemUtil.getImageDrawableId(CategoryItemsActivity.this, category.getImageURI());
+            headingImageView.setImageResource(drawableId);
+        }
+
+        private void initializeBackButton() {
+            backButton = findViewById(R.id.button_back_category_items);
+            backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    supportFinishAfterTransition();
+                }
+            });
+        }
+
+        private void initializeItemsRecyclerView() {
+            itemsRecyclerView = new ItemsRecyclerView(CategoryItemsActivity.this, findViewById(R.id.recycler_view_category_items), RecyclerViewLayoutType.GRID);
+            itemsAdapter = itemsRecyclerView.getAdapter();
+            itemsAdapter.relayCategory(category);
+        }
+
+        private void initializeBottomBarViews() {
+            bottomNavBar = findViewById(R.id.bottom_navigation_category_items);
+            bottomNavBar.setSelectedItemId(R.id.activity_home);
+            bottomNavBar.setOnItemSelectedListener(new NavigationAdapter(CategoryItemsActivity.this).navigationListener);
+        }
+    }
 
     private class CategoryItemsFetchHandler implements IFetchHandler<List<IItem>> {
         @Override
         public void onFetchComplete(List<IItem> data) {
            itemsAdapter.addItems(data);
-           itemsRecyclerView.getRecyclerView().setVisibility(View.VISIBLE);
-           itemsShimmer.setVisibility(View.INVISIBLE);
+           viewHolder.itemsRecyclerView.getRecyclerView().setVisibility(View.VISIBLE);
+           viewHolder.itemsShimmer.setVisibility(View.INVISIBLE);
            Log.i(TAG, "Fetched category  successfully");
 
            startPostponedEnterTransition();
@@ -52,7 +104,7 @@ public class CategoryItemsActivity extends AppCompatActivity {
         @Override
         public void onFetchFail() {
             System.out.println("Failed to fetch items");
-            itemsShimmer.hideShimmer();
+            viewHolder.itemsShimmer.hideShimmer();
             Toast.makeText(getApplicationContext(), "Failed to fetch items", Toast.LENGTH_SHORT).show();
         }
     }
@@ -64,42 +116,10 @@ public class CategoryItemsActivity extends AppCompatActivity {
         return new Category(categoryName, categoryImageUri);
     }
 
-    private void setCategoryViews(Category category) {
-        TextView headingTextView = findViewById(R.id.text_category_heading);
-        headingTextView.setText(category.getCategoryName());
-
-        ImageView headingImageView = findViewById(R.id.image_category_header);
-        int drawableId = ItemUtil.getImageDrawableId(this, category.getImageURI());
-        headingImageView.setImageResource(drawableId);
-    }
-
-    private void initializeBackButton() {
-        Button backButton = findViewById(R.id.button_back_category_items);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                supportFinishAfterTransition();
-            }
-        });
-    }
-
-    private final View.OnClickListener buttonListener = new View.OnClickListener() {
-        public void onClick(View view) {
-            supportFinishAfterTransition();
-        }
-    };
-
-    private void initializeItemsRecyclerView() {
-        itemsRecyclerView = new ItemsRecyclerView(this, findViewById(R.id.recycler_view_category_items), RecyclerViewLayoutType.GRID);
-        itemsAdapter = itemsRecyclerView.getAdapter();
-        itemsAdapter.relayCategory(category);
-    }
-
-    private void initializeLoadingState() {
+    private void startLoadingState() {
         // Handles orientation changes as well
-        itemsShimmer = findViewById(R.id.shimmer_search_items);
         GridLayout gridShimmer = findViewById(R.id.grid_shimmer_search);
-        gridShimmer.setColumnCount(itemsRecyclerView.calculateNoOfColumns(ItemsRecyclerView.ITEM_COLUMN_WIDTH_DP));
+        gridShimmer.setColumnCount(viewHolder.itemsRecyclerView.calculateNoOfColumns(ItemsRecyclerView.ITEM_COLUMN_WIDTH_DP));
     }
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,22 +129,10 @@ public class CategoryItemsActivity extends AppCompatActivity {
         postponeEnterTransition();
 
         category = constructCategoryFromIntent();
-        setCategoryViews(category);
 
-        initializeBackButton();
-        initializeItemsRecyclerView();
-        initializeLoadingState();
+        viewHolder = new ViewHolder();
 
-        String docId = category.getDocId();
-        itemsFetcher.readData(docId, new CategoryItemsFetchHandler());
-
-        //TODO(Refactor) put this 2 line inside ViewHolder
-        NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation_category_items);
-
-        // Highlight the Selected Navigation ICON
-        bottomNavBar.setSelectedItemId(R.id.activity_home);
-        // Add the Bottom Bar Navigation Logic
-        NavigationAdapter navigationAdapter = new NavigationAdapter(this);
-        bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
+        startLoadingState();
+        itemsFetcher.readData(category.getDocId(), new CategoryItemsFetchHandler());
     }
 }
