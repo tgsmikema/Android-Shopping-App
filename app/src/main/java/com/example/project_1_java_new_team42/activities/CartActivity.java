@@ -33,13 +33,12 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 public class CartActivity extends AppCompatActivity {
     private static final String TAG = "CartActivity";
 
-    protected RecyclerView cartRecyclerView;
-    protected CartRecyclerViewAdapter cartItemsAdapter;
-
     protected ICartDataFetcher cartDataFetcher = new CartDataFetcher();
     protected IOrderDataSender orderDataSender = new OrderDataSender();
 
     private Cart cartData;
+
+    private CartRecyclerViewAdapter cartItemsAdapter;
 
     private ViewHolder viewHolder;
 
@@ -49,12 +48,39 @@ public class CartActivity extends AppCompatActivity {
         Button placeOrderButton;
         CircularProgressIndicator cartItemsSpinner;
         NavigationBarView bottomNavBar;
+        RecyclerView cartRecyclerView;
 
         public ViewHolder() {
             totalPriceTextView = findViewById(R.id.cart_total_price);
             emptyCartImage = findViewById(R.id.cart_empty_image);
             placeOrderButton = findViewById(R.id.place_order_button);
             cartItemsSpinner = findViewById(R.id.progress_cart_items);
+
+            initializePlaceOrderButton();
+            initializeCartRecyclerView();
+            initializeBottomBarViews();
+        }
+
+        private void initializeCartRecyclerView() {
+            cartRecyclerView = findViewById(R.id.recycler_view_cart);
+            cartRecyclerView.setLayoutManager(new LinearLayoutManager(CartActivity.this, LinearLayoutManager.VERTICAL, false));
+            cartItemsAdapter = new CartRecyclerViewAdapter(CartActivity.this);
+            cartRecyclerView.setAdapter(cartItemsAdapter);
+        }
+
+        private void initializePlaceOrderButton() {
+            placeOrderButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    Order newOrder = new Order(cartData.getItems());
+                    orderDataSender.writeCartOrderToFirestore(newOrder, new OrderDataSendHandler());
+                }
+            });
+        }
+
+        private void initializeBottomBarViews() {
+            bottomNavBar = findViewById(R.id.bottom_navigation_cart);
+            bottomNavBar.setSelectedItemId(R.id.activity_home);
+            bottomNavBar.setOnItemSelectedListener(new NavigationAdapter(CartActivity.this).navigationListener);
         }
     }
 
@@ -78,7 +104,7 @@ public class CartActivity extends AppCompatActivity {
                 viewHolder.emptyCartImage.setVisibility(View.VISIBLE);
             }
 
-            cartRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+            viewHolder.cartRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
                 @Override
                 public void onChildViewAttachedToWindow(@NonNull View view) {
                     enableSubmitButton();
@@ -116,37 +142,13 @@ public class CartActivity extends AppCompatActivity {
         viewHolder.placeOrderButton.setEnabled(true);
     }
 
-    private void initializePlaceOrderButton() {
-        viewHolder.placeOrderButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Order newOrder = new Order(cartData.getItems());
-                orderDataSender.writeCartOrderToFirestore(newOrder, new OrderDataSendHandler());
-            }
-        });
-    }
-
-    protected void initializeCartRecyclerView() {
-        cartRecyclerView = findViewById(R.id.recycler_view_cart);
-        cartRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
-        cartItemsAdapter = new CartRecyclerViewAdapter(this);
-        cartRecyclerView.setAdapter(cartItemsAdapter);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
         viewHolder = new ViewHolder();
-        initializePlaceOrderButton();
-
-        initializeCartRecyclerView();
         cartDataFetcher.readData(new CartFetchHandler());
-
-        viewHolder.bottomNavBar = findViewById(R.id.bottom_navigation_cart);
-        viewHolder.bottomNavBar.setSelectedItemId(R.id.activity_cart);
-        viewHolder.bottomNavBar.setOnItemSelectedListener(new NavigationAdapter(this).navigationListener);
     }
 
     public void updateTotalPrice(int totalPrice) {
@@ -155,7 +157,6 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private class OrderDataSendHandler implements ISendHandler {
-
         @Override
         public void onSendSuccess(boolean isSuccess) {
             Intent intent = new Intent(CartActivity.this, SuccessfulOrderActivity.class);
