@@ -20,6 +20,7 @@
     <string name="text_default_qty">1</string>
     <string name="text_qty">Qty</string>
     <string name="text_btn_add_to_cart">Add To Cart</string>
+    <string name="text_btn_add_to_cart_unavailable">This Item Is Already In Cart!</string>
     <string name="button_delete_cart_item">Delete Cart Item</string>
     <string name="button_decrement">Decrement</string>
     <string name="button_increment">Increment</string>

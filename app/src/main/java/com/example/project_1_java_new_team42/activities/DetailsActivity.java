@@ -1,11 +1,13 @@
 package com.example.project_1_java_new_team42.activities;
 
+import androidx.annotation.ColorRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,9 +19,13 @@ import android.widget.TextView;
 import com.example.project_1_java_new_team42.adapters.ImageSliderAdapter;
 import com.example.project_1_java_new_team42.adapters.ItemsRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.adapters.NavigationAdapter;
+import com.example.project_1_java_new_team42.data.fetchers.CartDataFetcher;
+import com.example.project_1_java_new_team42.data.fetchers.ICartDataFetcher;
+import com.example.project_1_java_new_team42.data.fetchers.IFetchHandler;
 import com.example.project_1_java_new_team42.data.senders.CartDataSender;
 import com.example.project_1_java_new_team42.data.senders.ICartDataSender;
 import com.example.project_1_java_new_team42.data.senders.ISendHandler;
+import com.example.project_1_java_new_team42.models.Cart;
 import com.example.project_1_java_new_team42.models.IItem;
 import com.example.project_1_java_new_team42.models.Item;
 import com.example.project_1_java_new_team42.models.ItemWithQuantity;
@@ -49,6 +55,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     // Database Interaction Classes
     protected ICartDataSender cartDataSender = new CartDataSender();
+    protected ICartDataFetcher cartDataFetcher = new CartDataFetcher();
 
     // On Change Listener Watcher
     protected TextWatcherImpl textWatcherImpl;
@@ -176,13 +183,47 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
+    private void disableAddToCartButton() {
+        viewHolder.addCartButton.setText(R.string.text_btn_add_to_cart_unavailable);
+        viewHolder.addCartButton.setBackgroundColor(getResources().getColor(R.color.button_unavailable));
+        viewHolder.addCartButton.setTextColor(Color.BLACK);
+        viewHolder.addCartButton.setEnabled(false);
+    }
+
+    private void enableAddToCartButton(){
+        viewHolder.addCartButton.setText(R.string.text_btn_add_to_cart);
+        viewHolder.addCartButton.setBackgroundColor(getResources().getColor(R.color.brand_black));
+        viewHolder.addCartButton.setTextColor(Color.WHITE);
+        viewHolder.addCartButton.setEnabled(true);
+    }
+
     protected void initializeAddToCartButton(IItem item) {
-        viewHolder.addCartButton.setOnClickListener(new View.OnClickListener() {
+        cartDataFetcher.readData(new IFetchHandler<Cart>() {
             @Override
-            public void onClick(View v) {
-                ItemWithQuantity itemWithQuantity = new ItemWithQuantity(item, Integer.parseInt(viewHolder.quantity.getText().toString()));
-                cartDataSender.addItemWithQuantityToCart(itemWithQuantity, new CartDataSendHandler());
+            public void onFetchComplete(Cart data) {
+                boolean isItemExistInCart = false;
+                // check if item is already in cart
+                for (ItemWithQuantity itemWithQuantity : data.getItems()){
+                    if(itemWithQuantity.getId().equals(item.getId())) {
+                        isItemExistInCart = true;
+                    }
+                }
+                if (isItemExistInCart) {
+                    viewHolder.addCartButton.setEnabled(false);
+                    disableAddToCartButton();
+                } else {
+                    enableAddToCartButton();
+                    viewHolder.addCartButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ItemWithQuantity itemWithQuantity = new ItemWithQuantity(item, Integer.parseInt(viewHolder.quantity.getText().toString()));
+                            cartDataSender.addItemWithQuantityToCart(itemWithQuantity, new CartDataSendHandler());
+                        }
+                    });
+                }
             }
+            @Override
+            public void onFetchFail() {}
         });
     }
 
