@@ -14,24 +14,34 @@ import com.google.android.material.button.MaterialButton;
 
 public class SuccessfulOrderActivity extends AppCompatActivity {
 
-    private MaterialButton ordersButton;
-    private MaterialButton homeButton;
+    private ViewHolder vh;
+
+    private class ViewHolder {
+        ImageView checkMark;
+        TextView heading;
+        TextView subheading;
+        MaterialButton ordersButton;
+        MaterialButton homeButton;
+
+        public ViewHolder() {
+            checkMark = findViewById(R.id.image_check_mark);
+            heading = findViewById(R.id.text_order_placed);
+            subheading = findViewById(R.id.text_thanks_for_shopping);
+            ordersButton = findViewById(R.id.button_orders_page);
+            homeButton = findViewById(R.id.button_home);
+        }
+    }
 
     private void animateActivity() {
-        ImageView checkMark = findViewById(R.id.image_check_mark);
-        TextView heading = findViewById(R.id.text_order_placed);
-        TextView subheading = findViewById(R.id.text_thanks_for_shopping);
-
-        checkMark.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_simple));
-        heading.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in_simple));
-        subheading.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in_simple));
-        ordersButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in_simple));
-        homeButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in_simple));
+        vh.checkMark.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_simple));
+        vh.heading.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in_simple));
+        vh.subheading.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in_simple));
+        vh.ordersButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in_simple));
+        vh.homeButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in_simple));
     }
 
     private void initializeOrdersPageButton() {
-        ordersButton = findViewById(R.id.button_orders_page);
-        ordersButton.setOnClickListener(new View.OnClickListener() {
+        vh.ordersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SuccessfulOrderActivity.this, PastOrdersActivity.class);
@@ -41,8 +51,7 @@ public class SuccessfulOrderActivity extends AppCompatActivity {
     }
 
     private void initializeGoHomeButton() {
-        homeButton = findViewById(R.id.button_home);
-        homeButton.setOnClickListener(new View.OnClickListener() {
+        vh.homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SuccessfulOrderActivity.this, MainActivity.class);
@@ -55,6 +64,8 @@ public class SuccessfulOrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_successful_order);
+
+        vh = new ViewHolder();
 
         initializeOrdersPageButton();
         initializeGoHomeButton();

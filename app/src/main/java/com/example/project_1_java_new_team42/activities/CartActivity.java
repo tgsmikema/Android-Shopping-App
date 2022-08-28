@@ -79,7 +79,7 @@ public class CartActivity extends AppCompatActivity {
 
         private void initializeBottomBarViews() {
             bottomNavBar = findViewById(R.id.bottom_navigation_cart);
-            bottomNavBar.setSelectedItemId(R.id.activity_home);
+            bottomNavBar.setSelectedItemId(R.id.activity_cart);
             bottomNavBar.setOnItemSelectedListener(new NavigationAdapter(CartActivity.this).navigationListener);
         }
     }
