@@ -36,11 +36,12 @@ public class DetailsActivity extends AppCompatActivity {
 
     private static final int DOT_HOR_MARGIN = 10;
     private static final int DOT_VER_MARGIN = 0;
+    private static final int INITIAL_QUANTITY = 1;
 
     // global variables
-    public static int quantity = 1;
+    public static int quantity;
 
-    ViewHolder vh;
+    ViewHolder viewHolder;
 
     // Adapters
     protected ImageSliderAdapter imageSliderAdapter;
@@ -57,10 +58,8 @@ public class DetailsActivity extends AppCompatActivity {
 
         ViewPager imageSlider;
         LinearLayout imageSliderDotPanel;
-
         TextView itemName, itemDetail, itemPrice, itemTotalPrice, quantityText, quantity;
         MaterialButton decreaseBtn, increaseBtn, backButton, addCartButton;
-
         NavigationBarView bottomNavBar;
 
         public ViewHolder() {
@@ -128,67 +127,67 @@ public class DetailsActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
         @Override
         public void afterTextChanged(Editable editable) {
-            int currentQuantity = Integer.parseInt(vh.quantity.getText().toString());
+            int currentQuantity = Integer.parseInt(viewHolder.quantity.getText().toString());
 
             // Disabling/enabling quantity buttons with respect to order limits.
             if (currentQuantity == ItemWithQuantity.MIN_QUANTITY) {
-                vh.decreaseBtn.setEnabled(false);
-                vh.increaseBtn.setEnabled(true);
+                viewHolder.decreaseBtn.setEnabled(false);
+                viewHolder.increaseBtn.setEnabled(true);
             } else if (currentQuantity > ItemWithQuantity.MIN_QUANTITY && currentQuantity < ItemWithQuantity.MAX_QUANTITY) {
-                vh.decreaseBtn.setEnabled(true);
-                vh.increaseBtn.setEnabled(true);
+                viewHolder.decreaseBtn.setEnabled(true);
+                viewHolder.increaseBtn.setEnabled(true);
             } else {
-                vh.decreaseBtn.setEnabled(true);
-                vh.increaseBtn.setEnabled(false);
+                viewHolder.decreaseBtn.setEnabled(true);
+                viewHolder.increaseBtn.setEnabled(false);
             }
 
             // Update Total Price
-            int calculatedPrice = item.getPrice() * Integer.parseInt(vh.quantity.getText().toString());
+            int calculatedPrice = item.getPrice() * Integer.parseInt(viewHolder.quantity.getText().toString());
             String totalPrice = "Total $" + calculatedPrice;
-            vh.itemTotalPrice.setText(totalPrice);
+            viewHolder.itemTotalPrice.setText(totalPrice);
         }
     }
 
     protected void initializeDecreaseQtyButton() {
         if (quantity == ItemWithQuantity.MIN_QUANTITY) {
-            vh.decreaseBtn.setEnabled(false);
+            viewHolder.decreaseBtn.setEnabled(false);
         }
-        vh.decreaseBtn.setOnClickListener(new View.OnClickListener() {
+        viewHolder.decreaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Decrease Quantity
                 if (quantity > ItemWithQuantity.MIN_QUANTITY) {
                     quantity--;
-                    vh.quantity.setText(String.valueOf(quantity));
+                    viewHolder.quantity.setText(String.valueOf(quantity));
                 }
             }
         });
     }
 
     protected void initializeIncreaseQtyButton() {
-        vh.increaseBtn.setOnClickListener(new View.OnClickListener() {
+        viewHolder.increaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (quantity < ItemWithQuantity.MAX_QUANTITY) {
                     quantity++;
-                    vh.quantity.setText(String.valueOf(quantity));
+                    viewHolder.quantity.setText(String.valueOf(quantity));
                 }
             }
         });
     }
 
     protected void initializeAddToCartButton(IItem item) {
-        vh.addCartButton.setOnClickListener(new View.OnClickListener() {
+        viewHolder.addCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ItemWithQuantity itemWithQuantity = new ItemWithQuantity(item, Integer.parseInt(vh.quantity.getText().toString()));
+                ItemWithQuantity itemWithQuantity = new ItemWithQuantity(item, Integer.parseInt(viewHolder.quantity.getText().toString()));
                 cartDataSender.addItemWithQuantityToCart(itemWithQuantity, new CartDataSendHandler());
             }
         });
     }
 
     protected void initializeBackButton() {
-        vh.backButton.setOnClickListener(new View.OnClickListener() {
+        viewHolder.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -202,16 +201,16 @@ public class DetailsActivity extends AppCompatActivity {
 
     // Initialise all details of an item to be shown on this activity
     protected void setItemDetailViews(IItem item) {
-        vh.itemName.setText(item.getName());
-        vh.itemDetail.setText(item.getDescription());
+        viewHolder.itemName.setText(item.getName());
+        viewHolder.itemDetail.setText(item.getDescription());
 
         String price = ItemUtil.addDollarSignToPrice(item.getPrice());
-        vh.itemPrice.setText(price);
+        viewHolder.itemPrice.setText(price);
 
         String totalPrice = "Total " + ItemUtil.addDollarSignToPrice(item.getPrice());
-        vh.itemTotalPrice.setText(totalPrice);
+        viewHolder.itemTotalPrice.setText(totalPrice);
 
-        vh.quantity.setText(String.valueOf(quantity));
+        viewHolder.quantity.setText(String.valueOf(quantity));
     }
 
     // Initialise image slider dots configuration
@@ -226,12 +225,12 @@ public class DetailsActivity extends AppCompatActivity {
             dots[i].setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_inactive_dot));
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(DOT_HOR_MARGIN, DOT_VER_MARGIN, DOT_HOR_MARGIN, DOT_VER_MARGIN);
-            vh.imageSliderDotPanel.addView(dots[i], layoutParams);
+            viewHolder.imageSliderDotPanel.addView(dots[i], layoutParams);
         }
 
         dots[0].setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_active_dot));
 
-        vh.imageSlider.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewHolder.imageSlider.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
@@ -258,16 +257,14 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        quantity = 1;
+        quantity = INITIAL_QUANTITY;
 
-        vh = new ViewHolder();
+        viewHolder = new ViewHolder();
         initializeImageSlider();
 
         Intent intent = getIntent();
         Item selectedItem = (Item) intent.getSerializableExtra(ItemsRecyclerViewAdapter.INTENT_KEY_ITEM);
         setItemDetailViews(selectedItem);
-
-        this.textWatcherImpl = new TextWatcherImpl(selectedItem);
 
         initializeDecreaseQtyButton();
         initializeIncreaseQtyButton();
@@ -275,18 +272,19 @@ public class DetailsActivity extends AppCompatActivity {
         initializeBackButton();
 
         // Highlight the Selected Navigation ICON
-        vh.bottomNavBar.setSelectedItemId(R.id.activity_home);
+        viewHolder.bottomNavBar.setSelectedItemId(R.id.activity_home);
         // Initialise the Bottom Bar Navigation Logic
         navigationAdapter = new NavigationAdapter(this);
-        vh.bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
+        viewHolder.bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
 
         // Populate image slider and its dots
         List<IItem> items = new ArrayList<>();
         items.add(selectedItem);
         imageSliderAdapter.setData(items);
-        vh.imageSlider.setAdapter(imageSliderAdapter);
+        viewHolder.imageSlider.setAdapter(imageSliderAdapter);
         initializeImageSliderDots();
 
-        vh.quantity.addTextChangedListener(textWatcherImpl);
+        this.textWatcherImpl = new TextWatcherImpl(selectedItem);
+        viewHolder.quantity.addTextChangedListener(textWatcherImpl);
     }
 }
