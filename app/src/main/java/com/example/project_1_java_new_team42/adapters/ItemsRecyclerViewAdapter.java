@@ -32,19 +32,8 @@ public class ItemsRecyclerViewAdapter extends GenericRecyclerViewAdapter<IItem, 
     public static final String LAPTOP_ACCESSORY_ICON_PATH = "ic_touch";
     public static final String TABLET_ACCESSORY_ICON_PATH = "ic_keyboard";
 
-    protected String searchString;
-    protected Category category;
-
     public ItemsRecyclerViewAdapter(Context context) {
         super(context);
-    }
-
-    public void relaySearchString(String searchString){
-        this.searchString = searchString;
-    }
-
-    public void relayCategory(Category category){
-        this.category = new Category(category.getCategoryName(), category.getImageURI());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

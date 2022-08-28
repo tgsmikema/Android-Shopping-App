@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_1_java_new_team42.adapters.ItemsRecyclerViewAdapter;
 import com.example.project_1_java_new_team42.adapters.NavigationAdapter;
@@ -34,20 +33,89 @@ public class SearchResultsActivity extends AppCompatActivity {
     private static final String TAG = "SearchResultsActivity";
 
     private final ISearchItemsDataFetcher itemsDataFetcher = new SearchItemsDataFetcher();
-    private ItemsRecyclerViewAdapter itemsAdapter;
-    private ItemsRecyclerView itemsRecyclerView;
-    private ShimmerFrameLayout itemsShimmer;
-    private TextView helperTextView;
+
     private String searchedText;
 
-    protected NavigationAdapter navigationAdapter;
+    private ItemsRecyclerViewAdapter itemsAdapter;
+
+    private ViewHolder viewHolder;
+
+    private class ViewHolder {
+        TextInputLayout searchBar;
+        TextView helperTextView;
+        ItemsRecyclerView itemsRecyclerView;
+        ShimmerFrameLayout itemsShimmer;
+        Button backButton;
+        NavigationBarView bottomNavBar;
+
+        public ViewHolder() {
+            initializeBackButton();
+            initializeSearchBar();
+            initializeHelperTextView();
+            itemsShimmer = findViewById(R.id.shimmer_search_items);
+            initializeItemsRecyclerView();
+            initializeBottomBarViews();
+        }
+
+        private void initializeBackButton() {
+            backButton = findViewById(R.id.button_back_search_results);
+            backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
+
+        private void initializeSearchBar() {
+            searchBar = findViewById(R.id.text_input_layout_search_results);
+            EditText et = searchBar.getEditText();
+            if (et != null) {
+                et.setText(searchedText);
+
+                Search search = new Search(et);
+                search.setDisableSearchIfEmpty(true);
+
+                search.setOnSearchActionListener(new Search.OnSearchActionListener() {
+                    @Override
+                    public void onSearch(EditText view, String searchQuery) {
+                        if (searchedText.equals(searchQuery)) {
+                            return;
+                        }
+
+                        searchedText = searchQuery;
+                        itemsAdapter.clearItems();
+                        viewHolder.itemsShimmer.setVisibility(View.VISIBLE);
+                        viewHolder.itemsShimmer.startShimmer();
+                        itemsDataFetcher.readData(searchedText, new SearchItemsFetchHandler());
+                    }
+                });
+            }
+        }
+
+        private void initializeHelperTextView() {
+            String helperText = "Searching for " + "\"" + searchedText + "\"..." ;
+            helperTextView = findViewById(R.id.text_helper_search_text);
+            helperTextView.setText(helperText);
+        }
+
+        private void initializeItemsRecyclerView() {
+            itemsRecyclerView = new ItemsRecyclerView(SearchResultsActivity.this, findViewById(R.id.recycler_view_search_items), RecyclerViewLayoutType.GRID);
+            itemsAdapter = itemsRecyclerView.getAdapter();
+        }
+
+        private void initializeBottomBarViews() {
+            bottomNavBar = findViewById(R.id.bottom_navigation_search_results);
+            bottomNavBar.setOnItemSelectedListener(new NavigationAdapter(SearchResultsActivity.this).navigationListener);
+        }
+    }
 
     private class SearchItemsFetchHandler implements IFetchHandler<List<IItem>> {
         @Override
         public void onFetchComplete(List<IItem> data) {
             itemsAdapter.addItems(data);
-            itemsShimmer.setVisibility(View.INVISIBLE);
-            itemsRecyclerView.getRecyclerView().setVisibility(View.VISIBLE);
+            viewHolder.itemsShimmer.setVisibility(View.INVISIBLE);
+            viewHolder.itemsRecyclerView.getRecyclerView().setVisibility(View.VISIBLE);
 
             setNumberResultsFoundText(data.size());
             Log.i(TAG, "Fetched items successfully");
@@ -56,74 +124,20 @@ public class SearchResultsActivity extends AppCompatActivity {
         @Override
         public void onFetchFail() {
             System.out.println("Failed to fetch items");
-            itemsShimmer.hideShimmer();
+            viewHolder.itemsShimmer.hideShimmer();
             Toast.makeText(getApplicationContext(), "Failed to fetch items", Toast.LENGTH_SHORT).show();
         }
     }
 
-    protected void initializeItemsRecyclerView() {
-        RecyclerView rv = findViewById(R.id.recycler_view_search_items);
-        rv.setVisibility(View.INVISIBLE);
-        itemsRecyclerView = new ItemsRecyclerView(this, rv, RecyclerViewLayoutType.GRID);
-        itemsAdapter = itemsRecyclerView.getAdapter();
-        itemsAdapter.relaySearchString(searchedText);
-    }
-
-    private void initializeSearchBarText(String text) {
-        TextInputLayout til = findViewById(R.id.text_input_layout_search_results);
-        EditText et = til.getEditText();
-        if (et != null) {
-            et.setText(text);
-        }
-    }
-
-    private void initializeHelperText() {
-        String helperText = "Searching for " + "\"" + searchedText + "\"..." ;
-        helperTextView = findViewById(R.id.text_helper_search_text);
-        helperTextView.setText(helperText);
-    }
-
     private void initializeLoadingState() {
         // Handles orientation changes as well
-        itemsShimmer = findViewById(R.id.shimmer_search_items);
         GridLayout gridShimmer = findViewById(R.id.grid_shimmer_search);
-        gridShimmer.setColumnCount(itemsRecyclerView.calculateNoOfColumns(ItemsRecyclerView.ITEM_COLUMN_WIDTH_DP));
+        gridShimmer.setColumnCount(viewHolder.itemsRecyclerView.calculateNoOfColumns(ItemsRecyclerView.ITEM_COLUMN_WIDTH_DP));
     }
 
     private void setNumberResultsFoundText(int numResults) {
         String formatted = "Found " + numResults + " results for " + "\"" + searchedText + "\"";
-        helperTextView.setText(formatted);
-    }
-
-    protected void initializeSearchFunctionality() {
-        TextInputLayout searchTextInputLayout = findViewById(R.id.text_input_layout_search_results);
-        Search search = new Search(searchTextInputLayout.getEditText());
-        search.setDisableSearchIfEmpty(true);
-
-        search.setOnSearchActionListener(new Search.OnSearchActionListener() {
-            @Override
-            public void onSearch(EditText view, String searchQuery) {
-                if (searchedText.equals(searchQuery)) {
-                    return;
-                }
-
-                searchedText = searchQuery;
-                itemsAdapter.clearItems();
-                itemsShimmer.setVisibility(View.VISIBLE);
-                itemsShimmer.startShimmer();
-                itemsDataFetcher.readData(searchedText, new SearchItemsFetchHandler());
-            }
-        });
-    }
-
-    private void initializeBackButton() {
-        Button backButton = findViewById(R.id.button_back_search_results);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        viewHolder.helperTextView.setText(formatted);
     }
 
     @Override
@@ -141,21 +155,10 @@ public class SearchResultsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         searchedText = intent.getStringExtra(MainActivity.INTENT_KEY_SEARCH);
 
-        initializeBackButton();
-        initializeSearchBarText(searchedText);
-        initializeSearchFunctionality();
-        initializeHelperText();
-        initializeItemsRecyclerView();
+        viewHolder = new ViewHolder();
+
         initializeLoadingState();
 
         itemsDataFetcher.readData(searchedText, new SearchItemsFetchHandler());
-
-        NavigationBarView bottomNavBar = findViewById(R.id.bottom_navigation_search_results);
-
-        // Highlight the Selected Navigation ICON
-        bottomNavBar.setSelectedItemId(R.id.activity_home);
-        // Add the Bottom Bar Navigation Logic
-        navigationAdapter = new NavigationAdapter(this);
-        bottomNavBar.setOnItemSelectedListener(navigationAdapter.navigationListener);
     }
 }

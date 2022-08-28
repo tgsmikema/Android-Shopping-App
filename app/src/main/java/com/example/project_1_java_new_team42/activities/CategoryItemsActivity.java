@@ -80,7 +80,6 @@ public class CategoryItemsActivity extends AppCompatActivity {
         private void initializeItemsRecyclerView() {
             itemsRecyclerView = new ItemsRecyclerView(CategoryItemsActivity.this, findViewById(R.id.recycler_view_category_items), RecyclerViewLayoutType.GRID);
             itemsAdapter = itemsRecyclerView.getAdapter();
-            itemsAdapter.relayCategory(category);
         }
 
         private void initializeBottomBarViews() {
